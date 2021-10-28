@@ -1,0 +1,1725 @@
+<template>
+  <div>
+    <b-modal
+      id="modal-pagos-add"
+      ref="modal-pagos"
+      @show="eventdetected"
+      @hidden="resetModal"
+      size="xl"
+      :title="this.$parent.config.titulo + ' Pago'"
+      hide-footer
+      header-text-variant="light"
+      header-bg-variant="primary"
+      header-text-size="xl"
+    >
+      <b-form autocomplete="off">
+        <b-overlay :show="animationall" rounded="sm">
+          <template v-slot:overlay>
+            <div class="text-center">
+              <b-icon
+                icon="stopwatch"
+                font-scale="3"
+                animation="cylon"
+              ></b-icon>
+              <p id="cancel-label">Please wait...</p>
+            </div>
+          </template>
+          <CCol>
+            <!--  <CCardHeader class="bg-info">
+                <h2 class="text-center text-white"><span class="ti-money"></span>{{this.$parent.config.titulo}} Pago </h2>
+              </CCardHeader>-->
+            <CCard>
+              <CCardBody>
+                <form-wizard
+                  color="#e67e22"
+                  error-color="#a94442"
+                  title=""
+                  subtitle=""
+                  finishButtonText="Finalizar"
+                  :start-index="tabIndex"
+                >
+                  <template slot="footer" slot-scope="props">
+                    <div class="wizard-footer-left">
+                      <wizard-button
+                        v-if="props.activeTabIndex > 0 && !props.isLastStep"
+                        @click.native="props.prevTab()"
+                        :style="props.fillButtonStyle"
+                        ><span class="ti-control-backward"></span
+                        >Regresar</wizard-button
+                      >
+                    </div>
+                    <div class="wizard-footer-right">
+                      <wizard-button
+                        v-if="!props.isLastStep"
+                        @click.native="props.nextTab()"
+                        class="wizard-footer-right go-next"
+                        :style="props.fillButtonStyle"
+                        ><span class="ti-control-forward"></span
+                        >Siguiente</wizard-button
+                      >
+                      <wizard-button
+                        v-else
+                        @click.native="secondsend()"
+                        class="wizard-footer-right finish-button"
+                        :style="props.fillButtonStyle"
+                      >
+                        <span class="ti-wand"></span>
+                        {{
+                          props.isLastStep ? "Finalizar" : "Siguiente"
+                        }}</wizard-button
+                      >
+                    </div>
+                  </template></form-wizard
+                ></CCardBody
+              ></CCard
+            ></CCol
+          ></b-overlay
+        ></b-form
+      ></b-modal
+    >
+  </div>
+    </template>
+   
+            <tab-content title="Nuevo Pago" 
+            icon="ti-money" :before-change="validateone">
+           <b-row>
+           <b-col cols="12" lg="6" class="text-center mt-3">
+            <label><h4 class="text-primary">Concepto</h4></label>
+           <b-input-group size="md">
+             <b-input-group-prepend is-text>
+             <b-icon icon="plus-square"></b-icon>
+                      </b-input-group-prepend>
+                      <b-form-input
+                        v-model="form.inicio.concepto"
+                        placeholder="Concepto del Pago"
+                        :state="form.inicio.concepto.length>=7"
+                      ></b-form-input>
+                    </b-input-group>
+                    <span
+                      class="text-success d-block"
+                      style="float: right"
+                      v-if="$v.form.inicio.concepto.minLength&&$v.form.inicio.concepto.required"
+                      >Perfecto!</span
+                    >
+
+                    <span
+                      class="text-danger d-block"
+                      style="float: right"
+                      v-if="!$v.form.inicio.concepto.required"
+                      >Campo requerido**</span
+                    >
+                    <span
+                      class="text-danger d-block"
+                      style="float: right"
+                      v-if="
+                        !$v.form.inicio.concepto.minLength&&
+                        $v.form.inicio.concepto.required
+                      "
+                      >Minímo 7 caracteres</span
+                    >
+                  </b-col>
+                     <b-col cols="12" lg="6" class="text-center mt-3">
+                    <label>
+                      <h4 class="text-primary">Fecha Límite de Pago</h4>
+                    </label>
+                    <b-input-group size="md">
+                      <b-form-datepicker
+                        id="datepicker-full-width"
+                        v-model="form.inicio.fecha"
+                        menu-class="w-100"
+                        calendar-width="100%"
+                        locale="es-MX"
+                        class="mb-2"
+                        :min="minimo"
+                      ></b-form-datepicker>
+                    </b-input-group>
+                  </b-col>
+                  <b-col cols="12" xl="3" class="text-center mt-3">
+                    <label>
+                      <h4 class="text-primary">Monto Solicitado</h4>
+                    </label>
+                    <b-input-group size="md">
+                      <b-input-group-prepend is-text>
+                        <b-icon icon="cash"></b-icon>
+                      </b-input-group-prepend>
+                      <b-form-input
+                        type="number"
+                          
+                           oninput="javascript:value=this.value.replace('e','');
+                  if(this.value.length>=20)this.value=this.value.substr(0,15);
+                  
+                  "
+
+                        v-model="form.inicio.bruto"
+                        @wheel="$event.target.blur()"
+                        :min="0"
+                        @change="calcula"
+                        v-on:keyup.prevent="calcula"
+                        :class="{
+                          'is-valid': this.form.inicio.bruto > 0,
+                          'is-invalid': this.form.inicio.bruto == 0,
+                        }"
+                        placeholder="Cantidad solicitada"
+                      ></b-form-input>
+                   
+                    </b-input-group>
+                        <span
+                   
+                      class="text-danger d-block"
+                      style="float: right"
+                      v-if="!$v.form.inicio.bruto.required"
+                      >Campo requerido**</span>
+                  </b-col>
+                  <b-col cols="12" xl="3" class="text-center mt-3">
+                    <label>
+                      <h4 class="text-primary">Moneda</h4>
+                    </label>
+                    <b-input-group size="md">
+                      <b-input-group-prepend is-text>
+                        <b-icon icon="cash"></b-icon>
+                      </b-input-group-prepend>
+                      <b-form-input
+                        list="monedas"
+                          :class="{
+                          'is-valid': this.form.inicio.moneda > 0,
+                          'is-invalid': this.form.inicio.moneda == 0,
+                        }"
+                        placeholder="Tipo de Moneda"
+                        v-model="form.inicio.moneda"
+                      ></b-form-input>
+
+                      <datalist id="monedas">
+                        <option v-for="item in monedas" :key="item">
+                          {{ item }}
+                        </option>
+                      </datalist>
+                      <span
+                      class="text-danger d-block"
+                      style="float: right"
+                      v-if="!$v.form.inicio.moneda.required"
+                      >Campo requerido**</span>
+                    </b-input-group>
+                  </b-col>
+                  <b-col cols="12" xl="2" class="text-center mt-3">
+                    <label>
+                      <h4 class="text-primary">IVA %</h4>
+                    </label>
+                    <b-form-select
+                      v-model="form.inicio.iva"
+                      :options="optionsiva"
+                      class="mb-3"
+                      value-field="item"
+                      text-field="iva"
+                      @change="calcula"
+                      disabled-field="notEnabled"
+                    >
+                    </b-form-select>
+                  </b-col>
+                  <b-col cols="12" xl="4" class="text-center mt-3">
+                    <label>
+                      <h4 class="text-primary">Monto Solicitado Neto</h4>
+                    </label>
+                    <b-input-group size="md">
+                      <b-input-group-prepend is-text>
+                        <b-icon icon="cash"></b-icon>
+                      </b-input-group-prepend>
+                      <b-form-input
+                        type="number"
+                        oninput="javascript:value=this.value.replace('e','')"
+                        readonly
+                        v-model="form.inicio.monto"
+                        placeholder="Total"
+                      ></b-form-input>
+                    </b-input-group>
+                  </b-col>
+                  <b-col cols="12" class="mt-3">
+                    <label>
+                      <h4 class="text-primary">Comentario Y/o Descripción</h4>
+                    </label>
+                    <b-input-group size="md">
+                      <b-input-group-prepend is-text>
+                        <b-icon
+                          icon="exclamation-circle-fill"
+                          variant="danger"
+                        ></b-icon>
+                      </b-input-group-prepend>
+                      <b-form-textarea
+                        id="textarea-state"
+                        v-model="form.inicio.comentario"
+                        placeholder="comentario"
+                        rows="3"
+                      ></b-form-textarea>
+                    </b-input-group>
+                  </b-col>
+
+               
+                  </b-row>
+            </tab-content>
+          
+           
+          <tab-content title="Modalidad"
+                         icon="ti-sharethis"
+                     :before-change="contenga"
+                         >
+              <div class="panel-body">
+              <b-row>
+                    <b-col cols="12">
+                     <label  class="d-block  bg-primary">
+                      <h2 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">Modalidad*</h2>
+                    </label>
+                 
+                    <b-form-group class="text-center">
+                    
+                      <b-row>
+                        <b-col cols="12" class="border:solid red 2px">
+                          <b-form-radio-group
+                            id="btn-radios-2"
+                            v-model="form.shared.tipo"
+                            buttons
+                            pill
+                            button-variant="outline-info"
+                            size="lg"
+                            name="radio-btn-outline"
+                          >
+                            <b-row>
+                              <b-col cols="12" xl="3">
+                                <b-form-radio
+                                  class="mt-3"
+                                  value="unico"
+                                  v-b-popover.hover.bottomright="{
+                                    variant: 'info',
+                                 content: 'Solicita 1 pago a 1 usuario.',
+                                  }"
+                                  title="Único"
+                                  >Único</b-form-radio
+                                >
+                              </b-col>
+                              <b-col cols="12" xl="4">
+                                <b-form-radio
+                                  class="mt-3 mr-1"
+                                  value="replicar"
+                                  v-b-popover.hover.bottomright="{
+                                    variant: 'info',
+                                    content:
+                                      'Solicitar 1 pago a mas de 1 usuario',
+                                  }"
+                                  title="Replica"
+                                  >Replica</b-form-radio
+                                >
+                              </b-col>
+                              <b-col cols="12" xl="3">
+                                <b-form-radio
+                                  class="mt-3"
+                                  value="dividir"
+                                  v-b-popover.hover.bottomright="{
+                                    variant: 'info',
+                                    content:
+                                      'Dividir 1 pago en diferentes usuarios',
+                                  }"
+                                  title="Dividir"
+                                  >Dividir</b-form-radio
+                                >
+                              </b-col>
+                            </b-row>
+                          </b-form-radio-group>
+                        </b-col>
+                      </b-row>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <label  class="d-block  bg-primary">
+                      <h2 class="text-white text-center" 
+                      style="padding-top:10px;padding-bottom:10px">
+                      ¿A quién se le solicita el pago?*</h2>
+                    </label>
+                 
+                    <b-form-tags
+                      v-model="form.shared.users.showcomplete"
+                      no-outer-focus
+                      class="mb-2"
+                    >
+                      <template v-slot="{ tags, disabled, addTag }">
+                        <ul
+                          v-if="tags.length > 0"
+                          class="list-inline d-inline-block mb-2"
+                        >
+                          <li
+                            v-for="tag in tags"
+                            :key="tag"
+                            class="list-inline-item"
+                          >
+                            <b-form-tag
+                              @remove="removeTagcustom(tag)"
+                              :title="tag"
+                              variant="success"
+                              >{{ tag }}
+                            </b-form-tag>
+                          </li>
+                        </ul>
+
+                        <b-dropdown
+                          size="sm"
+                          variant="outline-dark"
+                          block
+                          menu-class="w-100"
+                          :disabled="userblock"
+                        >
+                          <template v-slot:button-content>
+                            <b-icon
+                              icon="person"
+                              scale="2"
+                              class="mr-3 mb-1"
+                            ></b-icon>
+                            <span style="font-size: 2em" class="mt-2"
+                              >Tus Amigos</span
+                            >
+                          </template>
+
+                          <b-dropdown-form @submit.stop.prevent="() => {}">
+                            <b-form-group
+                              label-for="tag-search-input"
+                              label="Usuarios Registrados y/o Email destino"
+                              label-cols-md="auto"
+                              class="mb-0"
+                              label-size="lg"
+                              :description="searchDesc"
+                              :disabled="disabled"
+                            >
+                              <b-form-input
+                                v-model="search"
+                                id="tag-search-input"
+                                type="search"
+                                size="md"
+                                is-valid="true"
+                                autocomplete="off"
+                              >
+                              </b-form-input>
+                              <b-button
+                                block
+                                variant="success"
+                                class="mt-3"
+                                v-if="availableOptions.length === 0"
+                                @click="addemail"
+                              >
+                                <span class="ti-email"></span>
+                                Agregar Email
+                              </b-button>
+                            </b-form-group>
+                          </b-dropdown-form>
+                          <b-dropdown-divider></b-dropdown-divider>
+
+                          <div
+                            style="
+                              height: 300px;
+                              width: auto;
+                              border: 1px solid #ddd;
+                              background: ;
+                              overflow-y: scroll;
+                            "
+                          >
+                            <b-dropdown-item
+                              v-for="option in availableOptions"
+                              :key="option.id"
+                              @click="onOptionClick({ option, addTag })"
+                            >
+                              <b-row>
+                                <b-col cols="6">
+                                  <span class="text-dark">{{
+                                    option.name
+                                  }}</span
+                                  >&nbsp;
+                                </b-col>
+                                <b-col cols="6">
+                                  <span class="text-info" style="float-right">{{
+                                    option.email
+                                  }}</span
+                                  >&nbsp;
+                                </b-col>
+                              </b-row>
+                            </b-dropdown-item>
+                          </div>
+                          <b-dropdown-text v-if="availableOptions.length === 0"
+                            >Asignaste todos los usuarios</b-dropdown-text
+                          >
+                        </b-dropdown>
+                      </template>
+                    </b-form-tags>
+                    <span
+                      class="text-danger d-block"
+                      style="float: right"
+                      v-if="form.value.length == 0"
+                      >campo requerido**</span
+                    >
+                  </b-col>
+<b-col cols="12"  class="mt-3 mb-3" v-if="items.length>=1">
+            <b-row>
+            <b-col cols="12">
+             <b-card-group deck>
+    <b-card
+      :header="'Total Solicitado $'+String(form.inicio.monto)"
+      header-tag="header"
+      footer-tag="footer"
+       header-bg-variant="info"
+        header-text-variant="white"
+     
+       align="center"
+
+    >
+      <b-card-text>
+      <b-table-simple hover small caption-top stacked>
+   
+    <b-tbody>
+      <b-tr>
+        <b-th rowspan="3" class="text-center">Detalle</b-th>
+        <b-td stacked-heading="Monto sin Iva">{{form.inicio.bruto}}</b-td>
+        <b-td stacked-heading="Total Iva">{{(form.inicio.bruto/100)*form.inicio.iva}}</b-td>
+        <b-td stacked-heading="Iva:">{{form.inicio.iva}}%</b-td>
+        <b-td stacked-heading="Monto Total" variant="success">{{form.inicio.monto}}</b-td>
+     
+   
+
+      </b-tr>
+    </b-tbody>
+   
+  </b-table-simple>
+      </b-card-text>
+    </b-card>
+   
+  </b-card-group>
+            
+            </b-col>
+            
+            </b-row>
+  
+  
+  
+            </b-col>
+    <b-col cols="12" class="mt-3">
+  
+<div>
+    <b-table responsive :items="items" :fields="fields">
+
+
+
+       <template #cell(bruto)="data">
+        <span v-if="form.inicio.iva==0">{{data.item.monto}}</span>
+        <span v-else > 
+        
+         {{((form.inicio.bruto/100)*data.item.range).toFixed(2)}},{{form.inicio.bruto}}
+        </span>
+      </template>
+   <template #cell(iva)="data">
+        <span v-if="form.inicio.iva==0">0</span>
+        <span v-else > 
+        
+         {{((((form.inicio.bruto/100)*form.inicio.iva)/100)*data.item.range).toFixed(2)}}
+        </span>
+      </template>
+ <template #cell(monto)="data">
+     <b-input
+      min="0" :disabled="form.shared.tipo=='unico'||form.shared.tipo=='replicar'||items.length==1"
+       v-if="items[data.index]" :max="form.inicio.monto" 
+        oninput="javascript:value=this.value.replace('e','');
+       if(this.value.length>=20);"
+        @keyup="validamontototal(data.item.monto,data.index)"
+        v-model="items[data.index].monto"></b-input>
+      </template>
+
+       <template #cell(name)="data">
+        <b class="text-info"> {{data.item.email}}  </b>
+      </template>
+   <template #cell(porcentaje)="data">
+     <b-input v-if="items[data.index]" 
+     :disabled="form.shared.tipo=='unico'||form.shared.tipo=='replicar'||items.length==1" 
+      type="number" min="0" max="100"
+       oninput="javascript:value=this.value.replace('e','');
+       if(this.value.length>=5)this.value=this.value.substr(0,5)
+     "
+
+        @input="validaporcentajein(data.item.range,data.index)"  
+        v-model="items[data.index].range"></b-input>
+
+
+
+  
+      </template>
+         
+    </b-table>
+  <b-alert :show="mensaje" variant="success"><h3 class="text-dark">{{this.mensajeok}}</h3></b-alert>
+  <b-alert :show="!mensaje" variant="danger">
+  <h3 class="text-dark">{{mensajealert}}
+     {{this.diferencia}} <b-button @click="calculaporcentaje" 
+     variant="success"><span class="ti-loop"></span> Reset</b-button> 
+     </h3></b-alert>
+
+
+  </div>
+
+       </b-col>
+              </b-row>
+              </div>
+            </tab-content>
+            
+        <tab-content title="Cuenta Bancaria & Proyectos"
+                         icon="ti-credit-card" :before-change="validacuentas">
+     <tabprueba @getprueba="pruebaget"  ref="cuenta"></tabprueba>
+
+              <div class="panel-body">
+              </div>
+            </tab-content>
+                 <tab-content title="Datos Opcionales"
+                         icon="ti-link" :before-change="validalinks">
+     <links @getlinks="getlinkssoli"  ref="linkstab"></links> 
+
+              <div class="panel-body">
+              </div>
+          
+            </tab-content>
+             <tab-content title="Cargar Archivos"
+                         icon="ti-clip" :before-change="validalinks">
+     <archivos @getlinks="getlinkssoli"  ref="archivosstab"></archivos> 
+
+              <div class="panel-body">
+              </div>
+          
+            </tab-content>
+            
+             <div class="panel-body">
+              </div>
+            </tab-content>
+        
+         
+        </form-wizard>
+ 
+              
+              
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <b-row>
+            <b-col cols="12">
+              <b-button
+                variant="outline-danger"
+                block
+                @click="hideModal"
+                pill
+                size="sm"
+              >
+                <h4><b-icon icon="ti-user" class="mr-3"></b-icon>Cerrar</h4>
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-overlay>
+      </b-form>
+    </b-modal>
+  </div>
+</template>
+<script>
+import "regenerator-runtime/runtime";
+import { required, minLength } from "vuelidate/lib/validators";
+import repocreate from "@/assets/repositoriosjs/repoupdateprofileuser";
+import Swal from "sweetalert2";
+import repo from "@/assets/repositoriosjs/repoupdateprofileuser";
+import { mapActions, mapMutations } from "vuex";
+import tabprueba from "@/views/ingresos/componentes/firstab";
+import links from "@/views/ingresos/componentes/links";
+import archivos from "@/views/ingresos/componentes/archivos";
+import Vue2Filters from "vue2-filters";
+export default {
+  name: "modalpagos",
+
+  data() {
+    return {
+      debug: false,
+      tabIndex: 0,
+      datoseditar: [],
+      range: "",
+      mensaje: true,
+      mensajeok: "Sin cambios",
+      mensajealert: "",
+      toglecuenta: false,
+      items: [],
+      fields: [
+        // A column that needs custom formatting
+        { key: "name", label: "Usuario" },
+        { key: "porcentaje", label: "Porcentaje %" },
+
+        { key: "bruto", label: "Monto Bruto" },
+        { key: "iva", label: "Iva" },
+        { key: "monto", label: "Monto Total" },
+      ],
+      diferencia: 0,
+      next: false,
+      finish: false,
+      solicitudtemp: [],
+      verifyfirst: false, ////wath que escucha el firstab
+      datafirst: [],
+      tipor: "Diario",
+      status: "No, es pago único",
+      selected: [],
+      allSelected: false,
+      indeterminate: false,
+      optionsiva: [0, 8, 16],
+      optionsrecurrencia: [
+        "Diario",
+        "Semanal",
+        "Quincenal",
+        "Mensual",
+        "Día del Mes",
+        "Bimestral",
+        "Trimestral",
+        "Semestral",
+        "Anual",
+      ],
+      link: "",
+      alloption: [],
+      empresas: [],
+      showanimation: false,
+      animationall: false,
+
+      searchc: "",
+      optionsc: [],
+      options: [],
+      optionsempresas: [],
+      optionsproyectos: [],
+      hoy: "",
+      minimo: "2020-10-19",
+      selectempresa: [],
+      /////testeado
+      tableshow: false,
+      search: "",
+      form: {
+        existsolicitudes: [], /////////para edit vamos a tomar esto como parametro!
+        sends: [],
+        recurrencia: {
+          tipo: [],
+          hora: "",
+          tiempo: "",
+          inicia: "",
+        },
+        inicio: {
+          concepto: "",
+          fecha: "",
+          bruto: "",
+          moneda: "Pesos",
+          iva: "0",
+          monto: "",
+          comentario: "",
+          id: "",
+        },
+        shared: {
+          tipo: "unico",
+          users: {
+            showcomplete: [],
+            value: [],
+            emails: [],
+            alloption: [],
+            detalle: [],
+          },
+        },
+        tags: {
+          yourtags: [],
+          tagsnuevos: [],
+          showtags: [],
+        },
+
+        id: "",
+        tittle: "",
+        value: [],
+        cuentas: [],
+        links: [],
+        linksold: [],
+        selectedproyect: [],
+      },
+      monedas: ["Pesos", "Dolares", "Euros"],
+      update: true,
+      btnadios: false,
+    };
+  },
+  components: {
+    Swal,
+    tabprueba,
+    links,
+    archivos,
+  },
+  validations: {
+    items: { required, minLength: minLength(1) },
+    form: {
+      concepto: { required, minLength: minLength(7) },
+      value: { required },
+      shared: {
+        tipo: required,
+        users: {
+          showcomplete: required,
+        },
+      },
+      inicio: {
+        concepto: { required, minLength: minLength(7) },
+        bruto: { required },
+        moneda: { required },
+      },
+      cuentas: { required },
+      bruto: { required },
+    },
+  },
+  watch: {
+    toglecuenta: function (newval, oldval) {},
+    tipor: function (newval, oldval) {
+      this.revisarecurrencia(newval);
+    },
+  },
+  methods: {
+    contenga() {
+      if (this.form.shared.users.showcomplete.length > 0) {
+        /////seleccionar al menos un usuario ya sea por email o por select user
+        return true;
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Selecciona al menos 1 usuario",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        return false;
+      }
+      ///validashared
+    },
+    calculamontoneto() {
+      let uno = this.form.inicio.monto.split(".");
+      if (uno.length > 1) {
+        if (uno.length == 2) {
+          if (uno[1].length > 2) {
+            uno[1] = uno[1].slice("0", 2);
+            this.form.inicio.monto = uno[0] + "." + uno[1];
+          }
+        } else {
+          this.form.inicio.monto = 0;
+        }
+      }
+      //this.form.inicio.bruto= this.form.inicio.bruto.stopPropagation();
+      if (
+        this.form.inicio.bruto == 0 ||
+        this.form.inicio.bruto == "" ||
+        this.form.inicio.monto == 0
+      ) {
+        this.form.inicio.monto = 0;
+        return false;
+      }
+      let monto = parseFloat(this.form.inicio.monto);
+      let iva = parseFloat(this.form.inicio.iva);
+      if (monto <= 0 || this.form.inicio.iva < 0) {
+        return false;
+      } else {
+        if (iva == 0) {
+          this.form.inicio.bruto = monto;
+        } else {
+          let ivacomp = (monto / ((100 + iva) / 100)).toFixed(2);
+          this.form.inicio.bruto = ivacomp;
+        }
+      }
+    },
+    sendtags(tags) {
+      this.form.tags = tags;
+    },
+    getproyecto(proyectos) {
+      this.form.selectedproyect = proyectos;
+    },
+    pruebaget(form) {
+      this.form.cuentas = form.cuentasall;
+      this.form.selectedproyect = form.selectedproyect;
+      this.next = false;
+    },
+    getlinkssoli(form) {
+      //     if(links.length>0){
+      //        this.form.links=links;
+      //     }else{
+      // this.form.links=[];
+      //     }
+      console.log(form);
+      console.log("shi");
+      this.form.links = form.links;
+      this.form.recurrencia = form.recurrencia;
+      this.form.tags = form.tags;
+      this.next = false;
+    },
+    validacuentas() {
+      if (!this.debug) {
+        let respuesta = this.$refs.cuenta.verifica();
+        if (respuesta) {
+          return this.firstcuentas();
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    },
+    validalinks() {
+      if (!this.debug) {
+        let respuesta = this.$refs.linkstab.getlinks();
+        if (respuesta) {
+          return this.firstlinks();
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    },
+    validatags() {
+      if (!this.debug) {
+        let respuesta = this.$refs.tagstab.addtags();
+        if (respuesta) {
+          return this.firsttags();
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    },
+    validaproyectos() {
+      if (!this.debug) {
+        let respuesta = this.$refs.proyectostab.getproyect();
+        if (respuesta) {
+          return this.firstproyect();
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    },
+
+    resetrow(index) {
+      this.items[index].monto = "";
+      this.items[index].range = "";
+      this.mensajeok = "Reset";
+    },
+    validaporcentajein(val, index) {
+      if (val.length >= 6) {
+        return false;
+      }
+
+      let nuevo = parseFloat(val);
+      if (this.validaentrada(nuevo, index)) {
+        if (nuevo < 0 || nuevo > 100) {
+          this.resetrow(index);
+          return false;
+        } else {
+          let numero = (this.form.inicio.monto / 100) * nuevo;
+          this.items[index].monto = numero.toFixed(2);
+          let resuelve = this.sumatotal;
+          if (resuelve == this.form.inicio.monto) {
+            this.mensaje = true;
+            this.mensajeok = "Todo Listo";
+          } else {
+            this.mensaje = false;
+            let dif = resuelve - this.form.inicio.monto;
+            if (dif > 0) {
+              this.mensajealert = "verifica el monto total ";
+              this.diferencia = "sobran " + dif.toFixed(2);
+            } else {
+              this.mensajealert = "verifica el monto total ";
+              this.diferencia = "faltan " + Math.abs(dif).toFixed(2);
+            }
+          }
+        }
+      } else {
+        this.resetrow(index);
+      }
+    },
+    validaentrada(val, index) {
+      let nuevo = parseFloat(val);
+      if (isNaN(nuevo)) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    seteamonto(monto, index) {
+      this.items[index].monto = monto;
+    },
+    validamontototal(val, index) {
+      // this.items[index].monto=val.split('.',2).join(' ');
+
+      let uno = val.split(".");
+      if (uno.length > 1) {
+        if (uno.length == 2) {
+          if (uno[1].length > 2) {
+            uno[1] = uno[1].slice("0", 2);
+            let setea = uno[0] + "." + uno[1];
+            this.seteamonto(setea, index);
+          }
+        } else {
+          this.resetrow(index);
+        }
+      }
+      let nuevo = parseFloat(val);
+      if (this.validaentrada(nuevo, index)) {
+        if (nuevo < 0 || nuevo > this.form.inicio.monto) {
+          this.resetrow(index);
+        } else {
+          let resuelve = this.sumatotal;
+          let porcentaje = parseFloat(
+            ((nuevo / this.form.inicio.monto) * 100).toFixed(2)
+          );
+          if (resuelve == this.form.inicio.monto) {
+            this.mensaje = true;
+            this.mensajeok = "Todo Listo";
+            this.items[index].range = porcentaje.toFixed(2);
+          } else {
+            this.mensaje = false;
+            let dif = resuelve - this.form.inicio.monto;
+            if (dif > 0) {
+              this.diferencia = "sobran " + dif.toFixed(2);
+            } else {
+              this.diferencia = "faltan " + Math.abs(dif).toFixed(2);
+            }
+            this.items[index].range = porcentaje.toFixed(2);
+          }
+        }
+      } else {
+        this.resetrow(index);
+      }
+    },
+    buscacero() {
+      let usererror = {
+        email: "",
+        monto: "",
+      };
+      let encontrado = false;
+      for (let a = 0; a < this.items.length; a++) {
+        if (this.items[a].monto <= 0) {
+          usererror = this.items[a];
+          encontrado = true;
+          break;
+        }
+      }
+      if (encontrado) {
+        Swal.fire({
+          position: "center",
+          showCloseButton: true,
+          icon: "error",
+          title:
+            usererror.email +
+            " Tiene un monto de " +
+            usererror.monto +
+            "  que debe de ser mayor a 0",
+          showConfirmButton: true,
+        });
+        return false;
+      } else {
+        return true;
+      }
+    },
+    revisadatos() {
+      let montoround = Math.round(this.form.inicio.monto);
+      if (
+        Math.round(this.sumatotal) == montoround ||
+        this.sumatotal == this.form.inicio.monto
+      ) {
+        return this.buscacero();
+      } else {
+        if (this.form.shared.tipo != "replicar") {
+          Swal.fire({
+            position: "center",
+            showCloseButton: true,
+            icon: "error",
+            title: "Verifica el monto total debe ser igual a $" + montoround,
+            showConfirmButton: true,
+          });
+          return false;
+        }
+      }
+    },
+    validashared() {
+      if (!this.debug) {
+        if (this.form.shared.users.showcomplete.length > 0) {
+          /////seleccionar al menos un usuario ya sea por email o por select user
+          if (this.revisadatos() || this.form.shared.tipo == "replicar") {
+            ////validacion 1.- monto igual 2.-ningun usuario es igual a 0
+            this.next = false;
+            if (
+              !this.$v.form.shared.$invalid &&
+              !this.$v.form.inicio.$invalid &&
+              !this.$v.items.$invalid
+            ) {
+              /// si es valido el form
+
+              //  if(this.solicitudtemp.id){///si tenemos ya una solicitud en curso
+
+              this.form.shared.users.detalle = this.items;
+              return this.secondsend();
+              // }else{////si es nueva se crea
+
+              //   Swal.fire({
+              //   position: "center",
+              //   icon: "error",
+              //   title: "Solicitud no encontrada",
+              //   showConfirmButton: false,
+              //   timer: 1000,
+              // });
+              //  return false;
+              //   }
+            } else {
+              //// formulario no completo
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Formulario incompleto",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+              return (
+                !this.$v.form.shared.$invalid &&
+                !this.$v.form.inicio.$invalid &&
+                !this.$v.items.$invalid
+              ); //// resulta del formulario
+            }
+          } else {
+            return false;
+          }
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Selecciona un usuario para enviar el pago",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          return false;
+        }
+      } else {
+        return true;
+      }
+    },
+    cambiarange(value, indexin) {
+      return false;
+      let montoinicial = parseFloat(this.form.inicio.monto);
+      let valuein = parseFloat(value);
+      let inicialsobre100 = parseFloat(montoinicial / 100);
+      let monto = parseFloat(inicialsobre100 * valuein);
+      let usersobrante = this.items.length - 1;
+      let sobrante = parseFloat(montoinicial - monto);
+      let setcantidad = parseFloat(sobrante / usersobrante);
+
+      let setporcentaje = parseFloat((100 - value) / usersobrante);
+
+      this.items.forEach(function callback(currentValue, index, array) {
+        if (index == indexin) {
+          currentValue.range = valuein;
+          currentValue.monto = monto;
+        } else {
+          currentValue.range = setporcentaje;
+          currentValue.monto = setcantidad;
+        }
+      });
+      // console.log(this.mostrar)
+    },
+    async firstcuentas() {
+      this.animationall = true;
+
+      try {
+        let repoitems = repo();
+        await repoitems.addcuentassolicitud(this.form).then((res) => {
+          if (res) {
+            this.next = true;
+          }
+        });
+      } catch (err) {
+        this.next = false;
+        console.log(err);
+      } finally {
+        this.animationall = false;
+        return this.next;
+      }
+    },
+    async firsttags() {
+      this.animationall = true;
+
+      try {
+        let repoitems = repo();
+        await repoitems.addtagssolicitud(this.form).then((res) => {
+          console.log(res);
+          this.next.false;
+          //    if(res.length>0){
+          //  this.form.linksold=res;
+          //    }else{
+          //   this.form.linksold=[];
+          //    }
+
+          //          this.next=true;
+        });
+      } catch (err) {
+        this.next = false;
+        console.log(err);
+      } finally {
+        this.animationall = false;
+        return this.next;
+      }
+    },
+    async firstlinks() {
+      this.animationall = true;
+
+      try {
+        let repoitems = repo();
+        await repoitems.addlinkssolicitud(this.form).then((res) => {
+          this.form.linksold = res["links"];
+
+          this.next = true;
+        });
+      } catch (err) {
+        this.next = false;
+        console.log(err);
+      } finally {
+        this.animationall = false;
+        return this.next;
+      }
+    },
+    async firstproyect() {
+      this.animationall = true;
+
+      try {
+        let repoitems = repo();
+        await repoitems.addproyectsolicitud(this.form).then((res) => {
+          this.next = true;
+        });
+      } catch (err) {
+        this.next = false;
+        console.log(err);
+      } finally {
+        this.animationall = false;
+        return this.next;
+      }
+    },
+
+    async secondsend() {
+      this.animationall = true;
+
+      try {
+        let repoitems = repo();
+        await repoitems.addsolicitudformal(this.form).then((res) => {
+          console.log(this.form);
+          this.onComplete();
+        });
+      } catch (err) {
+        this.next = false;
+        console.log(err);
+      } finally {
+        this.animationall = false;
+        return this.next;
+      }
+    },
+    async firstsend() {
+      this.animationall = true;
+      try {
+        let repoitems = repo();
+        await repoitems.addsolicitud(this.form.inicio).then((res) => {
+          if (res.id) {
+            this.solicitudtemp = res;
+            this.form.inicio.id = res.id;
+            this.form.id = res.id;
+            this.next = true;
+          } else {
+            this.next = false;
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.animationall = false;
+        return this.next;
+      }
+    },
+    async updatesolicitud() {
+      this.animationall = true;
+      this.form.inicio.id = this.solicitudtemp.id;
+      try {
+        let repoitems = repo();
+        await repoitems.updatesolicitud(this.form).then((res) => {
+          if (res.id) {
+            this.solicitudtemp = res;
+            this.next = true;
+          } else {
+            this.next = false;
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.animationall = false;
+        return this.next;
+      }
+    },
+    validateone(acces = false) {
+      if (!this.debug) {
+        this.next = false;
+        if (acces) {
+          return acces;
+        } else {
+          if (!this.$v.form.inicio.$invalid) {
+            /// si es valido el form
+            if (this.solicitudtemp.id) {
+              ///si tenemos ya una solicitud en curso
+              return this.updatesolicitud();
+            } else {
+              ////si es nueva se crea
+              return this.firstsend();
+            }
+          } else {
+            //// formulario no completo
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Formulario incompleto",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            return !this.$v.form.inicio.$invalid; //// resulta del formulario
+          }
+        }
+      } else {
+        return true;
+      }
+    },
+    async onComplete() {
+      this.animationall = true;
+      try {
+        let repoitems = repo();
+
+        await repoitems.finishpago(this.form).then((res) => {
+          Swal.fire({
+            position: "center",
+            showCloseButton: true,
+            icon: "success",
+            title: " Pago solicitado con éxito",
+            showConfirmButton: false,
+          });
+          this.hideModal();
+        });
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.animationall = false;
+      }
+    },
+    addemail() {
+      let email = this.search;
+      if (this.emailIsValid(email)) {
+        if (this.form.shared.users.showcomplete.indexOf(email) === -1) {
+          ////no esta
+          this.form.shared.users.showcomplete.push(email);
+          let emailverifica = {
+            email: email,
+            range: 0,
+            monto: 0,
+            id: "verifica",
+          };
+          this.items.push(emailverifica);
+          this.calculaporcentaje();
+        } else {
+        }
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Email no valido",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
+      this.search = "";
+    },
+    clearTime() {
+      this.form.recurrencia.hora = "";
+    },
+    setNow() {
+      const now = new Date();
+      // Grab the HH:mm:ss part of the time string
+      this.form.recurrencia.hora = now.toTimeString().slice(0, 8);
+    },
+    revisarecurrencia(val) {},
+
+    toggleAll(checked) {
+      this.selected = checked ? this.optionsempresas.slice() : [];
+    },
+    calcula() {
+      let uno = this.form.inicio.bruto.split(".");
+      if (uno.length > 1) {
+        if (uno.length == 2) {
+          if (uno[1].length > 2) {
+            uno[1] = uno[1].slice("0", 2);
+            this.form.inicio.bruto = uno[0] + "." + uno[1];
+          }
+        } else {
+          this.form.inicio.bruto = 0;
+        }
+      }
+      //this.form.inicio.bruto= this.form.inicio.bruto.stopPropagation();
+      if (this.form.inicio.bruto == 0 || this.form.inicio.bruto == "") {
+        this.form.inicio.monto = 0;
+        return false;
+      }
+      let bruto = parseFloat(this.form.inicio.bruto);
+      let iva = parseFloat(this.form.inicio.iva);
+      if (bruto <= 0 || this.form.inicio.iva < 0) {
+        return false;
+      } else {
+        if (iva == 0) {
+          this.form.inicio.monto = bruto;
+        } else {
+          let ivacomp = (bruto / 100) * iva;
+          this.form.inicio.monto = (bruto + ivacomp).toFixed(2);
+        }
+      }
+    },
+
+    fecha() {
+      let date = new Date();
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      let fecha;
+      if (month < 10) {
+        fecha = `${year}-0${month}-${day}`;
+      } else {
+        fecha = `${year}-${month}-${day}`;
+      }
+      return fecha;
+      this.form.inicio.fecha = fecha;
+      this.minimo = fecha;
+      this.hoy = fecha;
+      this.form.recurrencia.inicia = fecha;
+    },
+
+    onlytag(tag) {
+      this.form.shared.users.showcomplete =
+        this.form.shared.users.showcomplete.filter((f) => f == tag);
+
+      this.items = this.items.filter((e) => e.name == tag || e.email == tag);
+
+      this.calculaporcentaje();
+    },
+
+    removeTagcustom(tag) {
+      this.form.shared.users.showcomplete =
+        this.form.shared.users.showcomplete.filter((f) => f != tag);
+
+      this.items = this.items.filter((e) => e.name != tag);
+
+      this.items = this.items.filter((e) => e.email != tag);
+      this.calculaporcentaje();
+    },
+
+    async getitems() {
+      this.show = true;
+      try {
+        let repoitems = repo();
+        await repoitems.solicitudsinsend().then((res) => {
+          /// this.$store.commit('setcuentas',res)
+          if (res.message) {
+            this.$router.push(`/pages/login`);
+          }
+          if (res.code == 200) {
+            let options = res.data.map((f) => {
+              return { id: f.id, value: f.name, email: f.email };
+            });
+            this.options = options;
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.show = false;
+      }
+    },
+    onOptionClick({ option, addTag }) {
+      let option2 = {
+        range: 0,
+        monto: 0,
+        name: option.name,
+        id: option.id,
+        email: option.email,
+        iva: this.form.inicio.iva,
+      };
+
+      this.agregadatos(option2);
+    },
+    agregadatos(tag) {
+      this.form.shared.users.showcomplete.push(tag.name);
+      this.items.push(tag);
+      this.search = "";
+      this.calculaporcentaje();
+    },
+
+    updateModaledit() {
+      let pagoedit = this.$store.getters.getpagoedit;
+      this.form.id = pagoedit.id;
+      this.form.value = [];
+      this.alloption = [];
+      pagoedit["relationship"].forEach((name) => {
+        this.form.value.push(name.name);
+        this.options.forEach((element) => {
+          if (element.value == name.name) {
+            this.alloption.push(element);
+          }
+        });
+      });
+      this.form.monto = pagoedit.monto_solicitado;
+      this.form.fecha = pagoedit.tiempo_maximo;
+      this.form.moneda = pagoedit.moneda;
+      this.form.tittle = pagoedit.titulo;
+      this.form.concepto = pagoedit.concepto;
+    },
+    async eventdetected() {
+      this.options = this.$parent.myallusers;
+      //console.log(this.$parent.myallusers)
+      this.selected = [];
+      //this.optionsc=this.$parent.myallcuentas;
+      //  this.optionsempresas = this.$parent.empresasall.map((e) => e.nombre);
+      // this.optionsproyectos = this.$parent.proyectosall.map((e) => e.nombre);
+      // if (this.$store.state.flagpago == 1) {
+
+      this.tableshow = false;
+      //  this.resetModal();
+      // } else {
+      //   this.updateModaledit();
+      // }
+    },
+    emailIsValid(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    },
+    hideModal() {
+      this.$refs["modal-pagos"].hide();
+      // this.$emit("reload",'');
+      /// console.log("maestra")
+    },
+    resetModal() {
+      ///reset para primera ventana
+      this.resetfirstwindow();
+      this.resetsecondwindow();
+      this.$emit("reload", "");
+    },
+    resetsecondwindow() {
+      this.form.shared.tipo = "unico";
+      this.form.shared.users.showcomplete = [];
+      this.form.shared.users.value = [];
+      this.form.shared.users.emails = [];
+      this.form.shared.users.alloption = [];
+      this.form.shared.users.detalle = [];
+      this.items = [];
+      this.form.sends = [];
+    },
+    resetfirstwindow() {
+      this.next = false;
+      this.form.inicio = {
+        concepto: "",
+        fecha: this.fecha(),
+        bruto: "",
+        moneda: "Pesos",
+        iva: "0",
+        monto: "",
+        comentario: "",
+        id: "",
+      };
+      this.solicitudtemp = [];
+    },
+
+    calculaporcentaje() {
+      let cantidad = 0;
+      let porcentaje = 0;
+      let allusers = parseFloat(this.items.length);
+      cantidad = this.form.inicio.monto / allusers;
+      cantidad = parseFloat(cantidad.toFixed(1)); ///// a dos decimales la division
+      let totalcantidad = parseFloat((cantidad * allusers).toFixed(1));
+      if (
+        (this.items.length >= 1 && this.form.shared.tipo == "dividir") ||
+        (this.items.length >= 1 && this.form.shared.tipo == "unico")
+      ) {
+        if (totalcantidad == this.form.inicio.monto) {
+          ///todo ok cuadra
+          porcentaje = parseFloat((100 / allusers).toFixed(0));
+          for (let a = 0; a < allusers; a++) {
+            this.items[a].range = porcentaje;
+            this.items[a].monto = cantidad;
+          }
+          this.mensaje = true;
+        } else {
+          ////no cuadra
+          let sumardecimales = parseFloat(
+            (this.form.inicio.monto - totalcantidad).toFixed(1)
+          );
+          porcentaje = parseFloat((100 / allusers).toFixed(2));
+          for (let a = 0; a < allusers; a++) {
+            if (a == allusers - 1) {
+              cantidad = cantidad + sumardecimales;
+            }
+            this.items[a].range = porcentaje;
+            this.items[a].monto = cantidad.toFixed(1);
+          }
+          this.mensaje = true;
+        }
+      } else {
+        for (let a = 0; a < allusers; a++) {
+          this.items[a].range = 100;
+          this.items[a].monto = parseFloat(this.form.inicio.monto);
+        }
+      } ///1
+    },
+  },
+  mounted() {
+    // this.getitems();
+    //this.fecha();
+  },
+  computed: {
+    sumatotal() {
+      let resuelve = 0;
+      for (let a = 0; a < this.items.length; a++) {
+        if (this.items[a].monto > 0) {
+          resuelve += parseFloat(this.items[a].monto);
+        }
+      }
+      return resuelve;
+    },
+    validasuma() {
+      if (this.items.length == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    maximoselect() {
+      return 100;
+    },
+    mostrar() {
+      return this.items;
+    },
+    userblock() {
+      this.calculaporcentaje();
+      if (this.form.shared.tipo == "unico") {
+        if (this.form.shared.users.showcomplete.length >= 1) {
+          let tag = this.form.shared.users.showcomplete[0];
+          this.onlytag(tag);
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    },
+    cuentasblock() {
+      let response = false;
+      if (this.optionsempresas.length <= 0) {
+        return true;
+      } else {
+        this.selected.length > 0 ? false : (response = true);
+        return response;
+      }
+    },
+    total() {},
+    criteria() {
+      // Compute the search criteria
+      return this.search.trim().toLowerCase();
+    },
+    availableOptions() {
+      const criteria = this.criteria;
+      // Filter out already selected options
+      const options = this.options.filter(
+        (opt) => this.form.shared.users.showcomplete.indexOf(opt.name) === -1
+      );
+      if (criteria) {
+        // Show only options that match criteria
+        return options.filter(
+          (opt) =>
+            opt.name.toLowerCase().indexOf(criteria) > -1 ||
+            opt.email.toLowerCase().indexOf(criteria) > -1
+        );
+      }
+      // Show all options available
+      return options;
+    },
+    searchDesc() {
+      if (this.criteria && this.availableOptions.length === 0) {
+        return "Ningún amigo concuerda, agrega el email correctamente";
+      }
+      return "";
+    },
+    criteriac() {
+      // Compute the search criteria
+      return this.searchc.trim().toLowerCase();
+    },
+    availableOptionsc() {
+      const criteriac = this.criteriac;
+      // Filter out already selected options
+      const optionsc = this.optionsc.filter(
+        (opt) => this.form.cuentas.indexOf(opt.nombre_cuenta) === -1
+      );
+      if (criteriac) {
+        // Show only options that match criteria
+        return optionsc.filter(
+          (opt) =>
+            opt.nombre_cuenta.toLowerCase().indexOf(criteriac) > -1 ||
+            opt.banco.toLowerCase().indexOf(criteriac) > -1
+        );
+      }
+      // Show all options available
+      return optionsc;
+    },
+    searchDescc() {
+      if (this.criteriac && this.availableOptionsc.length === 0) {
+        return "Ningun resultado concuerda";
+      }
+      return "";
+    },
+    optionbanco() {
+      if (this.form.banco == "OTRO") {
+      } else {
+      }
+    },
+    tittlemodal() {
+      return this.$store.state.titulopago;
+    },
+  },
+};
+</script>
+
+
+<style scoped>
+th {
+  text-align: center;
+  font-size: 1em;
+  color: rgb(228, 110, 7);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+pre {
+  overflow: auto;
+}
+pre .string {
+  color: #885800;
+}
+pre .number {
+  color: blue;
+}
+pre .boolean {
+  color: magenta;
+}
+pre .null {
+  color: red;
+}
+pre .key {
+  color: green;
+}
+.finish-button {
+  background-color: #43a047 !important;
+  border-color: #43a047 !important;
+}
+.go-next {
+  background-color: #1871ac !important;
+  border-color: #1871ac !important;
+  font-size: 1.5em;
+}
+</style>

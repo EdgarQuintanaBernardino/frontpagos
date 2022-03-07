@@ -1,39 +1,71 @@
 <template>
   <div :class="darkMode ? 'BGD' : 'BGL'" class="col-12">
-    <br />
-    <span>Grupos</span>
-    <multiselect
-      class="mt-2 mb-2"
-      v-model="GruposSel"
-      :options="Grupos"
-      :multiple="true"
-      :close-on-select="false"
-      :clear-on-select="false"
-      :preserve-search="true"
-      placeholder="Grupos"
-      label="Name"
-      track-by="id"
-      @input="selecGrupo()"
-    >
-    </multiselect>
-    <br />
-    <span>Usuarios</span>
-    <multiselect
-      @input="selecUsuario()"
-      class="mt-2 mb-2"
-      v-model="UsersSel"
-      :options="Usuarios"
-      :multiple="true"
-      :close-on-select="false"
-      :clear-on-select="false"
-      :preserve-search="true"
-      placeholder="Usuarios"
-      label="nombre"
-      track-by="id"
-      :preselect-first="true"
-    >
-    </multiselect>
-    <br />
+    <!-- <br/> -->
+    <!-- Butones para seleccionar si es por grupos o por cada usuario -->
+    <b-row class="justify-content-center">
+      <!-- <b-button
+        class="mr-2 mt-2 mb-3"
+        variant="outline-primary"
+        :pressed="one === 1"
+        @click="selectOne(1)"
+        >Grupos</b-button
+      >
+      <b-button
+        class="mr-2 mt-2 mb-3"
+        variant="outline-primary"
+        :pressed="one === 2"
+        @click="selectOne(2)"
+        >Usuarios</b-button
+      > -->
+    </b-row>
+      <span >Grupos</span>
+      <multiselect
+        class="mt-2 mb-2"
+        v-model="GruposSel"
+        :options="Grupos"
+        :multiple="true"
+        :close-on-select="false"
+        :clear-on-select="false"
+        :preserve-search="true"
+        placeholder="Grupos"
+        label="Name"
+        track-by="id"
+        @input="selecGrupo()"
+      >
+      </multiselect>
+      <span>Usuarios seleccionados</span>
+      <multiselect
+        @input="selecUsuario()"
+        class="mt-2 mb-2"
+        v-model="UsersSel"
+        :options="Usuarios"
+        :multiple="true"
+        :close-on-select="false"
+        :clear-on-select="false"
+        :preserve-search="true"
+        placeholder="Usuarios"
+        label="nombre"
+        track-by="id"
+        :preselect-first="true"
+      >
+      </multiselect>
+      <!-- <span>Usuarios</span>
+      <multiselect
+        @input="selecUsuario()"
+        class="mt-2 mb-2"
+        v-model="UsersSel"
+        :options="Usuarios"
+        :multiple="true"
+        :close-on-select="false"
+        :clear-on-select="false"
+        :preserve-search="true"
+        placeholder="Usuarios"
+        label="nombre"
+        track-by="id"
+        :preselect-first="true"
+      >
+      </multiselect>
+     -->
   </div>
 </template>
 
@@ -55,7 +87,7 @@ export default {
       UsersSel: [],
       GruposSel: [],
       Usuarios: [],
-      Grupos: []
+      Grupos: [],
     };
   },
   async mounted() {
@@ -90,7 +122,7 @@ export default {
     },
     async selecGrupo() {
       this.UsersSel = [];
-      console.log(this.GruposSel);
+      // console.log(this.GruposSel);
       if (this.GruposSel != null) {
         let grupos = this.GruposSel.map(elem => {
           let ConsUs = {};
@@ -119,10 +151,10 @@ export default {
     },
     async ConsUsersGrupos(request) {
       try {
-        console.log(request);
+        // console.log(request);
         const repo = repoupdateprofileuser();
         await repo.consUsGrupo(request).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.length > 0) {
             this.UsersSel = this.UsersSel.concat(
               res.data.map(elem => {
@@ -151,7 +183,7 @@ export default {
         let request = {};
         request.Company_id = id;
         await repo.consGroupEmpresas(request).then(res => {
-          console.log(res);
+          // console.log(res);
           res.data.length > 0 ? this.Grupos.push(res.data) : null;
           // this.Grupos.flat()
         });
@@ -160,7 +192,16 @@ export default {
       } finally {
         //
       }
-    }
+    },
+    // Funcion para seleccionar grupos o usuarios
+    // selectOne(one) {
+    //   if (one === 1) {
+    //     this.one = 1;
+    //   }
+    //   if (one === 2) {
+    //     this.one = 2;
+    //   }
+    // }
   }
 };
 </script>

@@ -1,7 +1,6 @@
 <template>
   <b-container fluid>
     <!-- User Interface controls -->
-
     <b-overlay :show="show" rounded="sm">
       <template v-slot:overlay>
         <div class="text-center">
@@ -125,7 +124,6 @@
         ></b-tab>
       </b-tabs>
     </b-overlay>
-
     <!-- <modalrelation @itemscuentaupdatemodal="items=$event" ></modalrelation>-->
     <!-- Main table element -->
     <!-- Info modal -->
@@ -370,11 +368,11 @@ export default {
               header: true, ///bolean heeader
               headername: "Pagos Registrados",
               btnadd: true,
-              iconadd: "pencil",
-              animation: "fade",
-              fontscale: "2",
+              iconadd: "credit-card",
+              animation: "cylon",
+              fontscale: "1",
               classicon: "mr-2",
-              namebtn: "Agrega Pago",
+              namebtn: "Añadir / Solicitar Ingreso",
               badgevariant: "primary",
               btnvariant: "info",
               btnstyle: "float:right",
@@ -423,9 +421,9 @@ export default {
       this.$bvModal.show("modal-prevent-polymorfic");
     },
     openmodal() {
-      console.log("modal");
+      // console.log("modal");
       this.$refs.modal3.warningModal = true;
-      console.log(this.$refs.modal3.warningModal);
+      // console.log(this.$refs.modal3.warningModal);
       this.$bvModal.show("modal-pagos-add");
     },
     async getitems() {

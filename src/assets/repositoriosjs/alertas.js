@@ -39,11 +39,34 @@ const PermisosOK = async (msg) => {
   };
   response(mensaje);
 };
+const PermisosCoincidencias = async (msg) => {
+  let mensaje = {
+    tittle: msg.Tit,
+    text: msg.Text,
+    icon: msg.icono,
+    input: 'checkbox',
+    inputValue: 1,
+    inputPlaceholder:'I agree with the terms and conditions',
+    confirmButtonText:'Continue <i class="fa fa-arrow-right"></i>',
+    inputValidator: (result) => {
+    return !result && 'You need to agree with T&C'}
+
+  };
+  response(mensaje);
+};
 const PermisosError = async () => {
   let mensaje = {
     tittle: "Permisos",
     text: "Ocurio un error",
     icon: "error"
+  };
+  response(mensaje);
+};
+const PermisosEliminados = async () => {
+  let mensaje = {
+    tittle: "Permisos",
+    text: "Permiso eliminado",
+    icon: "trash2"
   };
   response(mensaje);
 };
@@ -534,5 +557,7 @@ export default () => ({
   usuarioRegistrado,
   usuarioExistente,
   PermisosOK,
-  PermisosError
+  PermisosError,
+  PermisosEliminados,
+  PermisosCoincidencias
 });

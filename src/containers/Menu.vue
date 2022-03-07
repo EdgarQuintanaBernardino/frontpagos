@@ -1,167 +1,143 @@
 <template>
-    <CHeaderNav class="d-md-down-none mr-auto">
-
-      <CHeaderNavItem
-        v-for="n in nav"
-        v-bind:key="n.name"
+  <CHeaderNav class="d-md-down-none mr-auto">
+    <CHeaderNavItem v-for="n in nav" v-bind:key="n.name">
+      <CHeaderNavLink v-if="n._name == 'CSidebarNavItem'" :to="n.href">
+        {{ n.name }}
+      </CHeaderNavLink>
+      <CDropdown
+        v-if="n._name == 'CSidebarNavDropdown'"
+        color="link"
+        :caret="false"
       >
-        <CHeaderNavLink
-          v-if="n._name == 'CSidebarNavItem'"
-          :to="n.href"
-        >
-          {{ n.name }}
-        </CHeaderNavLink>
-        <CDropdown
-          v-if="n._name == 'CSidebarNavDropdown'"
-          color="link"
-          :caret="false"
-        >
-          <template #toggler-content>
-            <a class="c-header-nav-link">
-              {{ n.name }}
-            </a>
-          </template>
-          <CDropdownItem
-            v-for="d in n._children"
-            v-bind:key="d.name"
-            :to="d.to"
-          >
-            {{ d.name}}
-          </CDropdownItem>
-        </CDropdown>
-      </CHeaderNavItem>
-
-    </CHeaderNav>
-
+        <template #toggler-content>
+          <a class="c-header-nav-link">
+            {{ n.name }}
+          </a>
+        </template>
+        <CDropdownItem v-for="d in n._children" v-bind:key="d.name" :to="d.to">
+          {{ d.name }}
+        </CDropdownItem>
+      </CDropdown>
+    </CHeaderNavItem>
+  </CHeaderNav>
 </template>
 
 <script>
-import repomenu from './repomenus';
-import responses from'@/assets/repositoriosjs/respuestas'
-import alertas from '@/assets/repositoriosjs/alertas.js';
-
+import repomenu from "./repomenus";
+import responses from "@/assets/repositoriosjs/respuestas";
+import alertas from "@/assets/repositoriosjs/alertas.js";
 
 export default {
-  components:{
-  },
-      name: 'Menu',
-    props: ['locale','roleactive'],
-
-  data () {
+  components: {},
+  name: "Menu",
+  props: ["locale", "roleactive"],
+  data() {
     return {
       //minimize: false,
       nav: [],
       //show: true,
-      buffor: [],
-    }
+      buffor: []
+    };
   },
-    watch: {
-    locale: function(newVal, oldVal) { // watch it
+  watch: {
+    locale: function() {
+      // watch it
       this.topmenu();
     },
-    roleactive:function(){
-      this.topmenu()
-  }
-    },
-  methods: {
-    topmenu(){
-       let repo= repomenu();
-       let self = this;
-      let idioma = 'en';
-    if(typeof localStorage.locale !== 'undefined'){
-      idioma = localStorage.getItem("locale")
+    roleactive: function() {
+      this.topmenu();
     }
-
-     let local={locale:idioma,menu:'top_menu'}
-       repo.rendermenu(local).then((res) => {
-                 this.$store.commit('cargaboton',false);
-
-              let respuestas=responses();
-        let response=respuestas.valida(res);
-       self.nav = self.rebuildData(response);
-        this.$emit('succes-menu');
-      });
-       },
-    dropdown(data){
-      let result = {
-            _name: 'CSidebarNavDropdown',
-            name: data['name'],
-            route: data['href'],
-            icon: data['icon'],
-            _children: [],
+  },
+  methods: {
+    topmenu() {
+      let repo = repomenu();
+      let self = this;
+      let idioma = "en";
+      if (typeof localStorage.locale !== "undefined") {
+        idioma = localStorage.getItem("locale");
       }
-      for(let i=0; i<data['elements'].length; i++){
-        if(data['elements'][i]['slug'] == 'dropdown'){
-          result._children.push( this.dropdown(data['elements'][i]) );
-        }else{
-          result._children.push(
-            {
-                   _name:  'CSidebarNavItem',
-                   name:   data['elements'][i]['name'],
-                   to:     data['elements'][i]['href'],
-                   icon:   data['elements'][i]['icon']
-            }
-          );
+
+      let local = { locale: idioma, menu: "top_menu" };
+      repo.rendermenu(local).then(res => {
+        this.$store.commit("cargaboton", false);
+
+        let respuestas = responses();
+        let response = respuestas.valida(res);
+        self.nav = self.rebuildData(response);
+        this.$emit("succes-menu");
+      });
+    },
+    dropdown(data) {
+      let result = {
+        _name: "CSidebarNavDropdown",
+        name: data["name"],
+        route: data["href"],
+        icon: data["icon"],
+        _children: []
+      };
+      for (let i = 0; i < data["elements"].length; i++) {
+        if (data["elements"][i]["slug"] == "dropdown") {
+          result._children.push(this.dropdown(data["elements"][i]));
+        } else {
+          result._children.push({
+            _name: "CSidebarNavItem",
+            name: data["elements"][i]["name"],
+            to: data["elements"][i]["href"],
+            icon: data["elements"][i]["icon"]
+          });
         }
       }
       return result;
     },
-     out(){
-        let alert=alertas();
-        alert.denegado();
-    this.$router.push({ path: '/login' })
+    out() {
+      let alert = alertas();
+      alert.denegado();
+      this.$router.push({ path: "/login" });
     },
-    rebuildData(data){
-      try{
-      this.buffor = [];
-      for(let k=0; k<data.length; k++){
-        switch(data[k]['slug']){
-          case 'link':
-            if(data[k]['href'].indexOf('http') !== -1){
-              this.buffor.push(
-                  {
-                      _name: 'CSidebarNavItem',
-                      name: data[k]['name'],
-                      href: data[k]['href'],
-                      icon: data[k]['icon'],
-                      target: '_blank'
-                  }
-              );
-            }else{
-              this.buffor.push(
-                  {
-                      _name: 'CSidebarNavItem',
-                      name: data[k]['name'],
-                      to:   data[k]['href'],
-                      icon: data[k]['icon'],
-                  }
-              );
-            }
-          break;
-          case 'title':
-            this.buffor.push(
-              {
-                _name: 'CSidebarNavTitle',
-                _children: [data[k]['name']]
+    rebuildData(data) {
+      try {
+        this.buffor = [];
+        for (let k = 0; k < data.length; k++) {
+          switch (data[k]["slug"]) {
+            case "link":
+              if (data[k]["href"].indexOf("http") !== -1) {
+                this.buffor.push({
+                  _name: "CSidebarNavItem",
+                  name: data[k]["name"],
+                  href: data[k]["href"],
+                  icon: data[k]["icon"],
+                  target: "_blank"
+                });
+              } else {
+                this.buffor.push({
+                  _name: "CSidebarNavItem",
+                  name: data[k]["name"],
+                  to: data[k]["href"],
+                  icon: data[k]["icon"]
+                });
               }
-            );
-          break;
-          case 'dropdown':
-            this.buffor.push( this.dropdown(data[k]) );
-          break;
+              break;
+            case "title":
+              this.buffor.push({
+                _name: "CSidebarNavTitle",
+                _children: [data[k]["name"]]
+              });
+              break;
+            case "dropdown":
+              this.buffor.push(this.dropdown(data[k]));
+              break;
+          }
         }
+
+        return this.buffor;
+      } catch (error) {
+        this.$router.push({ path: "/login" });
       }
-
-      return this.buffor;
-    }catch(error){
-
-      this.$router.push({ path: '/login' })
-    }
     }
   },
-  mounted () {
+  mounted() {
     //console.log("topmenu mounted")
-  /// this.topmenu();
+    /// this.topmenu();
   }
-}
+};
 </script>

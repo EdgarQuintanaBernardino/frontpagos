@@ -1,12 +1,12 @@
 <template>
-    <div>  
+    <div>
         <b-row>
             <b-col cols="12 mt-3">
                 <b-container class="bv-example-row bv-example-row-flex-cols">
                     <b-row>
                         <b-col align-self="center" cols="12" class="text-center">
                             <label  class="d-block  bg-primary">
-                            <h2 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">Arrastra o da click según sea el documento</h2>
+                            <h2 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">Arrastra o selecciona los archivos</h2>
                             </label>
                         </b-col>
                     </b-row>
@@ -30,19 +30,19 @@
                                         </template>
                                         <vue2Dropzone
                                          disabled="true"
-                                         ref="dzfactura" id="dfactura" 
-                                         :options="dropzoneOptionsfactura" 
+                                         ref="dzfactura" id="dfactura"
+                                         :options="dropzoneOptionsfactura"
                                          style="border:dashed #20948B 2px;color:black"
-                                         @vdropzone-success="vsuccess" 
+                                         @vdropzone-success="vsuccess"
                                          @vdropzone-complete="afterupload"
                                          @vdropzone-queue-complete="vqueueComplete"
                                          @vdropzone-processing="cargando"
                                          @vdropzone-sending="sendingEvent"
                                          v-on:vdropzone-removed-file="removeFile"
                                          :duplicateCheck="true"
-                                         @vdropzone-error="errorfactura"> 
+                                         @vdropzone-error="errorfactura">
                                         </vue2Dropzone>
-                                    </b-overlay>            
+                                    </b-overlay>
                                 </b-col>
                                 <b-col cols="6" >
                                     <b-container fluid class="">
@@ -57,7 +57,7 @@
                                                              animation="cylon"
                                                             ></b-icon>
                                                             <p id="cancel-label">Please wait...</p>
-                                                        </div> 
+                                                        </div>
                                                     </template>
                                                     <a :href="item.url"  target="_blank"><img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/xml-file.png" class="" style="width:60px;;margin-bottom:1px"   v-if="item.tipo=='xml'"></a>
                                                     <a :href="item.url"  target="_blank">    <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/pdfimage.png" class="ml-2 mb-1 mt-1" style="width:45px; height:52px;"   v-if="item.tipo=='pdf'"></a>
@@ -89,10 +89,10 @@
                                         </template>
                                         <vue2Dropzone
                                          disabled="true"
-                                         ref="dzcotizacion" id="dcotizacion" 
-                                         :options="dropzoneOptionscotizacion" 
+                                         ref="dzcotizacion" id="dcotizacion"
+                                         :options="dropzoneOptionscotizacion"
                                          style="border:dashed #20948B 2px;color:black"
-                                         @vdropzone-success="vsuccesscotizacion" 
+                                         @vdropzone-success="vsuccesscotizacion"
                                          @vdropzone-complete="afterupload"
                                          @vdropzone-queue-complete="vqueueComplete"
                                          @vdropzone-processing="cargando"
@@ -100,9 +100,9 @@
                                          v-on:vdropzone-removed-file="removeFile"
                                          :duplicateCheck="true"
                                          @vdropzone-error="errorfactura"
-                                        > 
+                                        >
                                         </vue2Dropzone>
-                                    </b-overlay>    
+                                    </b-overlay>
                                 </b-col>
                                 <b-col cols="6">
                                     <b-container fluid class="">
@@ -127,13 +127,13 @@
                                                         <img :src="item.url" class="ml-2 mb-1 mt-1" style="width:45px; height:52px;" >{{item.nameoriginal}}
                                                     </a>
                                                     <a :href="item.url" target="_blank" v-if="item.tipo=='docx'||item.tipo=='doc'" class="ml-1">
-                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/word.jpg" 
+                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/word.jpg"
                                                         class="ml-2 mb-1 mt-1" style="width:45px; height:52px;">{{item.nameoriginal}}
                                                     </a>
                                                     <a :href="item.url" target="_blank" v-if="item.tipo=='xlsx'||item.tipo=='xls'" class="ml-1">
-                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png" 
+                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png"
                                                         class="ml-2 mb-1 mt-1" style="width:45px; height:52px;">{{item.nameoriginal}}
-                                                    </a> 
+                                                    </a>
                                                     </br>
                                                     <b-button class="btn btn-danger ml-2" d-block sytle="display:block" :id="item.id+'btnc'" @click="deletefilec(item)"><b-icon icon="trash-fill" scale="1" style="color:white;"></b-icon>
                                                     </b-button>
@@ -142,7 +142,7 @@
                                         </b-row>
                                     </b-container>
                                 </b-col>
-                            </b-row>    
+                            </b-row>
                         </b-col>
                         <b-col cols="12" lg="6" style="padding:12px;">
                             <b-row>
@@ -162,19 +162,19 @@
                                         </template>
                                         <vue2Dropzone
                                          disabled="true"
-                                         ref="dzorden" id="dorden" 
-                                         :options="dropzoneOptionscotizacion" 
+                                         ref="dzorden" id="dorden"
+                                         :options="dropzoneOptionscotizacion"
                                          style="border:dashed #20948B 2px;color:black"
-                                         @vdropzone-success="vsuccessorden" 
+                                         @vdropzone-success="vsuccessorden"
                                          @vdropzone-complete="afterupload"
                                          @vdropzone-queue-complete="vqueueComplete"
                                          @vdropzone-processing="cargando"
                                          @vdropzone-sending="sendingEventorden"
                                          v-on:vdropzone-removed-file="removeFile"
                                          :duplicateCheck="true"
-                                         @vdropzone-error="errorfactura"> 
+                                         @vdropzone-error="errorfactura">
                                         </vue2Dropzone>
-                                    </b-overlay>             
+                                    </b-overlay>
                                 </b-col>
                                 <b-col cols="6">
                                     <b-container fluid class="">
@@ -190,7 +190,7 @@
                                                             ></b-icon>
                                                             <p id="cancel-label">Please wait...</p>
                                                         </div>
-                                                    </template>  
+                                                    </template>
                                                     <a :href="item.url" target="_blank" v-if="item.tipo=='pdf'">
                                                         <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/pdfimage.png"
                                                          class="ml-2 mb-1 mt-1" style="width:45px; height:52px;"  >{{item.nameoriginal}}
@@ -199,13 +199,13 @@
                                                         <img :src="item.url" class="ml-2 mb-1 mt-1" style="width:45px; height:52px;" >{{item.nameoriginal}}
                                                     </a>
                                                     <a :href="item.url" target="_blank" v-if="item.tipo=='docx'||item.tipo=='doc'" class="ml-1">
-                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/word.jpg" 
+                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/word.jpg"
                                                          class="ml-2 mb-1 mt-1" style="width:45px; height:52px;">{{item.nameoriginal}}
                                                     </a>
                                                     <a :href="item.url" target="_blank" v-if="item.tipo=='xlsx'||item.tipo=='xls'" class="ml-1">
-                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png" 
+                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png"
                                                          class="ml-2 mb-1 mt-1" style="width:45px; height:52px;">{{item.nameoriginal}}
-                                                    |</a> 
+                                                    |</a>
                                                     </br>
                                                     <b-button class="btn btn-danger ml-2" d-block sytle="display:block" :id="item.id+'btno'" @click="deletefileo(item)"><b-icon icon="trash-fill" scale="1" style="color:white;"></b-icon>
                                                     </b-button>
@@ -214,7 +214,7 @@
                                         </b-row>
                                     </b-container>
                                 </b-col>
-                            </b-row>    
+                            </b-row>
                         </b-col>
                         <b-col cols="12" lg="6" style="padding:12px;">
                             <b-row>
@@ -233,10 +233,10 @@
                                         </template>
                                         <vue2Dropzone
                                          disabled="true"
-                                         ref="dzcomprobante" id="dcomprobante" 
-                                         :options="dropzoneOptionscotizacion" 
+                                         ref="dzcomprobante" id="dcomprobante"
+                                         :options="dropzoneOptionscotizacion"
                                          style="border:dashed #20948B 2px;color:black"
-                                         @vdropzone-success="vsuccesscomprobante" 
+                                         @vdropzone-success="vsuccesscomprobante"
                                          @vdropzone-complete="afterupload"
                                          @vdropzone-queue-complete="vqueueComplete"
                                          @vdropzone-processing="cargando"
@@ -246,7 +246,7 @@
                                          @vdropzone-error="errorfactura"
                                         >
                                         </vue2Dropzone>
-                                    </b-overlay>            
+                                    </b-overlay>
                                 </b-col>
                                 <b-col cols="6">
                                     <b-container fluid class="">
@@ -262,18 +262,18 @@
                                                             ></b-icon>
                                                             <p id="cancel-label">Please wait...</p>
                                                         </div>
-                                                    </template>        
+                                                    </template>
                                                     <a :href="item.url" target="_blank" v-if="item.tipo=='pdf'">
                                                         <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/pdfimage.png"
                                                          class="ml-2 mb-1 mt-1" style="width:45px; height:52px;"  >{{item.nameoriginal}}</a>
                                                     <a :href="item.url" target="_blank" v-if="item.tipo=='image'" class="ml-1">
                                                         <img :src="item.url" class="ml-2 mb-1 mt-1" style="width:45px; height:52px;" >{{item.nameoriginal}}</a>
                                                     <a :href="item.url" target="_blank" v-if="item.tipo=='docx'||item.tipo=='doc'" class="ml-1">
-                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/word.jpg" 
+                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/word.jpg"
                                                          class="ml-2 mb-1 mt-1" style="width:45px; height:52px;">{{item.nameoriginal}}</a>
                                                     <a :href="item.url" target="_blank" v-if="item.tipo=='xlsx'||item.tipo=='xls'" class="ml-1">
-                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png" 
-                                                         class="ml-2 mb-1 mt-1" style="width:45px; height:52px;">{{item.nameoriginal}}</a> 
+                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png"
+                                                         class="ml-2 mb-1 mt-1" style="width:45px; height:52px;">{{item.nameoriginal}}</a>
                                                     </br>
                                                     <b-button class="btn btn-danger ml-2" d-block sytle="display:block" :id="item.id+'btncp'" @click="deletefilecp(item)"><b-icon icon="trash-fill" scale="1" style="color:white;"></b-icon>
                                                     </b-button>
@@ -282,17 +282,17 @@
                                         </b-row>
                                     </b-container>
                                 </b-col>
-                            </b-row>    
+                            </b-row>
                         </b-col>
                         <b-col cols="12" style="padding:12px;">
                             <b-row>
                                 <b-col cols="12">
                                         <label  class="d-block"  style="background-color:#2D4262">
                                             <h4 class="text-white text-center"
-                                             style="padding-top:10px;padding-bottom:10px">Archivos Extras 
+                                             style="padding-top:10px;padding-bottom:10px">Archivos Extras
                                             </h4>
                                         </label>
-                                    </b-col>      
+                                    </b-col>
                                     <b-col cols="6" >
                                         <b-overlay :show="upload" rounded="sm">
                                             <template v-slot:overlay>
@@ -303,19 +303,19 @@
                                             </template>
                                             <vue2Dropzone
                                              disabled="true"
-                                             ref="dzextras" id="dextras" 
-                                             :options="dropzoneOptionsextras" 
+                                             ref="dzextras" id="dextras"
+                                             :options="dropzoneOptionsextras"
                                              style="border:dashed #20948B 2px;color:black"
-                                             @vdropzone-success="vsuccessextras" 
+                                             @vdropzone-success="vsuccessextras"
                                              @vdropzone-complete="afterupload"
                                              @vdropzone-queue-complete="vqueueComplete"
                                              @vdropzone-processing="cargando"
-                                             @vdropzone-sending="sendingEventextras"                            
+                                             @vdropzone-sending="sendingEventextras"
                                              v-on:vdropzone-removed-file="removeFile"
                                              :duplicateCheck="true"
-                                             @vdropzone-error="errorfactura"> 
+                                             @vdropzone-error="errorfactura">
                                             </vue2Dropzone>
-                                        </b-overlay>  
+                                        </b-overlay>
                                     </b-col>
                                     <b-col cols="6">
                                         <b-container fluid class="">
@@ -332,7 +332,7 @@
                                                                 <p id="cancel-label">Please wait...</p>
                                                             </div>
                                                         </template>
-                                                        <a :href="item.url" 
+                                                        <a :href="item.url"
                                                          target="_blank" v-if="item.tipo=='xml'"> <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/xml-file.png"
                                                          class="" style="width:60px;;margin-bottom:1px"> {{item.nameoriginal}}
                                                         </a>
@@ -344,13 +344,13 @@
                                                             <img :src="item.url" class="ml-2 mb-1 mt-1" style="width:45px; height:52px;" >{{item.nameoriginal}}
                                                         </a>
                                                         <a :href="item.url" target="_blank" v-if="item.tipo=='docx'||item.tipo=='doc'" class="ml-1">
-                                                            <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/word.jpg" 
+                                                            <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/word.jpg"
                                                              class="ml-2 mb-1 mt-1" style="width:45px; height:52px;">{{item.nameoriginal}}
                                                         </a>
                                                         <a :href="item.url" target="_blank" v-if="item.tipo=='xlsx'||item.tipo=='xls'" class="ml-1">
-                                                            <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png" 
+                                                            <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png"
                                                              class="ml-2 mb-1 mt-1" style="width:45px; height:52px;">{{item.nameoriginal}}
-                                                        </a> 
+                                                        </a>
                                                         </br>
                                                         <b-button class="btn btn-danger ml-2" d-block sytle="display:block" :id="item.id+'btnx'" @click="deletefilex(item)"><b-icon icon="trash-fill" scale="1" style="color:white;"></b-icon>
                                                         </b-button>
@@ -359,8 +359,8 @@
                                                 </b-row>
                                         </b-container>
                                 </b-col>
-                            </b-row>    
-                        </b-col>        
+                            </b-row>
+                        </b-col>
                     </b-row>
                 </b-container>
             </b-col>
@@ -379,7 +379,7 @@ import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "archivos",
-   
+
 
   data(){
       return{
@@ -437,13 +437,13 @@ export default {
 
 
       },
-    
+
        selected:4,
        optionstipos:[
 {tipo:'Factura',id:1},
 {tipo:'Orden de Compra',id:2},
 {tipo:'Comprobante de Pago',id:3},
-{tipo:'Cotización',id:4}              
+{tipo:'Cotización',id:4}
 
          ],
 
@@ -463,31 +463,31 @@ export default {
              excel:{
 
              }
-           
-           
+
+
           },
-            
+
       }
       },
       watch:{
-         
-            
+
+
       },
        components: {
     Swal,vue2Dropzone
   },
       methods: {
     removeFile (file, xhr, error) {
-      
+
     },
        vqueueComplete(file,xhr , formData) {
     //  this.queueComplete = true
       // window.toastr.success('', 'Event : vdropzone-queue-complete')
     },
     async errorservidor(archivo, mensaje, xhr){
-      
+
      let alert=alertas();
-    
+
 alert.filenotvalidorsize();
 this.upload=false;
   //  mensaje.message=='Token Signature could not be verified.'
@@ -495,7 +495,7 @@ this.upload=false;
   //  ?alertas.errortoken():alertas.imagenotvalid()
     },
    async errorfactura(archivo, mensaje, xhr){
-      
+
      let alert=alertas();
     alert.filenotvalidorsize()
 this.upload=false;
@@ -507,65 +507,65 @@ this.upload=false;
       this.upload=false;
 
       this.cuentacomprobante--;
-      let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentacomprobante+' archivo(s)*';      
+      let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentacomprobante+' archivo(s)*';
      if(this.cuentacomprobante<=0){
      this.$refs.dzcomprobante.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }
-    let msj=document.getElementById("dcomprobante").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona     
+    let msj=document.getElementById("dcomprobante").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
         },
    addfileoko(){
       this.upload=false;
 
       this.cuentaorden--;
-      let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentaorden+' archivo(s)*';      
+      let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentaorden+' archivo(s)*';
      if(this.cuentaorden<=0){
      this.$refs.dzorden.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }
-    let msj=document.getElementById("dorden").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona     
+    let msj=document.getElementById("dorden").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
         },
         addfileok(){
       this.upload=false;
 
       this.cuentafactura--;
-      let mensaje='<h4 style=""><strong>PDF Y/O XML</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentafactura+' archivo(s)*';      
+      let mensaje='<h4 style=""><strong>PDF Y/O XML</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentafactura+' archivo(s)*';
      if(this.cuentafactura<=0){
      this.$refs.dzfactura.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }
-    let msj=document.getElementById("dfactura").getElementsByClassName("dz-message");/////  selector js, la documentación no funciona     
+    let msj=document.getElementById("dfactura").getElementsByClassName("dz-message");/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
         },
-        
+
          addfileokc(){
       this.upload=false;
 
       this.cuentacotizacion--;
-      let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentacotizacion+' archivo(s)*';      
+      let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentacotizacion+' archivo(s)*';
      if(this.cuentacotizacion<=0){
      this.$refs.dzcotizacion.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }
-    let msj=document.getElementById("dcotizacion").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona     
+    let msj=document.getElementById("dcotizacion").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
         },
           addfileokextras(){
       this.upload=false;
 
       this.cuentaextras--;
-      let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentaextras+' archivo(s)*';      
+      let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentaextras+' archivo(s)*';
      if(this.cuentaextras<=0){
      this.$refs.dzextras.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }
-    let msj=document.getElementById("dextras").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona     
+    let msj=document.getElementById("dextras").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
         },
     async afterupload(file){
-    
+
     },
        vsuccess(file, response) {
          try{
@@ -588,12 +588,12 @@ result.limit();
   default:
     // code block
 }
-         
+
 //  this.$store.commit('setfoto',response);
 
       // const fotostorage=localstorage();
       //   fotostorage.setphoto(response);
-      
+
 
           }catch(error){
               // console.log(error)
@@ -625,12 +625,12 @@ result.limit();
   default:
     // code block
 }
-         
+
 //  this.$store.commit('setfoto',response);
 
       // const fotostorage=localstorage();
       //   fotostorage.setphoto(response);
-      
+
 
           }catch(error){
               // console.log(error)
@@ -661,12 +661,12 @@ result.limit();
   default:
     // code block
 }
-         
+
 //  this.$store.commit('setfoto',response);
 
       // const fotostorage=localstorage();
       //   fotostorage.setphoto(response);
-      
+
 
           }catch(error){
               // console.log(error)
@@ -697,12 +697,12 @@ result.limit();
   default:
     // code block
 }
-         
+
 //  this.$store.commit('setfoto',response);
 
       // const fotostorage=localstorage();
       //   fotostorage.setphoto(response);
-      
+
 
           }catch(error){
               // console.log(error)
@@ -733,12 +733,12 @@ result.limit();
   default:
     // code block
 }
-         
+
 //  this.$store.commit('setfoto',response);
 
       // const fotostorage=localstorage();
       //   fotostorage.setphoto(response);
-      
+
 
           }catch(error){
               // console.log(error)
@@ -762,7 +762,7 @@ result.limit();
 
     formData.append('permitido',['xml','pdf']);
     formData.append('maxpermitido',2);  //1 //3
-    formData.append('iguales',0);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0  
+    formData.append('iguales',0);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0
       },
       sendingEventcotizacion (file, xhr, formData) {
     let tipo=file.type.split('/');
@@ -773,8 +773,8 @@ result.limit();
      let cortar=file.name.split('.');
      tipo[1]=cortar[1];
 
-   }   
-  
+   }
+
     formData.append('idsolicitud',this.$parent.$parent.$parent.$parent.$parent.$parent.form.inicio.id);
 //  formData.append('idsolicitud',1);//// solicitud madre
     formData.append('tipo','Cotizacion');
@@ -783,7 +783,7 @@ result.limit();
     formData.append('nameoriginal',file.name.substring(0,18));  //1 //3
     formData.append('permitido',['pdf','doc','docx','xlsx','image','xls']);
     formData.append('maxpermitido',1);  //1 //3
-    formData.append('iguales',1);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0  
+    formData.append('iguales',1);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0
       },
        sendingEventorden (file, xhr, formData) {
     let tipo=file.type.split('/');
@@ -794,8 +794,8 @@ result.limit();
      let cortar=file.name.split('.');
      tipo[1]=cortar[1];
 
-   }   
-  
+   }
+
     formData.append('idsolicitud',this.$parent.$parent.$parent.$parent.$parent.$parent.form.inicio.id);
 //  formData.append('idsolicitud',1);//// solicitud madre
     formData.append('tipo','Orden de Compra');
@@ -805,7 +805,7 @@ result.limit();
     formData.append('maxpermitido',1);  //1 //3
         formData.append('nameoriginal',file.name.substring(0,18));  //1 //3
 
-    formData.append('iguales',1);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0  
+    formData.append('iguales',1);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0
       },
         sendingEventcomprobante (file, xhr, formData) {
     let tipo=file.type.split('/');
@@ -816,8 +816,8 @@ result.limit();
      let cortar=file.name.split('.');
      tipo[1]=cortar[1];
 
-   }   
-  
+   }
+
     formData.append('idsolicitud',this.$parent.$parent.$parent.$parent.$parent.$parent.form.inicio.id);
 //  formData.append('idsolicitud',1);//// solicitud madre
     formData.append('tipo','Comprobante de Pago');
@@ -827,7 +827,7 @@ result.limit();
     formData.append('maxpermitido',1);  //1 //3
         formData.append('nameoriginal',file.name.substring(0,18));  //1 //3
 
-    formData.append('iguales',1);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0  
+    formData.append('iguales',1);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0
       },
         sendingEventextras (file, xhr, formData) {
     let tipo=file.type.split('/');
@@ -838,8 +838,8 @@ result.limit();
      let cortar=file.name.split('.');
      tipo[1]=cortar[1];
 
-   }   
-  
+   }
+
     formData.append('idsolicitud',this.$parent.$parent.$parent.$parent.$parent.$parent.form.inicio.id);
 //  formData.append('idsolicitud',1);//// solicitud madre
     formData.append('tipo','Extras');
@@ -849,15 +849,15 @@ result.limit();
     formData.append('maxpermitido',3);  //1 //3
         formData.append('nameoriginal',file.name.substring(0,18));  //1 //3
 
-    formData.append('iguales',1);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0  
+    formData.append('iguales',1);///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0
       },
     cargando(totalProgress, totalBytes, totalBytesSent) {
         this.upload=true;
-    },  
+    },
        async deletefile(item) {
-         
+
     //  console.log(item)
-    
+
  let arrayreloj=[];
        item=Object.assign({},item);
       await this.facturas.forEach((element) => {
@@ -866,21 +866,21 @@ result.limit();
       });
       this.facturas=arrayreloj;
       await document.getElementById(item.id+ "btn").remove();
-      const repo = repocreate();      
+      const repo = repocreate();
          try {
         await repo.deletefile(item).then((res) => {
                let resp=alertas();
-               resp.filesuccess();        
+               resp.filesuccess();
               this.facturas = this.facturas.filter(
               (element) => element.id != item.id
             );
-            this.cuentafactura++;         
-     let mensaje='<h4 style=""><strong>PDF Y/O XML</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentafactura+' archivo(s)*';      
+            this.cuentafactura++;
+     let mensaje='<h4 style=""><strong>PDF Y/O XML</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentafactura+' archivo(s)*';
      if(this.cuentafactura<=0){
      this.$refs.dzfactura.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }else{
-    let msj=document.getElementsByClassName("dz-message");/////  selector js, la documentación no funciona     
+    let msj=document.getElementsByClassName("dz-message");/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
  this.$refs.dzfactura.enable();
      }
@@ -888,11 +888,11 @@ result.limit();
       } catch (error) {
         // console.log(error);
       }
-      
-    }, 
+
+    },
       async deletefilec(item) {
-         
-    
+
+
  let arrayreloj=[];
        item=Object.assign({},item);
       await this.cotizaciones.forEach((element) => {
@@ -901,21 +901,21 @@ result.limit();
       });
       this.cotizaciones=arrayreloj;
       await document.getElementById(item.id+ "btnc").remove();
-      const repo = repocreate();      
+      const repo = repocreate();
          try {
         await repo.deletefile(item).then((res) => {
                let resp=alertas();
-               resp.filesuccess();        
+               resp.filesuccess();
               this.cotizaciones = this.cotizaciones.filter(
               (element) => element.id != item.id
             );
-            this.cuentacotizacion++;         
-     let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentacotizacion+' archivo(s)*';      
+            this.cuentacotizacion++;
+     let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentacotizacion+' archivo(s)*';
      if(this.cuentacotizacion<=0){
      this.$refs.dzcotizacion.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }else{
-     let msj=document.getElementById("dcotizacion").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona     
+     let msj=document.getElementById("dcotizacion").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
  this.$refs.dzcotizacion.enable();
      }
@@ -923,11 +923,11 @@ result.limit();
       } catch (error) {
         // console.log(error);
       }
-      
-    }, 
+
+    },
        async deletefilex(item) {
-         
-    
+
+
  let arrayreloj=[];
        item=Object.assign({},item);
       await this.extras.forEach((element) => {
@@ -936,21 +936,21 @@ result.limit();
       });
       this.extras=arrayreloj;
       await document.getElementById(item.id+ "btnx").remove();
-      const repo = repocreate();      
+      const repo = repocreate();
          try {
         await repo.deletefile(item).then((res) => {
                let resp=alertas();
-               resp.filesuccess();        
+               resp.filesuccess();
               this.extras = this.extras.filter(
               (element) => element.id != item.id
             );
-            this.cuentaextras++;         
-     let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentaextras+' archivo(s)*';      
+            this.cuentaextras++;
+     let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentaextras+' archivo(s)*';
      if(this.cuentaextras<=0){
      this.$refs.dzextras.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }else{
-     let msj=document.getElementById("dextras").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona     
+     let msj=document.getElementById("dextras").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
  this.$refs.dzextras.enable();
      }
@@ -958,11 +958,11 @@ result.limit();
       } catch (error) {
         // console.log(error);
       }
-      
-    }, 
+
+    },
       async deletefileo(item) {
-         
-    
+
+
  let arrayreloj=[];
        item=Object.assign({},item);
       await this.ordenes.forEach((element) => {
@@ -971,21 +971,21 @@ result.limit();
       });
       this.ordenes=arrayreloj;
       await document.getElementById(item.id+ "btno").remove();
-      const repo = repocreate();      
+      const repo = repocreate();
          try {
         await repo.deletefile(item).then((res) => {
                let resp=alertas();
-               resp.filesuccess();        
+               resp.filesuccess();
               this.ordenes = this.ordenes.filter(
               (element) => element.id != item.id
             );
-            this.cuentaorden++;         
-     let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentaorden+' archivo(s)*';      
+            this.cuentaorden++;
+     let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentaorden+' archivo(s)*';
      if(this.cuentaorden<=0){
      this.$refs.dzorden.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }else{
-     let msj=document.getElementById("dorden").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona     
+     let msj=document.getElementById("dorden").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
  this.$refs.dzorden.enable();
      }
@@ -993,11 +993,11 @@ result.limit();
       } catch (error) {
         // console.log(error);
       }
-      
-    }, 
+
+    },
        async deletefilecp(item) {
-         
-    
+
+
  let arrayreloj=[];
        item=Object.assign({},item);
       await this.comprobantes.forEach((element) => {
@@ -1006,21 +1006,21 @@ result.limit();
       });
       this.comprobantes=arrayreloj;
       await document.getElementById(item.id+ "btncp").remove();
-      const repo = repocreate();      
+      const repo = repocreate();
          try {
         await repo.deletefile(item).then((res) => {
                let resp=alertas();
-               resp.filesuccess();        
+               resp.filesuccess();
               this.comprobantes = this.comprobantes.filter(
               (element) => element.id != item.id
             );
-            this.cuentacomprobante++;         
-     let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentacomprobante+' archivo(s)*';      
+            this.cuentacomprobante++;
+     let mensaje='<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo '+this.cuentacomprobante+' archivo(s)*';
      if(this.cuentacomprobante<=0){
      this.$refs.dzcomprobante.disable();
-     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';      
+     mensaje='<h4 style=""><strong>Llegaste al límite de archivos</strong></h4>';
      }else{
-     let msj=document.getElementById("dcomprobante").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona     
+     let msj=document.getElementById("dcomprobante").getElementsByClassName('dz-message');/////  selector js, la documentación no funciona
      msj[0].innerHTML=mensaje;
  this.$refs.dzcomprobante.enable();
      }
@@ -1028,29 +1028,29 @@ result.limit();
       } catch (error) {
         // console.log(error);
       }
-      
+
     },
       },
       computed:{
-    
+
 
 
       },
-    
+
       mounted(){
-   
-    }, 
+
+    },
       validations: {
     form: {
-    
-           
+
+
 
        },
-   
-   
+
+
   },
-  
- 
+
+
 };
 </script>
 

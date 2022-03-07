@@ -1,181 +1,186 @@
 <template>
   <div>
-  <CCard>
-   <CCardHeader>
-               <b-row class="mb-2">
-                  <b-col auto="md">
-                  <h3>
-                Amigos
-                <b-badge variant="primary" pill>{{ countfriends }}</b-badge> </h3>
-                </b-col>
-                  <b-col auto="md">
-                    <b-btn
-                      style="float:right"
-                      variant="info"
-                      @click.prevent="addcuenta()"
-                      pill
-                    >
-                      <b-icon
-                        icon="person-plus-fill"
-                        animation="fade"
-                        font-scale="2"
-                        class="mr-2"
-                      ></b-icon
-                      >Invitar Amigo
-                    </b-btn>
-                  </b-col>
-
-                </b-row>
-
-                <b-row>
-
-
-
-                  <b-col auto="md">
-                    <b-btn
-                      style="float:right"
-                      variant="primary"
-                      @click.prevent="showrqstin()"
-                      pill
-                    >
-                      <b-icon
-                        icon="arrow-right-circle"
-                        animation="cylon"
-                        font-scale="1"
-                        class="mr-2"
-                      ></b-icon
-                      >Solicitudes de Amistad Recibidas
-                      <b-badge style="text-color: white" pill>{{
-                        requestin.length
-                      }}</b-badge>
-                    </b-btn>
-                  </b-col>
-                  <b-col auto="md">
-                    <b-btn
-                      style="float:right"
-                      variant="success"
-                      @click.prevent="showrqst()"
-                      pill
-                    >
-                      <b-icon
-                        icon="arrow-left-circle"
-                        animation="cylon"
-                        font-scale="1"
-                        class="mr-2"
-                      ></b-icon
-                      >Solicitudes de Amistad Enviadas
-                      <b-badge style="text-color: white" pill>{{requestsend.length}}</b-badge>
-                    </b-btn>
-                  </b-col>
-                </b-row>
-            </CCardHeader>
-            <CButton
-              @click="warningModal = true"
-              color="primary"
-            >Crear grupo de amigos</CButton>
-            <CModal
-              title="Crear grupo"
-              :show.sync="warningModal"
-              size="xl"
+    <CCard>
+      <CCardHeader>
+        <b-row class="mb-2">
+          <b-col auto="md">
+            <h3>
+              Amigos
+              <b-badge variant="primary" pill>{{ countfriends }}</b-badge>
+            </h3>
+          </b-col>
+          <b-col auto="md">
+            <b-btn
+              style="float:right"
+              variant="info"
+              @click.prevent="addcuenta()"
+              pill
             >
-              <Grupos></Grupos>
-              <template #footer-wrapper >
-                <CButton/>
-              </template>
-            </CModal>
-   </CCard>
-     <rqstin></rqstin>
-<rqst></rqst>
+              <b-icon
+                icon="person-plus-fill"
+                animation="fade"
+                font-scale="2"
+                class="mr-2"
+              ></b-icon
+              >Invitar Amigo
+            </b-btn>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col auto="md">
+            <b-btn
+              style="float:right"
+              variant="primary"
+              @click.prevent="showrqstin()"
+              pill
+            >
+              <b-icon
+                icon="arrow-right-circle"
+                animation="cylon"
+                font-scale="1"
+                class="mr-2"
+              ></b-icon
+              >Solicitudes de Amistad Recibidas
+              <b-badge style="text-color: white" pill>{{
+                requestin.length
+              }}</b-badge>
+            </b-btn>
+          </b-col>
+          <b-col auto="md">
+            <b-btn
+              style="float:right"
+              variant="success"
+              @click.prevent="showrqst()"
+              pill
+            >
+              <b-icon
+                icon="arrow-left-circle"
+                animation="cylon"
+                font-scale="1"
+                class="mr-2"
+              ></b-icon
+              >Solicitudes de Amistad Enviadas
+              <b-badge style="text-color: white" pill>{{
+                requestsend.length
+              }}</b-badge>
+            </b-btn>
+          </b-col>
+        </b-row>
+      </CCardHeader>
+      <CButton
+        @click="(warningModal = true), (limpiarin = !limpiarin)"
+        color="primary"
+        >Crear grupo de amigos</CButton
+      >
+      <CModal
+        title="Crear grupos"
+        :show.sync="warningModal"
+        size="xl"
+        color="primary"
+        :closeOnBackdrop="false"
+      >
+        <Grupos :limpiarin="limpiarin"></Grupos>
+        <template #footer-wrapper>
+          <CButton />
+        </template>
+      </CModal>
+    </CCard>
+    <rqstin></rqstin>
+    <rqst></rqst>
     <requestfriend></requestfriend>
   </div>
 </template>
 
-
-<script >
+<script>
 import rqstin from "@/views/windowmodal/requestin";
-import Grupos from "@/views/roles/Grupos"
+import Grupos from "@/views/roles/Grupos";
 import repo from "@/assets/repositoriosjs/repoupdateprofileuser.js";
 import respuestas from "@/assets/repositoriosjs/respuestas.js";
 import rqst from "@/views/windowmodal/requestsend";
 import requestfriend from "@/views/windowmodal/requestfriend";
 
-
-export default ({
-  props:['totalrow','itemdeletein'],
-  components:{
-      rqstin,rqst,requestfriend,Grupos
+export default {
+  props: ["totalrow", "itemdeletein"],
+  components: {
+    rqstin,
+    rqst,
+    requestfriend,
+    Grupos
   },
-    name:"cabecera",
-    data(){
-        return{
-          items:[],
-          requestin:[],
-          requestsend:[],
-          countfriends:0,
-          usersmebloquearon:[],
-          usersdelete:[],
-          init:true,
-          datosback:[],
-          warningModal: false
-        }
-    },
-    mounted() {
-     this.getitemsasync();
-    },
+  name: "cabecera",
+  data() {
+    return {
+      limpiarin: false,
+      items: [],
+      requestin: [],
+      requestsend: [],
+      countfriends: 0,
+      usersmebloquearon: [],
+      usersdelete: [],
+      init: true,
+      datosback: [],
+      warningModal: false
+    };
+  },
+  mounted() {
+    this.getitemsasync();
+  },
 
   created() {
- // this.actualizauser();
+    // this.actualizauser();
   },
   beforeDestroy() {
     clearInterval(this.datosback);
   },
-  destroyed: function () {
+  destroyed: function() {
     clearInterval(this.datosback);
   },
-    methods: {
-      async actualizauser() {
+  methods: {
+    async actualizauser() {
       this.datosback = setInterval(async () => {
         this.getitemsasync();
       }, 10000);
     },
-       async getitemsasync() {
-         let resps=respuestas();
+    async getitemsasync() {
+      let resps = respuestas();
       try {
         let repoitems = repo();
-        await repoitems.yourrequest().then((res) => {
-
-            let data=resps.validafriends(res);
-            this.requestsend = data.requestsend;
-            this.requestin = data.requestin;
-            this.usersdelete=data.delete;
-            this.usersmebloquearon=data.losquemeborraron;
-           data.total==this.countfriends?'':this.$emit('change_friends');///contamos los amigos
-           this.init?this.actualizauser():'';
-            this.init=false;
-
+        await repoitems.yourrequest().then(res => {
+          let data = resps.validafriends(res);
+          this.requestsend = data.requestsend;
+          this.requestin = data.requestin;
+          this.usersdelete = data.delete;
+          this.usersmebloquearon = data.losquemeborraron;
+          data.total == this.countfriends ? "" : this.$emit("change_friends"); ///contamos los amigos
+          this.init ? this.actualizauser() : "";
+          this.init = false;
         });
       } catch (err) {
         //  console.log(err);
       } finally {
+        console.log("Finally");
       }
     },
 
-         addcuenta() {
-       this.$bvModal.show("modal-prevent-request");
+    addcuenta() {
+      this.$bvModal.show("modal-prevent-request");
     },
     showrqst() {
       this.$bvModal.show("modal-rqst");
     },
     showrqstin() {
-    this.$bvModal.show("modal-rqstin");
-    },
-    },
-    watch:{
-        totalrow: function(newVal, oldVal) { // watch it
-         this.countfriends=newVal;  },
-         itemdeletein:function(newval,oldval){
-           this.usersdelete.push(newval);
-         }
+      this.$bvModal.show("modal-rqstin");
     }
-})
+  },
+  watch: {
+    totalrow: function(newVal) {
+      // watch it
+      this.countfriends = newVal;
+    },
+    itemdeletein: function(newval) {
+      this.usersdelete.push(newval);
+    }
+  }
+};
 </script>

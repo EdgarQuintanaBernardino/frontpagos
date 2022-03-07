@@ -45,7 +45,7 @@
       >
     </b-col> -->
     <!--Input de link de pago-->
-    
+
     <!-- <b-col cols="6" class="text-center">
       <b-form-tags
       input-id="tags-pills"
@@ -57,7 +57,7 @@
       placeholder="Etiqueta tu egreso"
     ></b-form-tags>
     </b-col> -->
-    
+
     <!-- <b-col cols="12" class="text-center">
       <multiselect
         v-model="form.tagIngreso"
@@ -103,7 +103,7 @@
       >
       </div>
     </div>
-    
+
     <div class="text-center col-lg-6 col-xs-12">
       <div class="text-center mt-1 col-xs-12">
         <!-- <b-col cols="6" class="text-center mt-1 col-xs-12"> -->
@@ -169,7 +169,7 @@
         </b-list-group-item>
       </b-list-group>
     </b-col>
-  <!--RECURRENCIA-->    
+  <!--RECURRENCIA-->
     <b-col cols="6 mt-2">
         <!-- <label class="d-block bg-primary"> -->
           <h4
@@ -180,7 +180,7 @@
           </h4>
         <!-- </label> -->
       </b-col>
-      <b-col cols="6 mt-3">      
+      <b-col cols="6 mt-3">
         <b-form-group>
           <div style="font-size: 1.2em">
             <b-form-checkbox
@@ -290,7 +290,7 @@
       </b-col>
       <b-col cols="12" class="text-center mt-1">
         <label><h4 class=" ">Sube tus archivos</h4></label>
-      </b-col>      
+      </b-col>
       <b-col cols="12" class="text-center mt-1">
         <b-form-file
          v-model="file1"
@@ -299,7 +299,7 @@
          drop-placeholder="Drop file here..."
         ></b-form-file>
       </b-col>
-      
+
     <!--Boton-->
     <!-- <b-col cols="12" class="text-center mt-1">
       <b-button
@@ -1100,6 +1100,7 @@ import vue2Dropzone from "vue2-dropzone";
 import alertas from "@/assets/repositoriosjs/alertas";
 import repocreate from "@/assets/repositoriosjs/repoupdateprofileuser.js";
 import moment from "moment";
+
 import { mapState } from "vuex";
 
 export default {
@@ -2210,4 +2211,4 @@ export default {
 </script>
 
 <style>
-</style> 
+</style>

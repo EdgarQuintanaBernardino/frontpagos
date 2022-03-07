@@ -387,7 +387,6 @@ export default {
       this.datosall.items = datosnuevos;
     },
     addin() {
-      console.log("sillego==");
       this.$emit("add");
     },
     deleteevent(item) {

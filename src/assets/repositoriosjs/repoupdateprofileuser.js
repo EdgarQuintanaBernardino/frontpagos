@@ -9,7 +9,7 @@ import respuestas from "./respuestas";
 import alertas from "./alertas";
 
 // const server = "http://192.168.100.35:8000/api";
-const server = 'http://18.218.153.207/api';
+const server = "http://18.218.153.207/api";
 
 let api = `${server}/user/update`;
 let apidesdeadmin = `${server}/user/updatedesdeadmin`; ////check
@@ -138,7 +138,7 @@ const restauracuenta = async request => {
   let result = await Axios.post(resCuenta, request, configin)
     .then(res => {
       // return response.cuentadelete(res.data);
-      return res.data
+      return res.data;
     })
     .catch(error => {
       return response.filtraerror(error);
@@ -147,50 +147,56 @@ const restauracuenta = async request => {
 };
 //Consulta Cuentas Bancarias suspendidas
 let getSuspendidas = `${server}/cuenta/suspendida`;
-const consCuentasSus = async() => {
-    let request = '';
-    let tokenin = store.getters.gettoken;
-    let configin = {
-        headers: { Authorization: `Bearer ${tokenin}` },
-    };
-    let result = await Axios.post(getSuspendidas,request, configin).then((res) => {
-        return res.data;
-    }).catch((error) => {
-        // console.log(error)
-        return response.filtraerror(error);
+const consCuentasSus = async () => {
+  let request = "";
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(getSuspendidas, request, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      // console.log(error)
+      return response.filtraerror(error);
     });
-    return result;
-}
+  return result;
+};
 //Consulta Monedas
 let getMonedas = `${server}/monedas`;
-const consMonedas = async() => {
-    let tokenin = store.getters.gettoken;
-    let configin = {
-        headers: { Authorization: `Bearer ${tokenin}` },
-    };
-    let result = await Axios.get(getMonedas, configin).then((res) => {
-        return res.data;
-    }).catch((error) => {
-        // console.log(error)
-        return response.filtraerror(error);
+const consMonedas = async () => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.get(getMonedas, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      // console.log(error)
+      return response.filtraerror(error);
     });
-    return result;
-}
+  return result;
+};
 //Consulta Bancos
 let getBancos = `${server}/bancos`;
-const consBancos = async() => {
-    let tokenin = store.getters.gettoken;
-    let configin = {
-        headers: { Authorization: `Bearer ${tokenin}` },
-    };
-    let result = await Axios.get(getBancos, configin).then((res) => {
-        return res.data;
-    }).catch((error) => {
-        // console.log(error)
-        return response.filtraerror(error);
+const consBancos = async () => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.get(getBancos, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      // console.log(error)
+      return response.filtraerror(error);
     });
-    return result;
-}
+  return result;
+};
 // Cambia la privacidad de perfil
 let cambiaPrivacidadPerfil = `${server}/cuenta/tipo`;
 const consPrivacidadPerfil = async () => {
@@ -211,71 +217,80 @@ const consPrivacidadPerfil = async () => {
 
 //Crea numero de teléfono
 let CreNumTelefono = `${server}/phone/create`;
-const CreateNumTelefono = async(request) => {
-    let tokenin = store.getters.gettoken;
-    let configin = {
-        headers: { Authorization: `Bearer ${tokenin}` },
-    };
-    let result = await Axios.post(CreNumTelefono,request, configin).then((res) => {
+const CreateNumTelefono = async request => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(CreNumTelefono, request, configin)
+    .then(res => {
       console.log(res);
-        return res.data;
-    }).catch((error) => {
-        console.log(error)
-        return response.filtraerror(error);
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
     });
-    return result;
-}
+  return result;
+};
 //Elimina numeros de teléfono
 let DelNumTelefono = `${server}/phone`;
-const DeleteNumTelefono = async(request) => {
-    let tokenin = store.getters.gettoken;
-    let configin = {
-        headers: { Authorization: `Bearer ${tokenin}` },
-    };
-    let result = await Axios.post(DelNumTelefono,request, configin).then((res) => {
+const DeleteNumTelefono = async request => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(DelNumTelefono, request, configin)
+    .then(res => {
       console.log(res);
-        return res.data;
-    }).catch((error) => {
-        console.log(error)
-        return response.filtraerror(error);
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
     });
-    return result;
-}
+  return result;
+};
 //Actualiza numeros de teléfono
 let upNumTelefono = `${server}/phone`;
-const UpdateNumTelefono = async(request) => {
-    let tokenin = store.getters.gettoken;
-    let configin = {
-        headers: { Authorization: `Bearer ${tokenin}` },
-    };
-    let result = await Axios.put(upNumTelefono,request, configin).then((res) => {
+const UpdateNumTelefono = async request => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.put(upNumTelefono, request, configin)
+    .then(res => {
       console.log(res);
 
-        return res.data;
-    }).catch((error) => {
-        console.log(error)
-        return response.filtraerror(error);
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
     });
-    return result;
-}
+  return result;
+};
 //Consulta Tipos de cuentas
 let getTiposCuentas = `${server}/cuenta/tipo`;
-const consTiposCuentas = async() => {
-    let tokenin = store.getters.gettoken;
-    let configin = {
-        headers: { Authorization: `Bearer ${tokenin}` },
-    };
-    let result = await Axios.get(getTiposCuentas, configin).then((res) => {
-        return res.data;
-    }).catch((error) => {
-        // console.log(error)
-        return response.filtraerror(error);
+const consTiposCuentas = async () => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.get(getTiposCuentas, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      // console.log(error)
+      return response.filtraerror(error);
     });
-    return result;
-}
+  return result;
+};
 // Consulta tabla videos MARKETING (Paginación)
 let apiRedesPag = `${server}/empresa/onlyempresas`;
 let apiVideosPag = `${server}/empresa/onlyempresas`;
+
 //Actualiza grupo(solo nombre) de empresa
 let DeleteGrupoEmpresa = `${server}/group/delete`;
 const DelGroupEmpresas = async request => {
@@ -383,8 +398,8 @@ let consGrupo = `${server}/groupp`;
 const consGroup = async request => {
   let tokenin = store.getters.gettoken;
   let configin = {
-    params: { Company_id: request},
-    headers: { Authorization: `Bearer ${tokenin}` },
+    params: { Company_id: request },
+    headers: { Authorization: `Bearer ${tokenin}` }
   };
   let result = await Axios.get(consGrupo, configin)
     .then(res => {
@@ -396,9 +411,10 @@ const consGroup = async request => {
     });
   return result;
 };
-//Crea grupos de permisos
+//Crea grupos de permisos ESTE
 let CreateGrupoPermisos = `${server}/groupp/name`;
 const creaGroupPermisos = async request => {
+  // console.log(request);
   let tokenin = store.getters.gettoken;
   let configin = {
     headers: { Authorization: `Bearer ${tokenin}` }
@@ -447,7 +463,24 @@ const ActPermisosUsuario = async request => {
     });
   return result;
 };
-//Elimina grupos de permisos
+//Actualiza permisos al usuario
+let ChangeName = `${server}/groupp/edit`;
+const NewNamePermission = async request => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(ChangeName, request, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
+    });
+  return result;
+};
+//Consulta la informacion para editar un permiso de un usuario
 let ConsultaPermisosUsuario = `${server}/groupp/users`;
 const ConsPermisosUsuario = async request => {
   let tokenin = store.getters.gettoken;
@@ -481,6 +514,24 @@ const DelUsuarioGrupo = async request => {
     });
   return result;
 };
+// Agrega usuarios a un permiso
+let AgregaUsuariodeGrupo = `${server}/groupp/adduser`;
+const AddUsuarioGrupo = async request => {
+  console.log(request);
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(AgregaUsuariodeGrupo, request, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
+    });
+  return result;
+};
 //Consulta usuarios del grupo
 let GetUsersGrupo = `${server}/group/users`;
 const consUsGrupo = async request => {
@@ -498,7 +549,24 @@ const consUsGrupo = async request => {
     });
   return result;
 };
-//Conulta grupos de empresa
+//Consulta grupos de una determinada empresa con todo y usuarios
+let getGroupAllEmpresas = `${server}/group/all`;
+const consGroupAllEmpresas = async request => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` },
+  };
+  let result = await Axios.post(getGroupAllEmpresas, request, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
+    });
+  return result;
+};
+//Consulta grupos de empresa
 let getGroupEmpresas = `${server}/group`;
 const consGroupEmpresas = async request => {
   let tokenin = store.getters.gettoken;
@@ -519,7 +587,7 @@ const consGroupEmpresas = async request => {
 //Conulta empresas externas
 let getEmpresasExt = `${server}/shared/company`;
 const consEmpresasExt = async () => {
-  let request;
+  // let request;
   let tokenin = store.getters.gettoken;
   let configin = {
     headers: { Authorization: `Bearer ${tokenin}` }
@@ -623,7 +691,7 @@ const CreateRoles = async request => {
     });
   return result;
 };
-//obtiene los permisos del sistema
+//obtiene los permisos del sistema crear editar ...
 let PermisosSistema = `${server}/permisos/get`;
 const consPermisos = async () => {
   let request;
@@ -632,6 +700,24 @@ const consPermisos = async () => {
     headers: { Authorization: `Bearer ${tokenin}` }
   };
   let result = await Axios.post(PermisosSistema, request, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
+    });
+  return result;
+};
+//obtiene los permisos de una cuenta dada
+let PermisosCuenta = `${server}/pagos/indexpagos`;
+const consPermisosCuenta = async () => {
+  let request;
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(PermisosCuenta, request,configin)
     .then(res => {
       return res.data;
     })
@@ -674,6 +760,25 @@ const yourrequest = async request => {
     });
   return result;
 };
+// PERMISOS MODAL 4 PASOS
+// Valida el nombre y empresa de un permiso
+let ValidateNameCompany = `${server}/groupp/validatename`;
+const ValidateNameC = async request => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(ValidateNameCompany, request, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
+    });
+  return result;
+};
+
 //Consulta de videosRedes
 let apiConstVideosRedSocial = `${server}/videos/get`;
 const VideosRedSocial = async request => {
@@ -1091,13 +1196,14 @@ const createempresa = async request => {
   let configin = {
     headers: { Authorization: `Bearer ${tokenin}` }
   };
-  let result = await Axios.post(apiempresa, request, configin).then((res) => {
-    console.log(res.data);
-    return response.verifyresponseempresa(res.data)
-
-  }).catch((error) => {
-    return response.filtraerror(error);
-  });
+  let result = await Axios.post(apiempresa, request, configin)
+    .then(res => {
+      console.log(res.data);
+      return response.verifyresponseempresa(res.data);
+    })
+    .catch(error => {
+      return response.filtraerror(error);
+    });
   return result;
 };
 const updatecontrasenauser = async request => {
@@ -1213,7 +1319,8 @@ const addsolicitud = async request => {
   };
   let result = await Axios.post(sendfirstpay, request, configin)
     .then(res => {
-      return response.verifyrequest(res.data);
+      // return response.verifyrequest(res.data);
+      return res.data;
     })
     .catch(error => {
       return response.filtraerror(error);
@@ -1924,7 +2031,6 @@ const yourusersback = async request => {
 };
 const getproyectos = async request => {
   let tokenin = store.getters.gettoken;
-
   let configin = {
     headers: { Authorization: `Bearer ${tokenin}` }
   };
@@ -2111,7 +2217,6 @@ const getempresas = async request => {
 };
 const getmycuentas = async request => {
   let tokenin = store.getters.gettoken;
-
   let configin = {
     headers: { Authorization: `Bearer ${tokenin}` }
   };
@@ -2125,6 +2230,7 @@ const getmycuentas = async request => {
     });
   return result;
 };
+
 
 const getempresasback = async request => {
   let tokenin = store.getters.gettoken;
@@ -2418,7 +2524,9 @@ export default () => ({
   updatecontrasenauser,
   adcuenta,
   cuentasitem,
-  deletecuenta, consCuentasSus,restauracuenta,
+  deletecuenta,
+  consCuentasSus,
+  restauracuenta,
   updatecuenta,
   relacioncuentaempresa,
   getusers,
@@ -2458,6 +2566,7 @@ export default () => ({
   compartepersmisoempresa,
   consRoles,
   consPermisos,
+  consPermisosCuenta,
   CreateRoles,
   UpdateRoles,
   DeleteRoles,
@@ -2477,12 +2586,31 @@ export default () => ({
   VideosRedes,
   CambiaTiposRedes,
   CambiaVideosRedes,
-  consGroupEmpresas,creaGroupEmpresas,ActGroupEmpresas,DelGroupEmpresas,AddUsGroupEmpresas,consUsGrupo,addUsGroup,
-  creaGroupPermisos,creaGroup,consGroup,deleGroupPermisos,ConsPermisosUsuario,
-  DelUsuarioGrupo,ActPermisosUsuario,
+  consGroupEmpresas,
+  creaGroupEmpresas,
+  ActGroupEmpresas,
+  DelGroupEmpresas,
+  AddUsGroupEmpresas,
+  consUsGrupo,
+  addUsGroup,
+  creaGroupPermisos,
+  creaGroup,
+  consGroup,
+  deleGroupPermisos,
+  ConsPermisosUsuario,
+  DelUsuarioGrupo,
+  AddUsuarioGrupo,
+  ActPermisosUsuario,
+  NewNamePermission,
   getRedesPag,
   getVideosPag,
   consTiposCuentas,
-  consPrivacidadPerfil, UpdateNumTelefono ,DeleteNumTelefono,CreateNumTelefono,
-  consBancos,consMonedas
+  consPrivacidadPerfil,
+  UpdateNumTelefono,
+  DeleteNumTelefono,
+  CreateNumTelefono,
+  consBancos,
+  consMonedas,
+  ValidateNameC,
+  consGroupAllEmpresas
 });

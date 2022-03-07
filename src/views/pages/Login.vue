@@ -10,6 +10,7 @@
                   <h1>Login</h1>
                   <p class="text-muted">Ingresa con tus credenciales</p>
                   <CInput
+                    :disabled="peticion"
                     placeholder="Correo registrado"
                     autocomplete="username email"
                     v-model="$v.item.email.$model"
@@ -18,8 +19,8 @@
                       <b-icon icon="mailbox" aria-hidden="true"></b-icon>
                     </template>
                   </CInput>
-
                   <CInput
+                    :disabled="peticion"
                     placeholder="Password"
                     type="password"
                     autocomplete="curent-password"
@@ -38,30 +39,33 @@
                         pill
                         :disabled="$v.$invalid || peticion"
                         v-if="!peticion"
-                        ><b-icon icon="check-square" scale="1" variant="white" class="mr-2"></b-icon>{{ msj }}
+                        >{{ msj }}
                       </b-button>
                     </CCol>
-
-                    <CCol col="12" class="text-right">
-                      <CButton color="link" class="px-0" :disabled="true"
-                        >Forgot password?</CButton
-                      >
-
-                      <CButton class="btn btn-info m-2" to="register"
-                        > <b-icon-arrow-up></b-icon-arrow-up>Registrate Aquí</CButton
-                      ></CButton>
-                    </CCol>
-                  </CRow>
-                  <b-row>
-                    <b-col cols="4"></b-col>
-                    <b-col cols="4">
-                      <pacman-loader
+                    <!-- <CCol col="4"></CCol> -->
+                    <!-- <b-col cols="4"></b-col> -->
+                    <!-- <CCol col="4" class="text-center"> -->
+                    <!-- <b-col cols="4"> -->
+                    <!-- <pacman-loader
                         v-if="peticion"
                         :color="color"
-                      ></pacman-loader>
-                    </b-col>
-                    <b-col cols="4"> </b-col>
-                  </b-row>
+                      ></pacman-loader> -->
+                    <!-- <Loader></Loader> -->
+                    <!-- </CCol> -->
+                    <!-- </b-col> -->
+                    <!-- <b-col cols="4"> </b-col> -->
+                    <!-- <CCol col="4"></CCol> -->
+                    <CCol col="12" class="text-right">
+                      <CButton color="link" class="px-0" :disabled="true"
+                        >¿Olvidaste tu contraseña?</CButton
+                      >
+                      <CButton class="btn btn-info m-2" to="register">
+                        <b-icon-arrow-up></b-icon-arrow-up>Registrate
+                        Aquí</CButton
+                      >
+                    </CCol>
+                  </CRow>
+                  <Loader v-if="peticion"></Loader>
                 </CForm>
               </CCardBody>
             </CCard>
@@ -74,23 +78,24 @@
 
 <script>
 import "regenerator-runtime/runtime";
-import PacmanLoader from "vue-spinner/src/PacmanLoader.vue";
+// import PacmanLoader from "vue-spinner/src/PacmanLoader.vue";
 import repologin from "./repologin.js";
 import Service from "@/services/SessionStorage";
-import alertas from '@/assets/repositoriosjs/alertas.js';
+import alertas from "@/assets/repositoriosjs/alertas.js";
 import { required, minLength, email } from "vuelidate/lib/validators";
+import Loader from "../media/Loader.vue";
+
 export default {
   data: () => {
     return {
-      
       variable: "cil-lock-locked",
       item: {
         password: null,
-        email: null,
+        email: null
       },
       userId: "",
       color: "#fdd901",
-      peticion: false,
+      peticion: false
     };
   },
   computed: {
@@ -98,7 +103,7 @@ export default {
       if (this.$v.$invalid) {
         return "outline-dark";
       } else {
-        return "outline-success";
+        return "outline-info";
       }
     },
     msj() {
@@ -107,78 +112,93 @@ export default {
       } else {
         return "Entrar";
       }
-    },
+    }
   },
   validations: {
     item: {
       password: {
         required,
-        minLength: minLength(6),
+        minLength: minLength(6)
       },
       email: {
         required,
-        email,
-      },
-    },
+        email
+      }
+    }
   },
   methods: {
-    resetlogin(){
-    this.item.password='';
-    this.item.email='';
+    resetlogin() {
+      this.item.password = "";
+      this.item.email = "";
     },
-    coderesponse(result,self,alert){
-     return  result.data.code==200?self.success(result.data,self,alert)
-            :result.data.code==403?self.denegado(alert)
-            :result.data.code==401?self.credentialinvalid(alert)
-            :result.data.code==202?self.pendiente(alert)///pendiente
-            :self.error500(alert);
-                },
-          pendiente(alert){
-            alert.pending();
-           },
-        success(result,self,alert){
-        let service = Service(); //local storage
-        result.roles=result.user.menuroles;
-        if(result.roles.length>0){
-        result.user.photo == null ||result.user.photo == ""?'':result.user.photo = self.$prefijoamazon + result.user.photo;
-        self.$store.commit("setUserAction", result)
-        self.$store.commit('set','fotouser',result.user.photo);
-        self.$store.commit('setmetodo',result.sistema.metodo==2?true:false);
-        result.token = self.CryptoJS.AES.encrypt(result.token.toString(),self.$keysecret).toString();
+    coderesponse(result, self, alert) {
+      return result.data.code == 200
+        ? self.success(result.data, self, alert)
+        : result.data.code == 403
+        ? self.denegado(alert)
+        : result.data.code == 401
+        ? self.credentialinvalid(alert)
+        : result.data.code == 202
+        ? self.pendiente(alert) ///pendiente
+        : self.error500(alert);
+    },
+    pendiente(alert) {
+      alert.pending();
+    },
+    success(result, self, alert) {
+      let service = Service(); //local storage
+      result.roles = result.user.menuroles;
+      if (result.roles.length > 0) {
+        result.user.photo == null || result.user.photo == ""
+          ? ""
+          : (result.user.photo = self.$prefijoamazon + result.user.photo);
+        self.$store.commit("setUserAction", result);
+        self.$store.commit("set", "fotouser", result.user.photo);
+        self.$store.commit(
+          "setmetodo",
+          result.sistema.metodo == 2 ? true : false
+        );
+        result.token = self.CryptoJS.AES.encrypt(
+          result.token.toString(),
+          self.$keysecret
+        ).toString();
         service.logininicial(result);
-        result.nuevo==1||result.nuevo==null||result.nuevo=="NULL"?self.$router.push(`/settings`):self.$router.push(`/`);
-        }else{self.sinroles(alert)}      
-        },
-        denegado(alert){
-            alert.denegado();
-        },
-        sinroles(alert){
-            alert.sinroles();
-            return false;
-        },
-        credentialinvalid(alert){
-            alert.invalid();
-        },
-        error500(alert){
-            alert.errorservidor();
-        },
-      async login(item) {
-      let self=this;
-      let alert=alertas();
+        result.nuevo == 1 || result.nuevo == null || result.nuevo == "NULL"
+          ? self.$router.push(`/settings`)
+          : self.$router.push(`/`);
+      } else {
+        self.sinroles(alert);
+      }
+    },
+    denegado(alert) {
+      alert.denegado();
+    },
+    sinroles(alert) {
+      alert.sinroles();
+      return false;
+    },
+    credentialinvalid(alert) {
+      alert.invalid();
+    },
+    error500(alert) {
+      alert.errorservidor();
+    },
+    async login(item) {
+      let self = this;
+      let alert = alertas();
       self.peticion = true;
       let dao = repologin(); //store
       try {
-        let result=await dao.login(item)
-        
-         self.coderesponse(result,self,alert);
-          } catch (error) {
-        
-      alert.invalid();
-          } finally {
+        let result = await dao.login(item);
+
+        self.coderesponse(result, self, alert);
+      } catch (error) {
+        alert.invalid();
+      } finally {
         self.peticion = false;
-         self.resetlogin();
+        self.resetlogin();
       }
-    },
+    }
   },
 
   name: "Login",
@@ -187,9 +207,10 @@ export default {
     service.logout();
     this.resetlogin();
     this.$store.commit("setUserAction", null);
-    },
-   components: {
-    PacmanLoader,
   },
+  components: {
+    // PacmanLoader,
+    Loader
+  }
 };
 </script>

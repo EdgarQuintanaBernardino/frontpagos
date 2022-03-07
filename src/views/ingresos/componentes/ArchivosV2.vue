@@ -3,25 +3,25 @@
         <b-row>
             <b-col cols="12">
                 <b-container class="bv-example-row bv-example-row-flex-cols">
-                    <b-row>
+                    <!-- <b-row>
                         <b-col align-self="center" cols="12" class="text-center">
                             <label class="d-block  bg-primary">
                                 <h2 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">Arrastra
                                     o da click según sea el documento</h2>
                             </label>
                         </b-col>
-                    </b-row>
+                    </b-row> -->
                     <!--INICIAN LOS DROPBOX -->
                     <b-row>
-                        <b-col cols="12" lg="6" style="padding:12px;">
+                        <b-col cols="12" lg="4">
                             <b-row>
                                 <b-col cols="12">
                                     <label class="d-block" style="background-color:#2D4262">
-                                        <h4 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
-                                            Factura </h4>
+                                        <h5 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
+                                            Factura </h5>
                                     </label>
                                 </b-col>
-                                <b-col cols="6">
+                                <b-col cols="12">
                                     <b-overlay :show="upload" rounded="sm">
                                         <template v-slot:overlay>
                                             <div class="text-center">
@@ -30,23 +30,23 @@
                                             </div>
                                         </template>
                                         <vue2Dropzone
-                                            disabled="true" 
-                                            ref="dzfactura" 
+                                            disabled="true"
+                                            ref="dzfactura"
                                             id="dfactura"
                                             :options="dropzoneOptionsfactura"
-                                            style="border:dashed #20948B 2px;color:black" 
+                                            style="border:dashed #20948B 2px;color:black"
                                             @vdropzone-success="vsuccess"
-                                            @vdropzone-complete="afterupload" 
+                                            @vdropzone-complete="afterupload"
                                             @vdropzone-queue-complete="vqueueComplete"
-                                            @vdropzone-processing="cargando" 
+                                            @vdropzone-processing="cargando"
                                             @vdropzone-sending="sendingEvent"
-                                            v-on:vdropzone-removed-file="removeFile" 
+                                            v-on:vdropzone-removed-file="removeFile"
                                             :duplicateCheck="true"
-                                            @vdropzone-error="errorfactura">  
+                                            @vdropzone-error="errorfactura">
                                         </vue2Dropzone>
                                     </b-overlay>
                                 </b-col>
-                                <b-col cols="6">
+                                <b-col cols="12">
                                     <b-container fluid class="">
                                         <b-row style="">
                                             <b-col cols="12" md="6" v-for="item in facturas" :key="'facturas'+item.id"
@@ -80,15 +80,15 @@
                                 </b-col>
                             </b-row>
                         </b-col>
-                        <b-col cols="12" lg="6" style="padding:12px;">
+                        <b-col cols="12" lg="4">
                             <b-row>
                                 <b-col cols="12">
                                     <label class="d-block" style="background-color:#2D4262">
-                                        <h4 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
-                                            Cotización </h4>
+                                        <h5 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
+                                            Cotización </h5>
                                     </label>
                                 </b-col>
-                                <b-col cols="6">
+                                <b-col cols="12">
                                     <b-overlay :show="upload" rounded="sm">
                                         <template v-slot:overlay>
                                             <div class="text-center">
@@ -107,7 +107,7 @@
                                         </vue2Dropzone>
                                     </b-overlay>
                                 </b-col>
-                                <b-col cols="6">
+                                <b-col cols="12">
                                     <b-container fluid class="">
                                         <b-row style="">
                                             <b-col cols="12" md="6" v-for="item in cotizaciones"
@@ -153,15 +153,15 @@
 
                             </b-row>
                         </b-col>
-                        <b-col cols="12" lg="6" style="padding:12px;">
+                        <b-col cols="12" lg="4">
                             <b-row>
                                 <b-col cols="12">
                                     <label class="d-block" style="background-color:#2D4262">
-                                        <h4 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
-                                            Orden de Compra </h4>
+                                        <h5 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
+                                            Orden de Compra </h5>
                                     </label>
                                 </b-col>
-                                <b-col cols="6">
+                                <b-col cols="12">
                                     <b-overlay :show="upload" rounded="sm">
                                         <template v-slot:overlay>
                                             <div class="text-center">
@@ -180,7 +180,7 @@
                                         </vue2Dropzone>
                                     </b-overlay>
                                 </b-col>
-                                <b-col cols="6">
+                                <b-col cols="12">
                                     <b-container fluid class="">
                                         <b-row style="">
                                             <b-col cols="12" md="6" v-for="item in ordenes" :key="'ordenes'+item.id"
@@ -212,7 +212,6 @@
                                                         <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png"
                                                             class="ml-2 mb-1 mt-1"
                                                             style="width:45px; height:52px;">{{item.nameoriginal}}</a>
-                                                    </br>
                                                     <b-button class="btn btn-danger ml-2" d-block sytle="display:block"
                                                         :id="item.id+'btno'" @click="deletefileo(item)">
                                                         <b-icon icon="trash-fill" scale="1" style="color:white;">
@@ -223,19 +222,18 @@
                                         </b-row>
                                     </b-container>
                                 </b-col>
-
                             </b-row>
                         </b-col>
-                        <b-col cols="12" lg="6" style="padding:12px;">
+                        <b-col cols="12" lg="4" style="padding:12px;">
                             <b-row>
                                 <b-col cols="12">
                                     <label class="d-block" style="background-color:#2D4262">
-                                        <h4 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
-                                            Comprobante de Pago </h4>
+                                        <h5 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
+                                            Comprobante Pago </h5>
                                     </label>
                                 </b-col>
 
-                                <b-col cols="6">
+                                <b-col cols="12">
                                     <b-overlay :show="upload" rounded="sm">
                                         <template v-slot:overlay>
                                             <div class="text-center">
@@ -254,9 +252,9 @@
                                         </vue2Dropzone>
                                     </b-overlay>
                                 </b-col>
-                                <b-col cols="6">
-                                    <b-container fluid class="">
-                                        <b-row style="">
+                                <b-col cols="12">
+                                    <b-container fluid>
+                                        <b-row>
                                             <b-col cols="12" md="6" v-for="item in comprobantes"
                                                 :key="'comprobantes'+item.id" class="mb-2">
 
@@ -287,7 +285,6 @@
                                                             class="ml-2 mb-1 mt-1"
                                                             style="width:45px; height:52px;">{{item.nameoriginal}}</a>
 
-                                                    </br>
                                                     <b-button class="btn btn-danger ml-2" d-block sytle="display:block"
                                                         :id="item.id+'btncp'" @click="deletefilecp(item)">
                                                         <b-icon icon="trash-fill" scale="1" style="color:white;">
@@ -301,16 +298,13 @@
 
                             </b-row>
                         </b-col>
-                        <b-col cols="12" style="padding:12px;">
+                        <b-col cols="12" lg="4" style="padding:12px;">
                             <b-row>
                                 <b-col cols="12">
-                                    <label class="d-block" style="background-color:#2D4262">
-                                        <h4 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
-                                            Archivos Extras </h4>
-                                    </label>
-                                </b-col>
-
-                                <b-col cols="6">
+                                  <label class="d-block" style="background-color:#2D4262">
+                                    <h5 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
+                                      Archivos Extras </h5>
+                                  </label>
                                     <b-overlay :show="upload" rounded="sm">
                                         <template v-slot:overlay>
                                             <div class="text-center">
@@ -329,7 +323,7 @@
                                         </vue2Dropzone>
                                     </b-overlay>
                                 </b-col>
-                                <b-col cols="6">
+                                <b-col cols="12">
                                     <b-container fluid class="">
                                         <b-row style="">
                                             <b-col cols="12" md="6" v-for="item in extras" :key="'extras'+item.id"
@@ -364,7 +358,7 @@
                                                         <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png"
                                                             class="ml-2 mb-1 mt-1"
                                                             style="width:45px; height:52px;">{{item.nameoriginal}}</a>
-                                                    </br>
+                                                    <!-- </br> -->
                                                     <b-button class="btn btn-danger ml-2" d-block sytle="display:block"
                                                         :id="item.id+'btnx'" @click="deletefilex(item)">
                                                         <b-icon icon="trash-fill" scale="1" style="color:white;">
@@ -375,10 +369,82 @@
                                         </b-row>
                                     </b-container>
                                 </b-col>
-
                             </b-row>
                         </b-col>
-
+                        <!-- seccion para machote y firmado -->
+                         <b-col cols="12" lg="4" style="padding:12px;">
+                            <b-row>
+                                <b-col cols="12">
+                                  <label class="d-block" style="background-color:#2D4262">
+                                    <h5 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">
+                                      Machote / Firmado </h5>
+                                  </label>
+                                    <b-overlay :show="upload" rounded="sm">
+                                        <template v-slot:overlay>
+                                            <div class="text-center">
+                                                <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
+                                                <p id="cancel-label">Please wait...</p>
+                                            </div>
+                                        </template>
+                                        <vue2Dropzone disabled="true" ref="dzextras" id="dextras"
+                                            :options="dropzoneOptionsextras"
+                                            style="border:dashed #20948B 2px;color:black"
+                                            @vdropzone-success="vsuccessextras" @vdropzone-complete="afterupload"
+                                            @vdropzone-queue-complete="vqueueComplete" @vdropzone-processing="cargando"
+                                            @vdropzone-sending="sendingEventextras"
+                                            v-on:vdropzone-removed-file="removeFile" :duplicateCheck="true"
+                                            @vdropzone-error="errorfactura">
+                                        </vue2Dropzone>
+                                    </b-overlay>
+                                </b-col>
+                                <b-col cols="12">
+                                    <b-container fluid class="">
+                                        <b-row style="">
+                                            <b-col cols="12" md="6" v-for="item in extras" :key="'extras'+item.id"
+                                                class="mb-2">
+                                                <b-overlay :show="item.reloj" rounded="sm" :id="item.id+'relojx'">
+                                                    <template v-slot:overlay>
+                                                        <div class="text-center">
+                                                            <b-icon icon="stopwatch" font-scale="3" animation="cylon">
+                                                            </b-icon>
+                                                            <p id="cancel-label">Please wait...</p>
+                                                        </div>
+                                                    </template>
+                                                    <a :href="item.url" target="_blank" v-if="item.tipo=='xml'"> <img
+                                                            src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/xml-file.png"
+                                                            class="" style="width:60px;;margin-bottom:1px">
+                                                        {{item.nameoriginal}}</a>
+                                                    <a :href="item.url" target="_blank" v-if="item.tipo=='pdf'">
+                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/pdfimage.png"
+                                                            class="ml-2 mb-1 mt-1"
+                                                            style="width:45px; height:52px;">{{item.nameoriginal}}</a>
+                                                    <a :href="item.url" target="_blank" v-if="item.tipo=='image'"
+                                                        class="ml-1">
+                                                        <img :src="item.url" class="ml-2 mb-1 mt-1"
+                                                            style="width:45px; height:52px;">{{item.nameoriginal}}</a>
+                                                    <a :href="item.url" target="_blank"
+                                                        v-if="item.tipo=='docx'||item.tipo=='doc'" class="ml-1">
+                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/word.jpg"
+                                                            class="ml-2 mb-1 mt-1"
+                                                            style="width:45px; height:52px;">{{item.nameoriginal}}</a>
+                                                    <a :href="item.url" target="_blank"
+                                                        v-if="item.tipo=='xlsx'||item.tipo=='xls'" class="ml-1">
+                                                        <img src="https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/archivos/excel.png"
+                                                            class="ml-2 mb-1 mt-1"
+                                                            style="width:45px; height:52px;">{{item.nameoriginal}}</a>
+                                                    <!-- </br> -->
+                                                    <b-button class="btn btn-danger ml-2" d-block sytle="display:block"
+                                                        :id="item.id+'btnx'" @click="deletefilex(item)">
+                                                        <b-icon icon="trash-fill" scale="1" style="color:white;">
+                                                        </b-icon>
+                                                    </b-button>
+                                                </b-overlay>
+                                            </b-col>
+                                        </b-row>
+                                    </b-container>
+                                </b-col>
+                            </b-row>
+                        </b-col>
                     </b-row>
                 </b-container>
             </b-col>
@@ -388,12 +454,12 @@
 
 <script>
 import "regenerator-runtime/runtime";
-import { required, minLength } from "vuelidate/lib/validators";
-import Swal from "sweetalert2";
+// import { required, minLength } from "vuelidate/lib/validators";
+// import Swal from "sweetalert2";
 import vue2Dropzone from "vue2-dropzone";
 import alertas from "@/assets/repositoriosjs/alertas";
 import repocreate from "@/assets/repositoriosjs/repoupdateprofileuser.js";
-import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
+// import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "archivos",
@@ -413,13 +479,14 @@ export default {
       cotizaciones: [],
       upload: false,
       dropzoneOptionsfactura: {
-        url: this.$apiAdress + "/api/pagos/factura",
+        url: this.$apiAdress + "/pagos/files",
+        // url: this.$apiAdress + "/api/pagos/factura",
         thumbnailWidth: 150,
         maxFilesize: 1.0,
         headers: { Authorization: `Bearer ${this.$store.getters.gettoken}` },
         addRemoveLinks: true,
         dictDefaultMessage:
-          '<h4 style=""><strong>PDF Y/O XML</strong></h4> <span>Máximo 1mb*<span> <br> Máximo 2 archivos*',
+          '<h5><strong>PDF Y/O XML</strong></h5><span>Máximo 1mb*<span> <br> Máximo 2 archivos* <strong>Archivos permitidos </strong> .doc,.docx, xls,.xlsx, imágenes',
         dictInvalidFileType: "tipo",
         parallelUploads: 1,
         maxFiles: 2,
@@ -470,24 +537,34 @@ export default {
   },
   watch: {},
   components: {
-    Swal,
+    // Swal,
     vue2Dropzone,
   },
   methods: {
-    removeFile(file, xhr, error) {},
+    removeFile(file, xhr, error) {
+      console.log(file);
+      console.log(xhr);
+      console.log(error);
+    },
     vqueueComplete(file, xhr, formData) {
+      console.log(file);
+      console.log(xhr);
+      console.log(formData);
       //  this.queueComplete = true
       // window.toastr.success('', 'Event : vdropzone-queue-complete')
     },
-    async errorservidor(archivo, mensaje, xhr) {
-      let alert = alertas();
-      alert.filenotvalidorsize();
-      this.upload = false;
-      //  mensaje.message=='Token Signature could not be verified.'
-      //  ||mensaje.message =='Token has expired'
-      //  ?alertas.errortoken():alertas.imagenotvalid()
-    },
+    // async errorservidor(archivo, mensaje, xhr) {
+    //   let alert = alertas();
+    //   alert.filenotvalidorsize();
+    //   this.upload = false;
+    //   //  mensaje.message=='Token Signature could not be verified.'
+    //   //  ||mensaje.message =='Token has expired'
+    //   //  ?alertas.errortoken():alertas.imagenotvalid()
+    // },
     async errorfactura(archivo, mensaje, xhr) {
+      console.log(archivo);
+      console.log(mensaje);
+      console.log(xhr);
       let alert = alertas();
       alert.filenotvalidorsize();
       this.upload = false;
@@ -582,7 +659,9 @@ export default {
         .getElementsByClassName("dz-message"); /////  selector js, la documentación no funciona
       msj[0].innerHTML = mensaje;
     },
-    async afterupload(file) {},
+    async afterupload(file) {
+      console.log(file);
+    },
     vsuccess(file, response) {
       try {
         console.log(response);
@@ -868,7 +947,7 @@ export default {
       formData.append("nameoriginal", file.name.substring(0, 18)); //1 //3
       formData.append("iguales", 1); ///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0
     },
-    cargando(totalProgress, totalBytes, totalBytesSent) {
+    cargando() {
       this.upload = true;
     },
     async deletefile(item) {
@@ -886,6 +965,7 @@ export default {
       const repo = repocreate();
       try {
         await repo.deletefile(item).then((res) => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
           this.facturas = this.facturas.filter(
@@ -924,6 +1004,7 @@ export default {
       const repo = repocreate();
       try {
         await repo.deletefile(item).then((res) => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
           this.cotizaciones = this.cotizaciones.filter(
@@ -964,6 +1045,7 @@ export default {
       const repo = repocreate();
       try {
         await repo.deletefile(item).then((res) => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
           this.extras = this.extras.filter((element) => element.id != item.id);
@@ -1002,6 +1084,7 @@ export default {
       const repo = repocreate();
       try {
         await repo.deletefile(item).then((res) => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
           this.ordenes = this.ordenes.filter(
@@ -1042,6 +1125,7 @@ export default {
       const repo = repocreate();
       try {
         await repo.deletefile(item).then((res) => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
           this.comprobantes = this.comprobantes.filter(

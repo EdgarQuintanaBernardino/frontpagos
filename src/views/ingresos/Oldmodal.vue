@@ -6,7 +6,7 @@
       @show="eventdetected"
       @hidden="resetModal"
       size="xl"
-      :title="this.$parent.config.titulo+' Pago'"
+      :title="this.$parent.config.titulo +' Pago'"
       hide-footer
       header-text-variant='light'
       header-bg-variant='primary'
@@ -29,8 +29,8 @@
                 <h2 class="text-center text-white"><span class="ti-money"></span>{{this.$parent.config.titulo}} Pago </h2>
               </CCardHeader>-->
             <CCard>
-              <CCardBody> 
-                <form-wizard 
+              <CCardBody>
+                <form-wizard
                       color="#e67e22"
                      error-color="#a94442"
                      title=""
@@ -40,16 +40,16 @@
                      >
                    <template slot="footer" slot-scope="props">
           <div class="wizard-footer-left">
-           <wizard-button  v-if="props.activeTabIndex > 0 && !props.isLastStep" @click.native="props.prevTab()" :style="props.fillButtonStyle" ><span class="ti-control-backward"></span>Regresar</wizard-button> 
+           <wizard-button  v-if="props.activeTabIndex > 0 && !props.isLastStep" @click.native="props.prevTab()" :style="props.fillButtonStyle" ><span class="ti-control-backward"></span>Regresar</wizard-button>
         </div>
         <div class="wizard-footer-right">
           <wizard-button v-if="!props.isLastStep" @click.native="props.nextTab()" class="wizard-footer-right go-next" :style="props.fillButtonStyle" ><span class="ti-control-forward"></span>Siguiente</wizard-button>
          <wizard-button v-else @click.native="secondsend()" class="wizard-footer-right finish-button" :style="props.fillButtonStyle"> <span class="ti-wand"></span> {{props.isLastStep ? 'Finalizar' : 'Siguiente'}}</wizard-button>
         </div>
-        
+
   </template>
-   
-            <tab-content title="Nuevo Pago" 
+
+            <tab-content title="Nuevo Pago"
             icon="ti-money" :before-change="validateone">
            <b-row>
            <b-col cols="12" lg="6" class="text-center mt-3">
@@ -113,10 +113,10 @@
                       </b-input-group-prepend>
                       <b-form-input
                         type="number"
-                          
+
                            oninput="javascript:value=this.value.replace('e','');
                   if(this.value.length>=20)this.value=this.value.substr(0,15);
-                  
+
                   "
 
                         v-model="form.inicio.bruto"
@@ -130,10 +130,10 @@
                         }"
                         placeholder="Cantidad solicitada"
                       ></b-form-input>
-                   
+
                     </b-input-group>
                         <span
-                   
+
                       class="text-danger d-block"
                       style="float: right"
                       v-if="!$v.form.inicio.bruto.required"
@@ -221,11 +221,11 @@
                     </b-input-group>
                   </b-col>
 
-               
+
                   </b-row>
             </tab-content>
-          
-           
+
+
           <tab-content title="Modalidad"
                          icon="ti-sharethis"
                      :before-change="contenga"
@@ -236,9 +236,9 @@
                      <label  class="d-block  bg-primary">
                       <h2 class="text-white text-center" style="padding-top:10px;padding-bottom:10px">Modalidad*</h2>
                     </label>
-                 
+
                     <b-form-group class="text-center">
-                    
+
                       <b-row>
                         <b-col cols="12" class="border:solid red 2px">
                           <b-form-radio-group
@@ -297,11 +297,11 @@
                   </b-col>
                   <b-col cols="12">
                     <label  class="d-block  bg-primary">
-                      <h2 class="text-white text-center" 
+                      <h2 class="text-white text-center"
                       style="padding-top:10px;padding-bottom:10px">
                       ¿A quién se le solicita el pago?*</h2>
                     </label>
-                 
+
                     <b-form-tags
                       v-model="form.shared.users.showcomplete"
                       no-outer-focus
@@ -430,13 +430,13 @@
       footer-tag="footer"
        header-bg-variant="info"
         header-text-variant="white"
-     
+
        align="center"
 
     >
       <b-card-text>
       <b-table-simple hover small caption-top stacked>
-   
+
     <b-tbody>
       <b-tr>
         <b-th rowspan="3" class="text-center">Detalle</b-th>
@@ -444,47 +444,47 @@
         <b-td stacked-heading="Total Iva">{{(form.inicio.bruto/100)*form.inicio.iva}}</b-td>
         <b-td stacked-heading="Iva:">{{form.inicio.iva}}%</b-td>
         <b-td stacked-heading="Monto Total" variant="success">{{form.inicio.monto}}</b-td>
-     
-   
+
+
 
       </b-tr>
     </b-tbody>
-   
+
   </b-table-simple>
       </b-card-text>
     </b-card>
-   
+
   </b-card-group>
-            
+
             </b-col>
-            
+
             </b-row>
-  
-  
-  
+
+
+
             </b-col>
     <b-col cols="12" class="mt-3">
-  
+
 <div>
-    
-    
+
+
     <b-table responsive :items="items" :fields="fields">
        <template #cell(bruto)="data">
         <span v-if="form.inicio.iva==0">{{data.item.monto}}</span>
-        <span v-else > 
+        <span v-else >
          {{((form.inicio.bruto/100)*data.item.range).toFixed(2)}},{{form.inicio.bruto}}
         </span>
       </template>
    <template #cell(iva)="data">
         <span v-if="form.inicio.iva==0">0</span>
-        <span v-else > 
+        <span v-else >
          {{((((form.inicio.bruto/100)*form.inicio.iva)/100)*data.item.range).toFixed(2)}}
         </span>
       </template>
  <template #cell(monto)="data">
      <b-input
       min="0" :disabled="form.shared.tipo=='unico'||form.shared.tipo=='replicar'||items.length==1"
-       v-if="items[data.index]" :max="form.inicio.monto" 
+       v-if="items[data.index]" :max="form.inicio.monto"
         oninput="javascript:value=this.value.replace('e','');
        if(this.value.length>=20);"
         @keyup="validamontototal(data.item.monto,data.index)"
@@ -494,22 +494,22 @@
         <b class="text-info"> {{data.item.email}}  </b>
       </template>
    <template #cell(porcentaje)="data">
-     <b-input v-if="items[data.index]" 
-     :disabled="form.shared.tipo=='unico'||form.shared.tipo=='replicar'||items.length==1" 
+     <b-input v-if="items[data.index]"
+     :disabled="form.shared.tipo=='unico'||form.shared.tipo=='replicar'||items.length==1"
       type="number" min="0" max="100"
        oninput="javascript:value=this.value.replace('e','');
        if(this.value.length>=5)this.value=this.value.substr(0,5)"
-        @input="validaporcentajein(data.item.range,data.index)"  
+        @input="validaporcentajein(data.item.range,data.index)"
         v-model="items[data.index].range"></b-input>
-    </template>     
+    </template>
     </b-table>
 
 
   <b-alert :show="mensaje" variant="success"><h3 class="text-dark">{{this.mensajeok}}</h3></b-alert>
   <b-alert :show="!mensaje" variant="danger">
   <h3 class="text-dark">{{mensajealert}}
-     {{this.diferencia}} <b-button @click="calculaporcentaje" 
-     variant="success"><span class="ti-loop"></span> Reset</b-button> 
+     {{this.diferencia}} <b-button @click="calculaporcentaje"
+     variant="success"><span class="ti-loop"></span> Reset</b-button>
      </h3></b-alert>
 
 
@@ -519,7 +519,7 @@
               </b-row>
               </div>
             </tab-content>
-            
+
         <tab-content title="Cuenta Bancaria & Proyectos"
                          icon="ti-credit-card" :before-change="validacuentas">
      <tabprueba @getprueba="pruebaget"  ref="cuenta"></tabprueba>
@@ -529,30 +529,30 @@
             </tab-content>
                  <tab-content title="Datos Opcionales"
                          icon="ti-link" :before-change="validalinks">
-     <links @getlinks="getlinkssoli"  ref="linkstab"></links> 
+     <links @getlinks="getlinkssoli"  ref="linkstab"></links>
 
               <div class="panel-body">
               </div>
-          
+
             </tab-content>
              <tab-content title="Cargar Archivos"
                          icon="ti-clip" :before-change="validalinks">
-     <archivos @getlinks="getlinkssoli"  ref="archivosstab"></archivos> 
+     <archivos @getlinks="getlinkssoli"  ref="archivosstab"></archivos>
 
               <div class="panel-body">
               </div>
-          
+
             </tab-content>
-            
+
              <div class="panel-body">
               </div>
             </tab-content>
-        
-         
+
+
         </form-wizard>
- 
-              
-              
+
+
+
               </CCardBody>
             </CCard>
           </CCol>

@@ -1,63 +1,78 @@
 <template>
-  <b-row>
-    <b-col cols="12" class="text-center">
-      <label >**Campos Opcionales**</label>
-    </b-col>
-    <b-col cols="6" class="text-center mt-1">
-      <label><h4 >Etiqueta tu ingreso</h4></label>
-    </b-col>
-    <b-col cols="6" class="text-center mt-1">
-      <label
-        ><h5 class="font-weight-bold">
-          Proyecto al que se destina el pago
-        </h5></label
+  <div>
+    <b-row>
+      <b-col cols="12" class="text-center">
+        <h5 class="mt-3 mb-3">Campos Opcionales</h5></b-col
       >
-    </b-col>
-    <!--Input de link de pago-->
-    <b-col cols="6" class="">
-      <b-form-tags
-      input-id="tags-pills"
-      v-model="form.optionsTagIngreso"
-      tag-variant="success"
-      tag-pills
-      size="md"
-      separator=" "
-      placeholder="Etiqueta tu egreso"
-    ></b-form-tags>
-
-    </b-col>
-    <b-col cols="6" class="text-center">
-      <b-form-select
-        v-model="form.proyecto"
-        :options="optionsProyecto"
-        class="font-weight-bold"
-        :style="darkMode ? 'background-color:#393a42' : null"
-      ></b-form-select>
-    </b-col>
-    <b-col cols="6" class="text-center mt-3">
-      <label><h4 >Links de Pago</h4></label>
-    </b-col>
-    <b-col cols="6" class="text-center mt-3">
-      <label><h4>Fecha límite de pago</h4></label>
-    </b-col>
-
-    <b-col cols="5" class="d-block">
-      <b-form-input
-        id="input-live"
-        v-model="link"
-        v-on:keyup.enter="addlink"
-        aria-describedby="input-live-help input-live-feedback"
-        placeholder="Ingresa link de pago"
-        trim
-        key
-      ></b-form-input>
-    </b-col>
-    <b-col cols="1">
-      <b-button variant="outline-primary" @click.prevent="addlink()"
-        >+</b-button
-      >
-    </b-col>
-    <b-col cols="6" class="text-center d-block">
+    </b-row>
+    <b-row>
+      <b-col cols="1"></b-col>
+      <b-col cols="5" class="text-center mt-1">
+        <label><span>Etiqueta tu ingreso</span></label>
+        <b-form-tags
+          input-id="tags-pills"
+          v-model="form.optionsTagIngreso"
+          tag-variant="success"
+          tag-pills
+          size="md"
+          separator=" "
+          placeholder="Etiqueta tu egreso"
+        ></b-form-tags>
+      </b-col>
+      <b-col cols="5" class="text-center mt-1">
+        <label
+          ><span>
+            Proyecto al que se destina el pago
+          </span></label
+        >
+        <b-form-select
+          v-model="form.proyecto"
+          :options="optionsProyecto"
+          :style="darkMode ? 'background-color:#393a42' : null"
+        ></b-form-select>
+      </b-col>
+      <b-col cols="1"></b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="1" class="text-center"></b-col>
+      <b-col cols="5" class="text-center mt-3">
+        <label><span>Links de pago</span></label>
+        <b-input-group>
+          <b-form-input
+            id="input-live"
+            v-model="link"
+            v-on:keyup.enter="addlink"
+            aria-describedby="input-live-help input-live-feedback"
+            placeholder="Ingresa link de pago"
+            trim
+            key
+          ></b-form-input>
+          <b-input-group-append>
+            <b-button variant="info" @click.prevent="addlink()">
+              <b-icon icon="plus-square" aria-hidden="true"> </b-icon>
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-col>
+      <b-col cols="5" class="text-center mt-3">
+        <label><span>Fecha límite de pago</span></label>
+        <b-form-datepicker
+          id="datepicker-full-width"
+          menu-class="w-100"
+          calendar-width="100%"
+          locale="es-MX"
+          class="mb-2"
+          :min="minimo"
+          v-model="form.fechaLimite"
+          :style="darkMode ? 'background-color:#393a42' : null"
+        ></b-form-datepicker>
+      </b-col>
+      <b-col cols="1"></b-col>
+    </b-row>
+    <!-- <b-col cols="5" class="d-block">
+    </b-col> -->
+    <!-- <b-col cols="1"> </b-col> -->
+    <!-- <b-col cols="6" class="text-center d-block">
       <b-form-datepicker
         id="datepicker-full-width"
         menu-class="w-100"
@@ -68,188 +83,233 @@
         v-model="form.fechaLimite"
         :style="darkMode ? 'background-color:#393a42' : null"
       ></b-form-datepicker>
-    </b-col>
-    <b-col cols="12">
-      <b-list-group>
-        <b-list-group-item
-          class="d-flex justify-content-between align-items-center"
-          v-for="item in form.links"
-          :key="item"
-        >
-          <b-link :href="item" target="_blank">{{ item }}</b-link>
-          <b-button variant="outline-danger" @click.prevent="eliminalink(item)"
-            >Eliminar</b-button
+    </b-col> -->
+    <!-- Tercer row Tabla con links de pagos-->
+    <b-row class="mt-3 mb-3">
+      <b-col cols="1"></b-col>
+      <b-col cols="10">
+        <b-list-group>
+          <b-list-group-item
+            class="d-flex justify-content-between align-items-center"
+            v-for="item in form.links"
+            :key="item"
           >
-        </b-list-group-item>
-      </b-list-group>
-    </b-col>
-  <!--RECURRENCIA-->    
-    <b-col cols="6 mt-2">
-        <!-- <label class="d-block bg-primary"> -->
-          <h4
-            class=" text-right"
-            style="padding-top: 10px; padding-bottom: 10px float: right"
-          >
-            ¿El pago es recurrente?
-          </h4>
-        <!-- </label> -->
-      </b-col>
-      <b-col cols="6 mt-3">      
-        <b-form-group>
-          <div style="font-size: 1.2em">
-            <b-form-checkbox
-              id="checkbox-1"
-              v-model="status"
-              name="checkbox-1"
-              @change="resetitems"
-              value="Si, es pago recurrente"
-              unchecked-value="No, es pago único"
-              style="float: left"
-              size="lg"
+            <b-link :href="item" target="_blank">{{ item }}</b-link>
+            <b-button
+              variant="outline-danger"
+              @click.prevent="eliminalink(item)"
+              >Eliminar</b-button
             >
-              {{ status }}
-            </b-form-checkbox>
-          </div>
+          </b-list-group-item>
+        </b-list-group>
+        <!-- <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Link del pago</th>
+              <th scope="col">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th
+                scope="row"
+                class="d-flex justify-content-between align-items-center"
+                v-for="item in form.links"
+                :key="item"
+              >
+                <b-link :href="item" target="_blank">{{ item }}</b-link>
+              </th>
+              <td>
+                <b-button
+                  variant="outline-danger"
+                  @click.prevent="eliminalink(item)"
+                  >Eliminar</b-button
+                >
+              </td> -->
+        <!-- <td>Otto</td>
+              <td>@mdo</td> -->
+        <!-- </tr>
+          </tbody>
+        </table> -->
+      </b-col>
+      <b-col cols="1"></b-col>
+    </b-row>
+    <!-- Recurrencia en los pagos -->
+    <b-row>
+      <b-col cols="1"></b-col>
+      <b-col cols="3">
+        <b-form-group>
+          <!-- <span>
+            ¿El pago es recurrente?
+          </span> -->
+          <!-- <label class="d-block bg-primary">
+          style="padding-top: 10px; padding-bottom: 10px float: right" -->
+          <!-- style="font-size: 1.2em" {{ status }} -->
+          <b-form-checkbox
+            id="checkbox-1"
+            v-model="status"
+            name="checkbox-1"
+            @change="resetitems"
+            value="Si, es pago recurrente"
+            unchecked-value="No, es pago único"
+            size="md"
+          >
+            Hacer recurrente el pago
+          </b-form-checkbox>
         </b-form-group>
       </b-col>
-      <b-col v-if="form.isrecurrente">
+      <b-col cols="3">
+        <b-form-group>
+          <!-- Check para hacer el monto variable  v-model="form.pagoVariable" -->
+          <b-form-checkbox
+            id="checkbox-2"
+            name="checkbox-1"
+            value="accepted"
+            unchecked-value="No"
+            size="md"
+          >
+            Monto Variable
+          </b-form-checkbox>
+        </b-form-group>
+      </b-col>
+      <b-col cols="5"></b-col>
+    </b-row>
+    <!-- <b-col cols="6 mt-3"></b-col> -->
+    <b-row>
+      <b-col cols="1"></b-col>
+      <b-col cols="10" v-if="form.isrecurrente">
         <b-card>
-        <!-- <b-col cols="12" class="text-center">
+          <!-- <b-col cols="12" class="text-center">
           <label><h4 class="text-primary">Pago Recurrente</h4></label>
         </b-col> -->
-        <b-row>
-          <b-col>
-            <b-form-radio-group
-              v-model="form.selectedTipoRecurrecia"
-              :options="options"
-              class="text-center mb-3"
-              value-field="item"
-              text-field="name"
-              disabled-field="notEnabled"
-              @change="calculapagos"
-            ></b-form-radio-group>
-          </b-col>
-          <b-col cols="12" class="text-center">
-            <b-form-checkbox
-              id="checkbox-2"
-              v-model="form.pagoVariable"
-              name="checkbox-1"
-              value="accepted"
-              unchecked-value="No"
-              size="lg"
-            >
-                Monto Variable
-            </b-form-checkbox>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col cols="6" class="text-center mt-3">
-            <label><h4 class="">Iniciar Recurrencia</h4></label>
-          </b-col>
-          <b-col cols="6" class="text-center mt-3">
-            <label><h4 class="">Terminar Recurrencia</h4></label>
-          </b-col>
-          <b-col cols="6">
-            <b-form-datepicker
-              id="datepicker-sm 2"
-              size="sm"
-              locale="es-MX"
-              class="mb-2"
-              :min="minimoInicio"
-              v-model="form.fechaInicio"
-              @input="cambiafechainicial"
-              :style="darkMode ? 'background-color:#393a42' : null"
-            ></b-form-datepicker>
-          </b-col>
-          <b-col cols="6">
-            <b-form-datepicker
-              id="datepicker-sm 1"
-              size="sm"
-              locale="es-MX"
-              class="mb-2"
-              v-model="form.fechaFin"
-              :min="minimofinish"
-              :style="darkMode ? 'background-color:#393a42' : null"
-              @input="cambiafecha"
-            ></b-form-datepicker>
-          </b-col>
-        </b-row>
-        <b-col
-          cols="12"
-          v-if="form.selectedTipoRecurrecia == 'Dias del mes'"
-          class="mt-2 text-center"
-        >
-          <label class=" w-100">
-            <h2 class="">Días que se quieren fijar</h2>
-          </label>
-          <Calendar
-            :attributes="attributes"
-            @dayclick="onDayClick"
-            class="w-100"
-            style=""
-          />
-        </b-col>
-        <b-col cols="12" class="mt-1">
-          <label class="d-block ">
-            <h2
-              class=" text-center"
-              style="padding-top: 10px; padding-bottom: 10px"
-            >
-              Fechas de Pago <strong>{{ total }}</strong>
-            </h2>
-          </label>
           <b-row>
-            <b-col cols="12" lg="2"> </b-col>
-
-            <b-col cols="12" lg="8">
-              <b-table
-                responsive
-                :current-page="currentPage"
-                :per-page="filasmostradas"
-                striped
-                hover
-                sticky-header
-                :items="items"
-                :fields="fields"
-              >
-                <b-row> </b-row>
-              </b-table>
-              <b-pagination
-                v-model="currentPage"
-                :total-rows="items.length"
-                :per-page="perpage"
-                align="fill"
-                size="sm"
-                class="my-0"
-              ></b-pagination>
+            <b-col>
+              <b-form-radio-group
+                v-model="form.selectedTipoRecurrecia"
+                :options="options"
+                class="text-center mb-3"
+                value-field="item"
+                text-field="name"
+                disabled-field="notEnabled"
+                @change="calculapagos"
+              ></b-form-radio-group>
             </b-col>
-            <b-col cols="12" lg="2"> </b-col>
+            <!-- <b-col cols="12" class="text-center"> -->
+            <!-- <b-form-checkbox
+                id="checkbox-2"
+                v-model="form.pagoVariable"
+                name="checkbox-1"
+                value="accepted"
+                unchecked-value="No"
+                size="lg"
+              >
+                Monto Variable
+              </b-form-checkbox> -->
+            <!-- </b-col> -->
           </b-row>
-        </b-col>
+          <b-row>
+            <b-col cols="6" class="text-center mt-3">
+              <label><h4 class="">Iniciar Recurrencia</h4></label>
+            </b-col>
+            <b-col cols="6" class="text-center mt-3">
+              <label><h4 class="">Terminar Recurrencia</h4></label>
+            </b-col>
+            <b-col cols="6">
+              <b-form-datepicker
+                id="datepicker-sm 2"
+                size="sm"
+                locale="es-MX"
+                class="mb-2"
+                :min="minimoInicio"
+                v-model="form.fechaInicio"
+                @input="cambiafechainicial"
+                :style="darkMode ? 'background-color:#393a42' : null"
+              ></b-form-datepicker>
+            </b-col>
+            <b-col cols="6">
+              <b-form-datepicker
+                id="datepicker-sm 1"
+                size="sm"
+                locale="es-MX"
+                class="mb-2"
+                v-model="form.fechaFin"
+                :min="minimofinish"
+                :style="darkMode ? 'background-color:#393a42' : null"
+                @input="cambiafecha"
+              ></b-form-datepicker>
+            </b-col>
+          </b-row>
+          <b-col
+            cols="12"
+            v-if="form.selectedTipoRecurrecia == 'Dias del mes'"
+            class="mt-2 text-center"
+          >
+            <label class=" w-100">
+              <h2 class="">Días que se quieren fijar</h2>
+            </label>
+            <Calendar
+              :attributes="attributes"
+              @dayclick="onDayClick"
+              class="w-100"
+              style=""
+            />
+          </b-col>
+          <b-col cols="12" class="mt-1">
+            <label class="d-block ">
+              <h2
+                class=" text-center"
+                style="padding-top: 10px; padding-bottom: 10px"
+              >
+                Fechas de Pago <strong>{{ total }}</strong>
+              </h2>
+            </label>
+            <b-row>
+              <b-col cols="12">
+                <b-table
+                  responsive
+                  :current-page="currentPage"
+                  :per-page="filasmostradas"
+                  striped
+                  hover
+                  sticky-header
+                  :items="items"
+                  :fields="fields"
+                >
+                  <b-row> </b-row>
+                </b-table>
+                <b-pagination
+                  v-model="currentPage"
+                  :total-rows="items.length"
+                  :per-page="perpage"
+                  align="fill"
+                  size="sm"
+                  class="my-0"
+                ></b-pagination>
+              </b-col>
+            </b-row>
+          </b-col>
         </b-card>
       </b-col>
-
-      <b-col cols="12" class="text-center mt-1">
-        <label><h4 class="">Sube tus archivos</h4></label>
-      </b-col>
+      <b-col cols="1"></b-col>
+    </b-row>
+    <b-row>
       <div class="col-12 mb-2">
         <div class="d-flex justify-content-center">
-          <CButton
-            @click="warningModal = true"
-            color="primary"
-          >
+          <!-- <span> Selecciona tus archivos </span> animation="cylon-vertical"  -->
+          <CButton @click="warningModal = true" color="primary">
             Sube tus archivos
+            <b-icon class="ml-2" icon="upload" font-scale="1"></b-icon>
           </CButton>
           <CModal
             title="Arrastra o da click según sea el documento"
             :show.sync="warningModal"
             size="lg"
-            >
-            <Archivos/>
+          >
+            <!-- Nombre del componente: ArchivosV2.vue -->
+            <Archivos />
           </CModal>
         </div>
       </div>
-      
       <!-- <b-col cols="12" class="text-center mt-1">
         <b-form-file
          v-model="file1"
@@ -258,10 +318,8 @@
          drop-placeholder="Drop file here..."
         ></b-form-file>
       </b-col> -->
-
-      
-    <!--Boton-->
-    <!-- <b-col cols="12" class="text-center mt-1">
+      <!--Boton-->
+      <!-- <b-col cols="12" class="text-center mt-1">
       <b-button
         :class="visible ? null : 'collapsed'"
         :aria-expanded="visible ? 'true' : 'false'"
@@ -373,8 +431,8 @@
         </b-card>
       </b-collapse>
     </b-col> -->
-    <!--ARCHIVOS-->
-    <!-- <div>
+      <!--ARCHIVOS-->
+      <!-- <div>
       <b-row>
         <b-col cols="12 mt-3">
           <b-container class="bv-example-row bv-example-row-flex-cols">
@@ -390,8 +448,8 @@
                 </label>
               </b-col>
             </b-row> -->
-            <!--INICIAN LOS DROPBOX -->
-            <!-- <b-row>
+      <!--INICIAN LOS DROPBOX -->
+      <!-- <b-row>
               <b-col cols="12" lg="6" style="padding: 12px">
                 <b-row>
                   <b-col cols="12">
@@ -1043,21 +1101,48 @@
                 </b-row>
               </b-col>
             </b-row> -->
-          </b-container>
-        </b-col>
-      </b-row>
-    </div>
-  </b-row>
+      <!-- </b-container> -->
+      <!-- </b-col> -->
+      <!-- </b-row> -->
+      <!-- </div> -->
+    </b-row>
+    <b-row class="mt-4">
+      <b-col cols="1"></b-col>
+      <b-col cols="5">
+        <b-button block variant="success" @click="backStep()">
+          <b-icon
+            class="mr-2"
+            icon="arrow-left-square-fill"
+            animation="cylon"
+            font-scale="1"
+          ></b-icon
+          >Regresar</b-button
+        >
+      </b-col>
+      <b-col cols="5" class="text-center">
+        <b-button block variant="primary"
+          >Finalizar
+          <b-icon
+            class="ml-2"
+            icon="arrow-right-square-fill"
+            animation="cylon"
+            font-scale="1"
+          ></b-icon
+        ></b-button>
+      </b-col>
+      <b-col cols="1"></b-col>
+    </b-row>
+  </div>
 </template>
 
 <script>
-import { required, minLength } from "vuelidate/lib/validators";
+// import { required, minLength } from "vuelidate/lib/validators";
 import { mapState } from "vuex";
 import Calendar from "v-calendar/lib/components/calendar.umd";
 import Swal from "sweetalert2";
-import Multiselect from "vue-multiselect";
+// import Multiselect from "vue-multiselect";
 import "regenerator-runtime/runtime";
-import vue2Dropzone from "vue2-dropzone";
+// import vue2Dropzone from "vue2-dropzone";
 import alertas from "@/assets/repositoriosjs/alertas";
 import repocreate from "@/assets/repositoriosjs/repoupdateprofileuser.js";
 import moment from "moment";
@@ -1077,9 +1162,9 @@ export default {
         fechaInicio: "",
         fechaFin: "",
         tiempo: "",
-        pagoVariable: "",
+        pagoVariable: ""
       },
-      minimofinish:"",
+      minimofinish: "",
       file1: [],
       status: "No, es pago único",
       minimo: "",
@@ -1097,14 +1182,14 @@ export default {
         { item: "Bimestral", name: "Bimestral" },
         { item: "Trimestral", name: "Trimestral" },
         { item: "Semestral", name: "Semestral" },
-        { item: "Anual", name: "Anual" },
+        { item: "Anual", name: "Anual" }
       ],
       days: [],
       items: [],
       total: 0,
       diasData: null,
       hoy: "",
-      minimofinish: "",
+      // minimofinish: "",
       fields: ["Pago", "Tipo", "Fecha"],
       currentPage: 1,
       perpage: 10,
@@ -1183,28 +1268,36 @@ export default {
         { value: null, text: "Selecciona un proyecto", disabled: true },
         { value: "a", text: "This is First option" },
         { value: "b", text: "Selected Option" },
-        { value: "d", text: "This one is disabled" },
+        { value: "d", text: "This one is disabled" }
       ],
-      auxiliar: "",
+      auxiliar: ""
     };
   },
   methods: {
-    algo() {
-      let a = moment(this.form.fechaInicio);
-      let b = moment(this.form.fechaFin);
-      let c = b.diff(a,'d');
-      let diferencia = [typeof(this.form.fechaFin), typeof(this.form.fechaInicio)];
-      let date_Ini = new Date(this.form.fechaInicio);
-      let date_Fin = new Date(this.form.fechaFin);
-      let diferencia2 = [date_Ini,date_Fin];
-      let resta = new Date(date_Ini - date_Fin);
-      return c;
+    // Funcion para ir al paso 1 de la ventana modal con todos los datos anteriores
+    backStep() {
+      console.log("Vamos al paso 1 con la data");
+      this.$emit("changePassTwo");
     },
+    // algo() {
+    //   let a = moment(this.form.fechaInicio);
+    //   let b = moment(this.form.fechaFin);
+    //   let c = b.diff(a, "d");
+    //   let diferencia = [
+    //     typeof this.form.fechaFin,
+    //     typeof this.form.fechaInicio
+    //   ];
+    //   let date_Ini = new Date(this.form.fechaInicio);
+    //   let date_Fin = new Date(this.form.fechaFin);
+    //   // let diferencia2 = [date_Ini, date_Fin];
+    //   let resta = new Date(date_Ini - date_Fin);
+    //   return c;
+    // },
     async getitems() {
       this.show = true; //// el render del reloj?
       try {
         let repoitems = repocreate();
-        await repoitems.getproyectos().then((res) => {
+        await repoitems.getproyectos().then(res => {
           this.auxiliar = res.data;
           // console.log(res);
           // let newObj = {};
@@ -1237,7 +1330,7 @@ export default {
     addTag2(newTag) {
       const tag = {
         name: newTag,
-        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
+        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
       };
       this.optionsTagIngreso.push(tag);
       this.form.tagIngreso.push(tag);
@@ -1254,13 +1347,12 @@ export default {
       return noencontrado;
     },
     eliminalink(item) {
-      this.form.links = this.form.links.filter((itemin) => itemin != item);
+      this.form.links = this.form.links.filter(itemin => itemin != item);
     },
     addlink() {
       if (this.link == "") {
         return false;
       }
-
       if (this.encontrado(this.link)) {
         this.form.links.push(this.link);
       } else {
@@ -1269,29 +1361,31 @@ export default {
           icon: "error",
           title: "Link ya agregado",
           showConfirmButton: false,
-          timer: 1000,
+          timer: 1000
         });
       }
 
       this.link = "";
     },
     //Fin funciones links
-    
+
     onDayClick(day) {
-      const idx = this.days.findIndex((d) => d.id === day.id);
+      const idx = this.days.findIndex(d => d.id === day.id);
       if (idx >= 0) {
         this.days.splice(idx, 1);
       } else {
         this.days.push({
           id: day.id,
-          date: day.date,
+          date: day.date
         });
       }
       this.dias();
     },
     cambiafechainicial() {
       let suma = this.conviertefecha(
-        moment(this.form.fechaInicio).add(1, "d").format("l")
+        moment(this.form.fechaInicio)
+          .add(1, "d")
+          .format("l")
       );
       this.form.tiempo = suma;
       this.minimofinish = suma;
@@ -1308,7 +1402,9 @@ export default {
       let contador = 0;
       for (let a = 1; a <= this.diferencia(); a++) {
         let fechain = this.conviertefecha(
-          moment(this.form.fechaInicio).add(a, "d").format("l")
+          moment(this.form.fechaInicio)
+            .add(a, "d")
+            .format("l")
         );
         let arrayinicio = fechain.split("-");
         let verificardia = arrayinicio[2];
@@ -1321,11 +1417,13 @@ export default {
               Fechainterna: fechain,
               Fecha: moment(
                 this.conviertefecha(
-                  moment(this.form.fechaInicio).add(a, "d").format("l")
+                  moment(this.form.fechaInicio)
+                    .add(a, "d")
+                    .format("l")
                 )
               )
                 .format("LLLL")
-                .slice(0, -4),
+                .slice(0, -4)
             };
             this.items.push(objet);
           }
@@ -1337,7 +1435,9 @@ export default {
       this.items = [];
       for (let a = 1; a <= this.diferenciames(); a++) {
         let fechain = this.conviertefecha(
-          moment(this.form.fechaInicio).add(a, "M").format("l")
+          moment(this.form.fechaInicio)
+            .add(a, "M")
+            .format("l")
         );
         let objet = {
           Pago: a,
@@ -1345,11 +1445,13 @@ export default {
           Fechainterna: fechain,
           Fecha: moment(
             this.conviertefecha(
-              moment(this.form.fechaInicio).add(a, "M").format("l")
+              moment(this.form.fechaInicio)
+                .add(a, "M")
+                .format("l")
             )
           )
             .format("LLLL")
-            .slice(0, -4),
+            .slice(0, -4)
         };
         this.items.push(objet);
       }
@@ -1359,7 +1461,9 @@ export default {
       this.items = [];
       for (let a = 1; a <= this.diferenciaanual(); a++) {
         let fechain = this.conviertefecha(
-          moment(this.form.fechaInicio).add(a, "y").format("l")
+          moment(this.form.fechaInicio)
+            .add(a, "y")
+            .format("l")
         );
         let objet = {
           Pago: a,
@@ -1367,11 +1471,13 @@ export default {
           Fechainterna: fechain,
           Fecha: moment(
             this.conviertefecha(
-              moment(this.form.fechaInicio).add(a, "y").format("l")
+              moment(this.form.fechaInicio)
+                .add(a, "y")
+                .format("l")
             )
           )
             .format("LLLL")
-            .slice(0, -4),
+            .slice(0, -4)
         };
         this.items.push(objet);
       }
@@ -1397,7 +1503,7 @@ export default {
             )
           )
             .format("LLLL")
-            .slice(0, -4),
+            .slice(0, -4)
         };
         this.items.push(objet);
       }
@@ -1423,7 +1529,7 @@ export default {
             )
           )
             .format("LLLL")
-            .slice(0, -4),
+            .slice(0, -4)
         };
         this.items.push(objet);
       }
@@ -1449,7 +1555,7 @@ export default {
             )
           )
             .format("LLLL")
-            .slice(0, -4),
+            .slice(0, -4)
         };
         this.items.push(objet);
       }
@@ -1459,7 +1565,9 @@ export default {
       this.items = [];
       for (let a = 1; a <= this.diferenciasemana(); a++) {
         let fechain = this.conviertefecha(
-          moment(this.form.fechaInicio).add(a, "w").format("l")
+          moment(this.form.fechaInicio)
+            .add(a, "w")
+            .format("l")
         );
         let objet = {
           Pago: a,
@@ -1467,11 +1575,13 @@ export default {
           Fechainterna: fechain,
           Fecha: moment(
             this.conviertefecha(
-              moment(this.form.fechaInicio).add(a, "w").format("l")
+              moment(this.form.fechaInicio)
+                .add(a, "w")
+                .format("l")
             )
           )
             .format("LLLL")
-            .slice(0, -4),
+            .slice(0, -4)
         };
         this.items.push(objet);
       }
@@ -1484,15 +1594,19 @@ export default {
           Pago: a,
           Tipo: "Diario",
           Fechainterna: this.conviertefecha(
-            moment(this.form.fechaInicio).add(a, "d").format("l")
+            moment(this.form.fechaInicio)
+              .add(a, "d")
+              .format("l")
           ),
           Fecha: moment(
             this.conviertefecha(
-              moment(this.form.fechaInicio).add(a, "d").format("l")
+              moment(this.form.fechaInicio)
+                .add(a, "d")
+                .format("l")
             )
           )
             .format("LLLL")
-            .slice(0, -4),
+            .slice(0, -4)
         };
         this.items.push(objet);
       }
@@ -1573,29 +1687,39 @@ export default {
       return conviert[2] + "-" + conviert[1] + "-" + conviert[0];
     },
 
-    //funciones de archivos
-    removeFile(file, xhr, error) {},
+    //funciones de archivos se usa pero no tiene nada de datos
+    removeFile(file, xhr, error) {
+      console.log(file);
+      console.log(xhr);
+      console.log(error);
+    },
+    // Tambien se esta usando pero no hace nada
     vqueueComplete(file, xhr, formData) {
+      console.log(file);
+      console.log(xhr);
+      console.log(formData);
       //  this.queueComplete = true
       // window.toastr.success('', 'Event : vdropzone-queue-complete')
     },
-    async errorservidor(archivo, mensaje, xhr) {
-      let alert = alertas();
+    // No se esta usando
+    // async errorservidor(archivo, mensaje, xhr) {
+    //   let alert = alertas();
 
-      alert.filenotvalidorsize();
-      this.upload = false;
-      //  mensaje.message=='Token Signature could not be verified.'
-      //  ||mensaje.message =='Token has expired'
-      //  ?alertas.errortoken():alertas.imagenotvalid()
-    },
-    async errorfactura(archivo, mensaje, xhr) {
-      let alert = alertas();
-      alert.filenotvalidorsize();
-      this.upload = false;
-      //  mensaje.message=='Token Signature could not be verified.'
-      //  ||mensaje.message =='Token has expired'
-      //  ?alertas.errortoken():alertas.imagenotvalid()
-    },
+    //   alert.filenotvalidorsize();
+    //   this.upload = false;
+    //   //  mensaje.message=='Token Signature could not be verified.'
+    //   //  ||mensaje.message =='Token has expired'
+    //   //  ?alertas.errortoken():alertas.imagenotvalid()
+    // },
+    // No se esta usando
+    // async errorfactura(archivo, mensaje, xhr) {
+    //   let alert = alertas();
+    //   alert.filenotvalidorsize();
+    //   this.upload = false;
+    //   //  mensaje.message=='Token Signature could not be verified.'
+    //   //  ||mensaje.message =='Token has expired'
+    //   //  ?alertas.errortoken():alertas.imagenotvalid()
+    // },
     addfileokcp() {
       this.upload = false;
 
@@ -1634,10 +1758,8 @@ export default {
     },
     addfileok() {
       this.upload = false;
-
-      this.cuentafactura--;
       let mensaje =
-        '<h4 style=""><strong>PDF Y/O XML</strong></h4> <span>Máximo 1mb*<span> <br> Máximo ' +
+        '<h4 style=""><strong>PDF Y/O XML</strong></h4><span> Máximo 1mb*<span> <br> Máximo ' +
         this.cuentafactura +
         " archivo(s)*";
       if (this.cuentafactura <= 0) {
@@ -1687,7 +1809,7 @@ export default {
         .getElementsByClassName("dz-message"); /////  selector js, la documentación no funciona
       msj[0].innerHTML = mensaje;
     },
-    async afterupload(file) {},
+    // async afterupload(file) {},
     vsuccess(file, response) {
       try {
         //  console.log(response)
@@ -1901,7 +2023,7 @@ export default {
         "docx",
         "xlsx",
         "image",
-        "xls",
+        "xls"
       ]);
       formData.append("maxpermitido", 1); //1 //3
       formData.append("iguales", 1); ///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0
@@ -1930,7 +2052,7 @@ export default {
         "docx",
         "xlsx",
         "image",
-        "xls",
+        "xls"
       ]);
       formData.append("maxpermitido", 1); //1 //3
       formData.append("nameoriginal", file.name.substring(0, 18)); //1 //3
@@ -1961,7 +2083,7 @@ export default {
         "docx",
         "xlsx",
         "image",
-        "xls",
+        "xls"
       ]);
       formData.append("maxpermitido", 1); //1 //3
       formData.append("nameoriginal", file.name.substring(0, 18)); //1 //3
@@ -1992,22 +2114,23 @@ export default {
         "docx",
         "xlsx",
         "image",
-        "xls",
+        "xls"
       ]);
       formData.append("maxpermitido", 3); //1 //3
       formData.append("nameoriginal", file.name.substring(0, 18)); //1 //3
 
       formData.append("iguales", 1); ///// valor para determinar si de maxpermitidos se pueden hacer 2 del mismo o 1 y 1  ///0
     },
-    cargando(totalProgress, totalBytes, totalBytesSent) {
-      this.upload = true;
-    },
+    // cargando(totalProgress, totalBytes, totalBytesSent) {
+    // No se esta usando
+    //   this.upload = true;
+    // },
     async deletefile(item) {
       //  console.log(item)
 
       let arrayreloj = [];
       item = Object.assign({}, item);
-      await this.facturas.forEach((element) => {
+      await this.facturas.forEach(element => {
         if (element.id == item.id) {
           element.reloj = true;
         }
@@ -2017,11 +2140,12 @@ export default {
       await document.getElementById(item.id + "btn").remove();
       const repo = repocreate();
       try {
-        await repo.deletefile(item).then((res) => {
+        await repo.deletefile(item).then(res => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
           this.facturas = this.facturas.filter(
-            (element) => element.id != item.id
+            element => element.id != item.id
           );
           this.cuentafactura++;
           let mensaje =
@@ -2045,7 +2169,7 @@ export default {
     async deletefilec(item) {
       let arrayreloj = [];
       item = Object.assign({}, item);
-      await this.cotizaciones.forEach((element) => {
+      await this.cotizaciones.forEach(element => {
         if (element.id == item.id) {
           element.reloj = true;
         }
@@ -2055,11 +2179,12 @@ export default {
       await document.getElementById(item.id + "btnc").remove();
       const repo = repocreate();
       try {
-        await repo.deletefile(item).then((res) => {
+        await repo.deletefile(item).then(res => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
           this.cotizaciones = this.cotizaciones.filter(
-            (element) => element.id != item.id
+            element => element.id != item.id
           );
           this.cuentacotizacion++;
           let mensaje =
@@ -2085,7 +2210,7 @@ export default {
     async deletefilex(item) {
       let arrayreloj = [];
       item = Object.assign({}, item);
-      await this.extras.forEach((element) => {
+      await this.extras.forEach(element => {
         if (element.id == item.id) {
           element.reloj = true;
         }
@@ -2095,10 +2220,11 @@ export default {
       await document.getElementById(item.id + "btnx").remove();
       const repo = repocreate();
       try {
-        await repo.deletefile(item).then((res) => {
+        await repo.deletefile(item).then(res => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
-          this.extras = this.extras.filter((element) => element.id != item.id);
+          this.extras = this.extras.filter(element => element.id != item.id);
           this.cuentaextras++;
           let mensaje =
             '<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo ' +
@@ -2123,7 +2249,7 @@ export default {
     async deletefileo(item) {
       let arrayreloj = [];
       item = Object.assign({}, item);
-      await this.ordenes.forEach((element) => {
+      await this.ordenes.forEach(element => {
         if (element.id == item.id) {
           element.reloj = true;
         }
@@ -2133,12 +2259,11 @@ export default {
       await document.getElementById(item.id + "btno").remove();
       const repo = repocreate();
       try {
-        await repo.deletefile(item).then((res) => {
+        await repo.deletefile(item).then(res => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
-          this.ordenes = this.ordenes.filter(
-            (element) => element.id != item.id
-          );
+          this.ordenes = this.ordenes.filter(element => element.id != item.id);
           this.cuentaorden++;
           let mensaje =
             '<h4 style=""><strong>Archivos</strong></h4> <span>Máximo 1mb*<span> <br> Máximo ' +
@@ -2163,7 +2288,7 @@ export default {
     async deletefilecp(item) {
       let arrayreloj = [];
       item = Object.assign({}, item);
-      await this.comprobantes.forEach((element) => {
+      await this.comprobantes.forEach(element => {
         if (element.id == item.id) {
           element.reloj = true;
         }
@@ -2173,11 +2298,12 @@ export default {
       await document.getElementById(item.id + "btncp").remove();
       const repo = repocreate();
       try {
-        await repo.deletefile(item).then((res) => {
+        await repo.deletefile(item).then(res => {
+          console.log(res);
           let resp = alertas();
           resp.filesuccess();
           this.comprobantes = this.comprobantes.filter(
-            (element) => element.id != item.id
+            element => element.id != item.id
           );
           this.cuentacomprobante++;
           let mensaje =
@@ -2211,7 +2337,6 @@ export default {
         fecha = `${year}-0${month}-${day}`;
       } else {
         fecha = `${year}-${month}-${day}`;
-
       }
       return fecha;
     },
@@ -2223,36 +2348,34 @@ export default {
       date.setDate(date.getDate() + 1); ///se suma 1 dia a la fecha del dia actual
       this.form.fechaFin = this.sumarfechadate(date);
       this.minimofinish = this.sumarfechadate(date);
-    },
+    }
   },
   components: {
-    Multiselect,
-    Swal,
+    // Multiselect,
+    // Swal,
     Calendar,
-    Swal,
-    vue2Dropzone,
-    Archivos,
-    Archivos,
+    // Swal,
+    // vue2Dropzone,
+    // Archivos,
+    Archivos
   },
   computed: {
     ...mapState(["darkMode"]),
     dates() {
-      return this.days.map((day) => day.date);
+      return this.days.map(day => day.date);
     },
     attributes() {
-      return this.dates.map((date) => ({
+      return this.dates.map(date => ({
         highlight: true,
-        dates: date,
+        dates: date
       }));
-    },
+    }
   },
   async mounted() {
     // console.log("paso montado");
     await this.getitems();
     this.fecha();
-  },
+  }
 };
 </script>
-
-<style>
-</style> 
+<style></style>

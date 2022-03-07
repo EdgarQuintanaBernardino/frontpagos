@@ -2,12 +2,13 @@
   <div>
     <br />
     <b-row style="overflow: hidden">
-      <b-col class="">
-        <h4>Permisos</h4>
+      <b-col>
+        <h4 style="text-align:center">Permisos</h4>
+        <!-- Seleccionado {{ value.Permisos }} -->
         <b-form-group>
           <template #label>
             <b-form-checkbox
-              :disabled="validaPropietario == 1"
+              :disabled="Propietario || checkAdmi || Bandera"
               v-model="value.chkAdmin"
               v-for="option in PermisosAdmin"
               :key="option.id"
@@ -21,7 +22,7 @@
               </p>
             </b-form-checkbox>
             <b-form-checkbox
-              :disabled="value.chkAdmin || validaPropietario == 1"
+              :disabled="Propietario || Bandera"
               v-model="allSelected"
               v-for="option in Permisos.filter(elem => elem.id == 6)"
               :key="option.id"
@@ -36,7 +37,7 @@
 
           <template v-slot="{ ariaDescribedby }">
             <b-form-checkbox-group
-              :disabled="value.chkAdmin || validaPropietario == 1"
+              :disabled="value.chkAdmin || Propietario || Bandera"
               id="flavors"
               v-model="value.Permisos"
               :options="Permisos.filter(elem => elem.id != 6 && elem.id != 7)"
@@ -51,28 +52,27 @@
           </template>
         </b-form-group>
       </b-col>
-      <b-col class="" style="font-size: 94%">
-        <h4>Visibilidad</h4>
-        {{ value.Tipos }}
+      <b-col style="font-size: 94%">
+        <h4 style="text-align:center">Visibilidad</h4>
+        <!-- Visibilidad -->
+        <!-- Seleccionado {{ value.Tipos }} -->
         <b-form-checkbox
+          :disabled="Propietario || Bandera"
+          :checked="TodosTipos"
           @change="tiposSelectAll"
           v-for="option in Tipos.filter(elem => elem.id == 1)"
           :key="option.id"
-          :v-model="SelectTodosTipos"
+          :v-model="true"
           >{{ option.nombre }}
         </b-form-checkbox>
-        <b-form-checkbox-group
-          stacked
-          checkboxes
-          :disabled="validaPropietario == 1"
-        >
+        <b-form-checkbox-group stacked checkboxes :disabled="Propietario">
           <b-form-checkbox
             @change="tiposSelect"
             v-for="option in Tipos.filter(elem => elem.id != 1)"
             v-model="value.Tipos"
             :key="option.id"
             :value="option.id"
-            :disabled="blockNiveles.includes(option.id)"
+            :disabled="blockNiveles.includes(option.id) || Bandera"
             >{{ option.nombre }}
           </b-form-checkbox>
         </b-form-checkbox-group>
@@ -81,15 +81,16 @@
           <div class="justify-content-around">
             <div class="flex-fill mr-sm-2">
               <b-form-checkbox
-                :disabled="validaPropietario == 1"
+                :disabled="Propietario || Bandera"
                 v-model="chkDesde"
+                @input="AllDate(1)"
                 ><p>
                   {{ chkDesde ? "Desde el inicio" : "Desde" }}
                 </p></b-form-checkbox
               >
+              <!-- @input="fechaSelect" -->
               <b-form-datepicker
-                :disabled="validaPropietario == 1"
-                @input="fechaSelect"
+                :disabled="Propietario || Bandera"
                 class="mr-lg-3 mb-xs-2"
                 v-model="value.FechD"
                 v-if="!chkDesde"
@@ -102,14 +103,15 @@
             </div>
             <div class="flex-fill">
               <b-form-checkbox
-                :disabled="validaPropietario == 1"
+                :disabled="Propietario || Bandera"
                 v-model="chkHasta"
+                @input="AllDate(2)"
                 ><p>
                   {{ chkHasta ? "Hasta siempre" : "Hasta" }}
                 </p></b-form-checkbox
               >
               <b-form-datepicker
-                :disabled="validaPropietario == 1"
+                :disabled="Propietario || Bandera"
                 v-model="value.FechH"
                 class="mr-lg-3"
                 v-if="!chkHasta"
@@ -126,6 +128,39 @@
           </div>
         </div>
       </b-col>
+      <!-- Boton de crear permiso -->
+      <b-col class="col-12">
+        <CButton
+          v-if="Bandera === false && Bandera2 === false"
+          class="mt-2"
+          block
+          color="primary"
+          @click="passEvent"
+          :disabled="
+            value.Permisos.length === 0 ||
+              value.Tipos.length === 0 ||
+              value.FechH.length === 0 ||
+              value.FechD.length === 0 ||
+              Bandera
+          "
+          >{{ titleButton }}</CButton
+        >
+        <CButton
+          v-if="Bandera === false && Bandera2 === true"
+          class="mt-2"
+          block
+          color="success"
+          @click="EditarPermisos"
+          :disabled="
+            value.Permisos.length === 0 ||
+              value.Tipos.length === 0 ||
+              value.FechH.length === 0 ||
+              value.FechD.length === 0 ||
+              Bandera
+          "
+          >{{ titleButton }}</CButton
+        >
+      </b-col>
     </b-row>
   </div>
 </template>
@@ -139,21 +174,31 @@ const maxDateDesde = new Date(today.setDate(maxDate.getDate() - 1));
 import repoupdateprofileuser from "@/assets/repositoriosjs/repoupdateprofileuser";
 import { mapState } from "vuex";
 export default {
-  props: {
-    per: Object,
-    niv: Object,
-    perSel: Array,
-    nivSel: Object
-  },
+  // props: {
+  // per: Object,
+  // niv: Object,
+  // perSel: Array,
+  // nivSel: Object,
+  // PermisosProp: Object,
+  // titleButton: String,
+  // },
+  props: ["titleButton", "checkAdmin"],
   data() {
     return {
+      // Bloquear al editar en el componente padre
+      Bandera: false,
+      Bandera2: false,
+      // Todos los tipos en visibilidad
+      TodosTipos: false,
+      checkAdmi: false,
+      Propietario: false,
       Permisos: [],
-      Tipos: [],
+      Tipos: [], //Tipos es la visibilidad que se le esta dando
       value: {
-        Permisos: [{ nombre: "", dec: "", id: -1 }],
+        Permisos: [],
         Tipos: [],
-        FechD: "",
-        FechH: "",
+        FechD: "1",
+        FechH: "1",
         chkAdmin: false
       },
       selectAllTipos: [2, 3, 4, 1],
@@ -163,7 +208,11 @@ export default {
       chkDesde: true,
       chkHasta: true,
       max: maxDate,
-      maxDe: maxDateDesde
+      maxDe: maxDateDesde,
+      // Validaciones de las fechas
+      AllDateS: true,
+      AllDateE: true,
+      Owner: false
     };
   },
   computed: {
@@ -183,13 +232,13 @@ export default {
         FechaDesde.getDate() + 2
       );
     },
-    validaPropietario() {
-      return this.$parent.hasOwnProperty("value")
-        ? this.$parent.value.Propietario
-        : this.$parent.$parent.$parent.value.Propietario;
-    },
+    // validaPropietario() {
+    //   return this.$parent.hasOwnProperty("value")
+    //     ? this.$parent.value.Propietario
+    //     : this.$parent.$parent.$parent.value.Propietario;
+    // },
     blockNiveles() {
-      // console.log(this.value.Tipos.sort().join(''));
+      // Logica en la visubilidad del modulo de permisos
       if (this.value.Tipos.join("") == 234) {
         return [2, 3, 4];
       } else if (this.value.Tipos[0] == 4 && this.value.Tipos[1] == 2) {
@@ -209,10 +258,11 @@ export default {
       }
     },
     blockPermisos() {
+      // Logica en la permisos del modulo de permisos
       let val = this.value.Permisos[0];
       if (val == 2 || val == 3 || val == 4 || val == 5 || val == 8) {
-        // return [6,7]
-        return [];
+        return [6, 7];
+        // return [];
       } else if (val == 6) {
         // this.value.Permisos=[2,3,4,5];
         // return [2,3,4,5,7,8,9]
@@ -226,19 +276,156 @@ export default {
     }
   },
   methods: {
+    EditaPermisos(op) {
+      if (op === 1) {
+        this.Bandera = true;
+      }
+      if(op === 2){
+        this.Bandera = false;
+        this.Bandera2 = true;
+      }
+    },
+    ClearNiveles() {
+      this.value.Permisos = [];
+      this.value.Tipos = [];
+      this.TodosTipos = false;
+      // this.chkAdmin = false;
+    },
+    // Pintar valores editados
+    PintarEditado(value) {
+      // this.Bandera = true;
+      if (value.Permisos == 7) {
+        // this.checkAdmin = true;
+        // this.value.chkAdmin = true;
+        this.chkAdmin(1);
+      } else {
+        this.value.chkAdmin = false;
+        this.value.Permisos = value.Permisos;
+      }
+      // this.bandera = value.Bandera;
+      // console.log(this.bandera);
+      console.log(value);
+      // Se checa si es ADMIN
+      //Se pintan los valores en los permisos
+
+      //Se pinta la Visibilidad
+      if (value.Visibilidad[0] == 1) {
+        this.value.Tipos = [2, 3, 4];
+        this.TodosTipos = true;
+      } else if (value.Visibilidad[0] == 0) {
+        console.log("ADMIN123");
+        this.value.Tipos = [2, 3, 4];
+      } else {
+        this.value.Tipos = value.Visibilidad;
+      }
+      // Se pintan las fechas como llegan
+      this.chkDesde = value.CheckDesde;
+      this.chkHasta = value.CheckHasta;
+      this.value.FechD = value.FechaI;
+      this.value.FechH = value.FechaF;
+
+      // if (value.Visibilidad == 24) {
+      //   this.value.Tipos = [2, 4];
+      // }
+      // if (value.Visibilidad == 34) {
+      //   this.value.Tipos = [3, 4];
+      // }
+      // if (value.Visibilidad == 2) {
+      //   this.value.Tipos = [2];
+      // }
+      // if (value.Visibilidad == 4) {
+      //   this.value.Tipos = [4];
+      // }
+      // if (value.Visibilidad == 3) {
+      //   this.value.Tipos = [3];
+      // }
+
+      //Se pintan los valores de las fechas
+      // this.value.FechD = value.FechaI;
+      // this.value.FechH = value.FechaF;
+      // Validar desde siempre
+      // if (value.FechaI == 1) {
+      //   this.chkDesde = true;
+      // }
+      // if(value.FechaF == 1){
+      //   this.chkHasta = true;
+      // }
+      // if()
+      // else {
+      //   this.chkDesde = false;
+      // }
+      // if (value.FechaI != 1) {
+      //   // this.chkDesde = false;
+      //   this.value.FechD = value.FechaI;
+      // }
+      // if (value.FechaF != 1) {
+      //   this.chkHasta = false;
+      // }
+      // else {
+      //   this.chkHasta = false;
+      // }
+      // if (value.FechaF != 1) {
+      //   // this.chkHasta = false;
+      //   this.value.FechH = value.FechaF;
+      // }
+    },
+    SelectOwner(id) {
+      if (id === 1) {
+        this.value.Permisos = [2, 3, 4, 5, 8, 9];
+        this.value.Tipos = [2, 3, 4];
+        this.value.chkAdmin = true;
+        this.SelectTodosTipos = true;
+        this.Propietario = true;
+        this.TodosTipos = true;
+      }
+      if (id === 2) {
+        this.value.Permisos = [];
+        this.value.Tipos = [];
+        this.value.chkAdmin = false;
+        this.SelectTodosTipos = false;
+        this.Propietario = false;
+        this.TodosTipos = false;
+      }
+    },
+    passEvent() {
+      console.log(this.value);
+      this.$emit("ChangePer", this.value);
+      // console.log(this.value);
+    },
+    EditarPermisos() {
+      this.$emit("EditPer", this.value);
+    },
+    // CONSULTA LAS ACCIONES DE UN PERMISO AL EDITAR UNO DE ESTOS
+    ConsultaNiveles() {
+      console.log("AQUI SE IMPRIME LOS PERMISOS");
+    },
     tiposSelectAll(checked) {
       console.log(checked);
       if (checked) {
+        this.TodosTipos = true;
         this.value.Tipos = [2, 3, 4];
       } else {
         this.value.Tipos = [];
       }
     },
-    chkAdmin() {
+    chkAdmin(op) {
       if (this.value.chkAdmin) {
-        this.value.Permisos = [2, 3, 4, 5, 8, 9];
+        this.value.Permisos = [2, 3, 4, 5, 7, 8, 9];
+        // this.value.Permisos = [2, 3, 4, 5, 8, 9];
+        // this.value.Permisos = [2, 3, 4, 5, 8, 9];
+        this.value.Tipos = [2, 3, 4];
+        this.value.chkAdmin = true;
+        this.SelectTodosTipos = true;
+        this.TodosTipos = true;
       } else {
         this.value.Permisos = [];
+      }
+      //Pintar la tabla de editar con los datos del admin
+      if (op == 1) {
+        this.value.Permisos = [2, 3, 4, 5, 7, 8, 9];
+        this.value.chkAdmin = true;
+        this.SelectTodosTipos = true;
+        this.TodosTipos = true;
       }
     },
     toggleAll(checked) {
@@ -248,18 +435,36 @@ export default {
           )
         : [];
     },
-    fechaSelect() {
-      if (this.$parent.hasOwnProperty("value")) {
-        this.$parent.value.FechI = this.value.FechD;
-        this.$parent.value.FechF = this.value.FechH;
+    // fechaSelect() {
+    //   // console.log(id);
+    //   if (this.$parent.hasOwnProperty("value")) {
+    //     this.$parent.value.FechI = this.value.FechD;
+    //     this.$parent.value.FechF = this.value.FechH;
+    //   }
+    // },
+    // Validacion en caso que este desde el incio de los tiempos
+    AllDate(id) {
+      if (id === 1) {
+        this.AllDateS = !this.AllDateS;
+        if (this.AllDateS === true) {
+          this.value.FechD = "1";
+        } else {
+          this.value.FechD = "";
+        }
+      }
+      if (id === 2) {
+        this.AllDateE = !this.AllDateE;
+        if (this.AllDateE === true) {
+          this.value.FechH = "1";
+        } else {
+          this.value.FechH = "";
+        }
       }
     },
-    // permisosSelect() {
-    //   this.$emit("permisosSelect", this.value.Permisos);
-    // },
     tiposSelect() {
-      // if (this.$parent.hasOwnProperty("value")) {
-      //   }
+      // console.log(id);
+      // this.value.Tipos = id;
+      // console.log(this.value.Tipos);
       if (this.value.Tipos.sort().join("") == 234) {
         this.$emit("tiposSelect", [1]);
         this.SelectTodosTipos = true;
@@ -305,9 +510,10 @@ export default {
     }
   },
   watch: {
+    ValuesProp: function() {},
     "value.Tipos"(newValue) {
-      console.log(newValue);
-      console.log(this.$parent.$parent.$parent);
+      // console.log(newValue);
+      // console.log(this.$parent.$parent.$parent);
       // this.$parent.$parent.$parent.muestraTab = false;
       if (newValue.join("") == 234) {
         this.$emit("tiposSelect", [1]);
@@ -336,7 +542,7 @@ export default {
     "value.FechD"(newValue) {
       if (
         (newValue > this.value.FechH || newValue == this.value.FechH) &&
-        this.value.FechH != ""
+        this.value.FechH != "1"
       ) {
         const fecha = new Date(newValue);
         this.value.FechH = new Date(
@@ -345,70 +551,77 @@ export default {
           fecha.getDate() + 2
         );
       }
-    },
-    perSel(newValue) {
-      console.log(this.nivSel);
-      console.log(this.nivSel.FechaI);
-
-      this.chkDesde = false;
-      this.value.Tipos = [];
-      if (newValue.includes(7)) {
-        this.value.chkAdmin = true;
-        this.value.Permisos = [2, 3, 4, 5, 8, 9];
-      } else {
-        this.value.chkAdmin = false;
-        this.value.Permisos = newValue;
-      }
-      if (this.nivSel.FechaI == "1") {
-        this.chkDesde = true;
-      } else {
-        this.chkDesde = false;
-        this.value.FechD = this.nivSel.FechaI;
-      }
-      if (this.nivSel.FechaF == "1") {
-        this.chkHasta = true;
-      } else {
-        this.chkHasta = false;
-        this.value.FechH = this.nivSel.FechaF;
-      }
-      console.log(this.nivSel.Visibilidad);
-      if (this.nivSel.Visibilidad.includes(1)) {
-        this.value.Tipos = [2, 3, 4];
-        this.SelectTodosTipos = true;
-      } else {
-        this.value.Tipos = this.nivSel.Visibilidad;
-      }
-      console.log(this.value.Tipos);
-      // this.value.Tipos = this.nivSel.Visibilidad;
     }
+    // perSel(newValue) {
+    //   console.log(this.nivSel);
+    //   console.log(this.nivSel.FechaI);
+    //   this.chkDesde = false;
+    //   this.value.Tipos = [];
+    //   if (newValue.includes(7)) {
+    //     this.value.chkAdmin = true;
+    //     this.value.Permisos = [2, 3, 4, 5, 8, 9];
+    //   } else {
+    //     this.value.chkAdmin = false;
+    //     this.value.Permisos = newValue;
+    //   }
+    //   if (this.nivSel.FechaI == "1") {
+    //     this.chkDesde = true;
+    //   } else {
+    //     this.chkDesde = false;
+    //     this.value.FechD = this.nivSel.FechaI;
+    //   }
+    //   if (this.nivSel.FechaF == "1") {
+    //     this.chkHasta = true;
+    //   } else {
+    //     this.chkHasta = false;
+    //     this.value.FechH = this.nivSel.FechaF;
+    //   }
+    //   // console.log(this.nivSel.Visibilidad);
+    //   if (this.nivSel.Visibilidad.includes(1)) {
+    //     this.value.Tipos = [2, 3, 4];
+    //     this.SelectTodosTipos = true;
+    //   } else {
+    //     this.value.Tipos = this.nivSel.Visibilidad;
+    //   }
+    //   // console.log(this.value.Tipos);
+    //   // this.value.Tipos = this.nivSel.Visibilidad;
+    // }
   },
   mounted() {
-    if (this.perSel.includes(7)) {
-      this.value.chkAdmin = true;
-      this.value.Permisos = [2, 3, 4, 5, 8, 9];
-    } else {
-      this.value.chkAdmin = false;
-      this.value.Permisos = this.perSel;
-    }
-    if (this.nivSel.FechaI == "1") {
-      this.chkDesde = true;
-    } else {
-      this.chkDesde = false;
-      this.value.FechD = this.nivSel.FechaI;
-    }
-    if (this.nivSel.FechaF == "1") {
-      this.chkHasta = true;
-    } else {
-      this.chkHasta = false;
-      this.value.FechH = this.nivSel.FechaF;
-    }
-    console.log(this.nivSel.Visibilidad);
-    if (this.nivSel.Visibilidad.includes(1)) {
-      this.SelectTodosTipos = true;
-      this.value.Tipos = [2, 3, 4];
-    } else {
-      this.value.Tipos = this.nivSel.Visibilidad;
-    }
+    // this.checkAdmi = this.checkAdmin;
+    // console.log(this.titleButton);
+    // console.log(this.value);
+    // console.log("usamos mounted");
+    // console.log(this.perSel)
+    // if (this.perSel.includes(7))
+    // No usar esta misma funcion en las 2 ventanas
+    // if(this.perSel.some(elem => elem === 7))
+    // {
+    //   this.value.chkAdmin = true;
+    //   this.value.Permisos = [2, 3, 4, 5, 8, 9];
+    // } else {
+    //   this.value.chkAdmin = false;
+    //   this.value.Permisos = this.perSel;
+    // }
+    // if (this.nivSel.FechaI == "1") {
+    //   this.chkDesde = true;
+    // } else {
+    //   this.chkDesde = false;
+    //   this.value.FechD = this.nivSel.FechaI;
+    // }
+    // if (this.nivSel.FechaF == "1") {
+    //   this.chkHasta = true;
+    // } else {
+    //   this.chkHasta = false;
+    //   this.value.FechH = this.nivSel.FechaF;
+    // }
+    // console.log(this.nivSel.Visibilidad);
+    // if (this.nivSel.Visibilidad.includes(1)) {
+    //   this.SelectTodosTipos = true;
+    //   this.value.Tipos = [2, 3, 4];
+    // } else {
+    //   this.value.Tipos = this.nivSel.Visibilidad;
+    // }
   },
   async created() {
     await this.getNivelesdeAccesos();

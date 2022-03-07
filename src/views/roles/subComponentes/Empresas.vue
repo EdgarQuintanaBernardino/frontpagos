@@ -1,10 +1,9 @@
 <template>
   <div>
-    <p>Selecciona la empresa</p>
-    <div>
+    <!-- <div>
       <CModal
         :closeOnBackdrop="false"
-        title="Crear grupo de permisos"
+        title="Crea un nuevo permiso"
         :show.sync="warningModal"
         :centered="true"
       >
@@ -26,47 +25,93 @@
             >
             <b-col
               ><CButton
+                v-if="form.Name.length > 0"
                 class="float-right mr-3 mb-2"
                 color="success"
                 @click="GuardaName()"
-                >Guardar</CButton
+                >Valida nombre</CButton
               ></b-col
             >
           </b-row>
         </template>
       </CModal>
+    </div> -->
+    <!-- Despliega el modulo para validar nombre -->
+    <div v-if="Alert === true">
+      <!-- Mensaje de alerta en caso de ser un nombre ya existente -->
+      <CAlert color="warning" closeButton>
+        <center>
+          Nombre ya existente
+        </center>
+      </CAlert>
     </div>
-    <b-card no-body>
-      <b-tabs pills card>
-        <b-tab title="Mi(s) Empresa(s)" active>
-          <b-card-text>
-            <b-list-group flush>
-              <b-list-group-item
-                v-for="option in Empresas"
-                :key="option.id"
-                @click="continuar(option)"
-                href="#"
-                :active="value.EmpresaSelect.id == option.id ? true : false"
-                >{{ option.nombre }}</b-list-group-item
-              >
-            </b-list-group>
-          </b-card-text>
-        </b-tab>
-        <b-tab title="Empresa(s) externa(s)">
-          <b-card-text>
-            <b-list-group flush>
-              <b-list-group-item
-                v-for="option in EmpresasExternas"
-                :key="option.id"
-                @click="continuar(option)"
-                href="#"
-                >{{ option.nombre }}</b-list-group-item
-              >
-            </b-list-group>
-          </b-card-text>
-        </b-tab>
-      </b-tabs>
-    </b-card>
+    <div class="mb-4" v-if="SplitName === true">
+      <!-- Input para el nombre del permiso -->
+
+      <!-- <template>
+        <b-row>
+          <b-col
+            ><span class="ml-1" for="name">{{ span }}</span></b-col
+          >
+          <b-col
+            ><CButton
+              style="font-size: 73%;"
+              v-if="span.length > 0"
+              class="float-right"
+              color="success"
+              @click="ReemplazaName()"
+              >Continuar y reemplazar</CButton
+            ></b-col
+          >
+          <b-col></b-col>
+        </b-row>
+      </template> -->
+    </div>
+    <div v-if="this.CloseCompany === true">
+      <center>
+        <h5>Selecciona una empresa</h5>
+      </center>
+      <b-card no-body>
+        <b-tabs pills card>
+          <b-tab title="Interna(s)" active>
+            <b-card-text>
+              <b-list-group flush>
+                <b-list-group-item
+                  v-for="option in Empresas"
+                  :key="option.id"
+                  @click="continuar(option, 1)"
+                  href="#"
+                  :active="value.EmpresaSelect.id == option.id ? true : false"
+                  >{{ option.nombre }}</b-list-group-item
+                >
+              </b-list-group>
+            </b-card-text>
+          </b-tab>
+          <b-tab title="Externa(s)">
+            <b-card-text>
+              <b-list-group flush>
+                <b-list-group-item
+                  v-for="option in EmpresasExternas"
+                  :key="option.id"
+                  @click="continuar(option)"
+                  href="#"
+                  >{{ option.nombre }}</b-list-group-item
+                >
+              </b-list-group>
+            </b-card-text>
+          </b-tab>
+        </b-tabs>
+      </b-card>
+    </div>
+    <div>
+      <!-- <CButton
+        block
+        color="success"
+        :disabled="form.Name.length === 0"
+        @click="GuardaName(1)"
+        >Validar información</CButton
+      > -->
+    </div>
   </div>
 </template>
 
@@ -77,10 +122,14 @@ export default {
   props: {
     empresas: Object,
     grupo: Object,
-    grupOk: Number
+    grupOk: Number,
+    saveName: Number
   },
   data() {
     return {
+      Alert: false,
+      SplitName: false,
+      CloseCompany: true,
       warningModal: false,
       EmpresasExternas: [],
       Empresas: [],
@@ -97,10 +146,16 @@ export default {
       }
     };
   },
+  watch: {
+    // if(this.saveName === 1){
+    //   this.GuardaName();
+    // }
+  },
   computed: {
     ...mapState(["darkMode"])
   },
   async mounted() {
+    // if(this.saveName == 1)
     this.value.EmpresaSelect = this.empresas;
     this.form = this.grupo;
     await this.getEmpresas();
@@ -109,29 +164,37 @@ export default {
       this.span = "Grupo ya existente";
       this.warningModal = true;
     }
+    if (this.saveName === 1) {
+      console.log("Va");
+    }
   },
   methods: {
-    continuar(data) {
+    continuar(data, Opmodule) {
+      // console.log("Sin modal");
       this.value.EmpresaSelect = data;
       this.form.Company_id = data.id;
       this.warningModal = true;
+      if (Opmodule === 1) {
+        this.SplitName = true;
+      }
     },
     async GuardaName() {
       // await this.creaGrupo();
+      console.log("Hola mundo ! ");
       if (this.form.Name.length > 0) {
         this.warningModal = false;
         if (this.grupOk == 1) {
-          console.log("nueva petición");
-          if(this.$parent.value.Validate == false){
+          if (this.$parent.value.Validate == false) {
             this.$parent.creaJSON(false);
-          }else{
+          } else {
             this.$parent.creaJSON();
           }
         } else {
           this.$emit("EmpSelect", this.value.EmpresaSelect);
           this.$emit("Permiso", this.form);
         }
-        console.log(this.value.EmpresaSelect);
+        // Imprime que empresa se selecciono
+        // console.log(this.value.EmpresaSelect);
       }
     },
     ReemplazaName() {

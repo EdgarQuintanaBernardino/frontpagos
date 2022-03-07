@@ -1,5 +1,14 @@
 <template>
   <div>
+    <b-row class="mt-2 mb-4">
+      <b-col class="col-2"></b-col>
+      <b-col class="col-8">
+        <b-button block variant="primary" @click="limpiar">
+          Crear nuevo grupo</b-button
+        >
+      </b-col>
+      <b-col class="col-2"></b-col>
+    </b-row>
     <b-row class="mt-3">
       <b-col class="col-2"
         ><span>{{ accion }}</span></b-col
@@ -29,6 +38,7 @@
             >
             </multiselect> -->
             <b-form-select
+              :disabled="blockCompany === true"
               v-model="Grupo.Empresa"
               :options="empresas"
               value-field="id"
@@ -42,16 +52,19 @@
           ></b-col>
           <b-col
             ><br />
-            <b-button :disabled="grupoBlock" @click="guardar()"
+            <b-button
+              :disabled="grupoBlock"
+              @click="guardar()"
+              variant="success"
               >Guardar
             </b-button>
-            <b-button
+            <!-- <b-button
               v-if="Grupo.Id != -1"
               :disabled="grupoBlock"
               @click="limpiar"
             >
               Cancelar</b-button
-            >
+            > -->
           </b-col>
         </b-row>
       </b-col>
@@ -89,8 +102,12 @@
           <td>
             {{ item.Name }}
             <b-button-group class="float-right">
-              <b-button @click="editar(item)">Editar</b-button>
-              <b-button @click="delGrupos(item)">Eliminar</b-button>
+              <b-button @click="editar(item)" variant="primary"
+                >Editar</b-button
+              >
+              <b-button @click="delGrupos(item)" variant="danger" class="ml-2"
+                >Eliminar</b-button
+              >
             </b-button-group>
           </td>
         </template>
@@ -106,14 +123,13 @@ import Multiselect from "vue-multiselect";
 import { mapState } from "vuex";
 import repoupdateprofileuser from "../../assets/repositoriosjs/repoupdateprofileuser";
 export default {
-  props: {
-    grupo: String,
-  },
+  props: ["limpiarin"],
   components: {
-    Multiselect,
+    Multiselect
   },
   data() {
     return {
+      blockCompany: false,
       soloYo: 0,
       usuarios: [],
       empresas: [],
@@ -126,7 +142,7 @@ export default {
       Grupo: {
         Id: -1,
         Nombre: "",
-        Empresa: -1,
+        Empresa: -1
         // Empresa: [], DESCOMENTAR SI SE UTILIZA EL MULTISELECT DE EMPRESAS XD
       },
       update: false,
@@ -136,19 +152,22 @@ export default {
           key: "Name",
           _style: "min-width:200px",
           sorter: true,
-          label: "Nombre",
-        },
-      ],
+          label: "Nombre"
+        }
+      ]
     };
   },
   async mounted() {
     this.cargaini();
+    this.limpiar();
   },
   computed: {
     ...mapState(["darkMode"]),
     grupoBlock() {
-      return this.Grupo.Nombre.length > 2 && this.Grupo.Empresa > 0 ? false : true
-      /* 
+      return this.Grupo.Nombre.length > 2 && this.Grupo.Empresa > 0
+        ? false
+        : true;
+      /*
       CAMBIOS CON EL MULTISELECT QUE HABIA HECHO PERO QUE YA NO ESTAN, POR EL MOMENTO <:D QUEDE PAYASO
 
       return this.soloYo == 1
@@ -159,14 +178,21 @@ export default {
         ? false
         : true;
       */
-    }, 
+    }
+  },
+  watch: {
+    limpiarin: function() {
+      // watch it
+      // console.log("entra");
+      this.limpiar();
+    }
   },
   methods: {
     async getEmpresasExt() {
       try {
         const repo = repoupdateprofileuser();
-        await repo.consEmpresasExt().then((res) => {
-          this.empresasExternas = res.data.map(function (obj) {
+        await repo.consEmpresasExt().then(res => {
+          this.empresasExternas = res.data.map(function(obj) {
             let newObj = {};
             newObj.nombre = obj.empresa.nombre;
             newObj.id = obj.empresa.id;
@@ -183,14 +209,14 @@ export default {
     async getEmpresas() {
       try {
         const repo = repoupdateprofileuser();
-        await repo.getempresasback().then((res) => {
-          console.log(res);
-          this.empresas = res.data.data.map(function (obj) {
+        await repo.getempresasback().then(res => {
+          // console.log(res);
+          this.empresas = res.data.data.map(function(obj) {
             let newObj = {};
             newObj.nombre = obj.nombre;
             newObj.id = obj.id;
             newObj.propietario = 1;
-            console.log('empresas: '+newObj.nombre);
+            // console.log("empresas: " + newObj.nombre);
             return newObj;
           });
         });
@@ -203,9 +229,9 @@ export default {
     async getUsuarios() {
       try {
         const repo = repoupdateprofileuser();
-        await repo.onlyusers().then((res) => {
-          console.log(res);
-          this.usuarios = res.data.map(function (obj) {
+        await repo.onlyusers().then(res => {
+          // console.log(res);
+            this.usuarios = res.data.map(function(obj) {
             let newObj = {};
             newObj.nombre = obj.name;
             newObj.id = obj.id;
@@ -230,18 +256,18 @@ export default {
         await this.getGrupos(emp.id);
       }
       this.Grupos = this.Grupos.flat();
-      console.log(this.Grupos);
+      // console.log(this.Grupos);
       this.show = false;
       // const gr = [... new Set(this.Grupos)]
       // console.log(gr);
-      console.log(this.Grupos);
+      // console.log(this.Grupos);
     },
     selecGrupo() {
       this.$emit("grupoSelect", this.selected);
     },
     editar(item) {
       this.accion = "Editar nombre";
-      console.log(item);
+      // console.log(item);
       this.Grupo.Nombre = item.Name;
       this.Grupo.Id = item.id;
       this.Grupo.Empresa = parseInt(item.pivot.company_id);
@@ -251,6 +277,7 @@ export default {
       ConsUs.Name = item.Name;
       ConsUs.Company_id = parseInt(item.pivot.company_id);
       this.ConsUsersGrupos(ConsUs);
+      this.blockCompany = true;
     },
     async guardar() {
       if (this.update) {
@@ -278,16 +305,17 @@ export default {
       this.Grupo.Empresa = [];
       this.value = [];
       this.soloYo = 0;
+      this.blockCompany = false;
     },
     async getGrupos(id) {
       try {
         const repo = repoupdateprofileuser();
         let request = {};
         request.Company_id = id;
-        await repo.consGroupEmpresas(request).then((res) => {
+        await repo.consGroupEmpresas(request).then(res => {
           res.data.length > 0
             ? this.Grupos.push(
-                res.data.map((element) => {
+                res.data.map(element => {
                   let newObj = {};
                   newObj.id = element.id;
                   newObj.Name = element.Name;
@@ -298,7 +326,7 @@ export default {
             : null;
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         //
       }
@@ -310,16 +338,16 @@ export default {
         dGrupo.Company_id = request.pivot.company_id;
         dGrupo.Id = request.id;
         const repo = repoupdateprofileuser();
-        await repo.DelGroupEmpresas(dGrupo).then((res) => {
+        await repo.DelGroupEmpresas(dGrupo).then(res => {
           if (res.code == 201) {
             const indice = this.Grupos.findIndex(
-              (elem) => elem.id === request.id
+              elem => elem.id === request.id
             );
             this.Grupos.splice(indice, 1);
           }
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         this.show = false;
       }
@@ -327,13 +355,13 @@ export default {
     async createGrupos(request) {
       try {
         const repo = repoupdateprofileuser();
-        console.log(request);
-        await repo.creaGroupEmpresas(request).then((res) => {
+        // console.log(request);
+        await repo.creaGroupEmpresas(request).then(res => {
           if (res.code == 201) {
             let addUs = {};
             addUs.Id = res.data.id;
             addUs.Company_id = request.Company_id;
-            addUs.Users = this.value.map((elem) => elem.id);
+            addUs.Users = this.value.map(elem => elem.id);
             // addUs.SoloYo = this.soloYo;  DESCOMENTAR SI SE VUELVE A ACTIVAR EL CHECK DE SOLO YO Y EL MULTISELECT DE EMPRESAS
             this.addUsersGrupos(addUs);
             this.Grupos.splice(0, this.Grupos.length);
@@ -341,7 +369,7 @@ export default {
           }
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         //
       }
@@ -349,21 +377,21 @@ export default {
     async actGroupEmpresas(request) {
       try {
         const repo = repoupdateprofileuser();
-        await repo.ActGroupEmpresas(request).then((res) => {
-          console.log(res);
+        await repo.ActGroupEmpresas(request).then(res => {
+          // console.log(res);
           if (res.code == 201) {
             let addUs = {};
             addUs.Id = request.Id;
             addUs.Company_id = request.Company_id;
-            addUs.Users = this.value.map((elem) => elem.id);
-            console.log(addUs);
+            addUs.Users = this.value.map(elem => elem.id);
+            // console.log(addUs);
             this.addUsersGrupos(addUs);
             this.Grupos.splice(0, this.Grupos.length);
             this.cargaini();
           }
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         //
       }
@@ -371,23 +399,23 @@ export default {
     async addUsersGrupos(request) {
       try {
         const repo = repoupdateprofileuser();
-        await repo.AddUsGroupEmpresas(request).then((res) => {
+        await repo.AddUsGroupEmpresas(request).then(res => {
           console.log(res);
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         //
       }
     },
     async ConsUsersGrupos(request) {
       try {
-        console.log(request);
+        // console.log(request);
         const repo = repoupdateprofileuser();
-        await repo.consUsGrupo(request).then((res) => {
-          console.log(res);
+        await repo.consUsGrupo(request).then(res => {
+          // console.log(res);
           if (res.data.length > 0) {
-            this.value = res.data.map((elem) => {
+            this.value = res.data.map(elem => {
               let newObj = {};
               newObj.id = elem.id;
               newObj.nombre = elem.name;
@@ -398,21 +426,20 @@ export default {
           }
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         //
       }
     },
     validaComparar() {
       if (this.soloYo == 1 || this.Grupo.Empresa.length > 0) {
-        console.log("hace validacion");
+        // console.log("hace validacion");
       } else {
-        console.log("Es cero la variable");
+        // console.log("Es cero la variable");
       }
-    },
-  },
-}
+    }
+  }
+};
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css">
-</style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

@@ -1,7 +1,6 @@
 <template>
   <b-container fluid>
     <!-- User Interface controls -->
-
     <b-overlay :show="show" rounded="sm">
       <template v-slot:overlay>
         <div class="text-center">
@@ -9,7 +8,12 @@
           <p id="cancel-label">Please wait...</p>
         </div>
       </template>
-      <allfront
+      <b-tabs
+        content-class="mt-3"
+        active-nav-item-class="font-weight-normal text-uppercase"
+      >
+        <b-tab title="Ingresos Recibidos"  title-link-class="text-dark">
+          <allfront
             v-if="getmetodo"
             :datosallin="datosall"
             @recargatabla="getitems"
@@ -34,8 +38,120 @@
             @info="info"
             @roles="roles"
             @showtickets="chat"
-            @cambiatabla="filtra"
           ></back>
+        </b-tab>
+        <b-tab title="Ingresos en Tramite" title-link-class="text-dark"
+          ><allfront
+            v-if="getmetodo"
+            :datosallin="datosall"
+            @recargatabla="getitems"
+            @deleteevento="deletevento"
+            :iddeletein="iddelete"
+            @deletedetabla="deletedetabla"
+            @add="addevent"
+            @info="info"
+            :idedit="idedit"
+            @roles="roles"
+            @showempresa="showempresa"
+          ></allfront>
+          <back
+            v-else
+            :datosallin="datosallback"
+            @getparams="getparams"
+            @deleteevento="deletevento"
+            :iddeletein="iddeleteback"
+            @deletedetabla="deletedetabla"
+            @add="addevent"
+            :idedit="ideditback"
+            @info="info"
+            @roles="roles"
+            @showtickets="chat"
+          ></back
+        ></b-tab>
+        <b-tab title="Ingresos Pendientes" title-link-class="text-dark"
+          ><allfront
+            v-if="getmetodo"
+            :datosallin="datosall"
+            @recargatabla="getitems"
+            @deleteevento="deletevento"
+            :iddeletein="iddelete"
+            @deletedetabla="deletedetabla"
+            @add="addevent"
+            @info="info"
+            :idedit="idedit"
+            @roles="roles"
+            @showempresa="showempresa"
+          ></allfront>
+          <back
+            v-else
+            :datosallin="datosallback"
+            @getparams="getparams"
+            @deleteevento="deletevento"
+            :iddeletein="iddeleteback"
+            @deletedetabla="deletedetabla"
+            @add="addevent"
+            :idedit="ideditback"
+            @info="info"
+            @roles="roles"
+            @showtickets="chat"
+          ></back
+        ></b-tab>
+        <b-tab title="Ingresos Rechazados" title-link-class="text-dark"
+          ><allfront
+            v-if="getmetodo"
+            :datosallin="datosall"
+            @recargatabla="getitems"
+            @deleteevento="deletevento"
+            :iddeletein="iddelete"
+            @deletedetabla="deletedetabla"
+            @add="addevent"
+            @info="info"
+            :idedit="idedit"
+            @roles="roles"
+            @showempresa="showempresa"
+          ></allfront>
+          <back
+            v-else
+            :datosallin="datosallback"
+            @getparams="getparams"
+            @deleteevento="deletevento"
+            :iddeletein="iddeleteback"
+            @deletedetabla="deletedetabla"
+            @add="addevent"
+            :idedit="ideditback"
+            @info="info"
+            @roles="roles"
+            @showtickets="chat"
+          ></back
+        ></b-tab>
+      </b-tabs>
+      <!-- <allfront
+        v-if="getmetodo"
+        :datosallin="datosall"
+        @recargatabla="getitems"
+        @deleteevento="deletevento"
+        :iddeletein="iddelete"
+        @deletedetabla="deletedetabla"
+        @add="addevent"
+        @info="info"
+        :idedit="idedit"
+        @roles="roles"
+        @showempresa="showempresa"
+      ></allfront>
+      <back
+        v-else
+        :datosallin="datosallback"
+        @getparams="getparams"
+        @deleteevento="deletevento"
+        :iddeletein="iddeleteback"
+        @deletedetabla="deletedetabla"
+        @add="addevent"
+        :idedit="ideditback"
+        @info="info"
+        @roles="roles"
+        @showtickets="chat"
+        @cambiatabla="filtra"
+      ></back> -->
       <!-- <div>
         <b-nav pills class="d-flex">
           <b-nav-item href="1" active>Pagos Recibidos</b-nav-item>
@@ -218,13 +334,13 @@ export default {
   components: {
     back,
     allfront,
-    ModalEgresos,
+    ModalEgresos
   },
   watch: {
-    metodo: function (newval, oldvar) {
+    metodo: function(newval) {
       this.resetvalores();
       this.prueba(newval);
-    },
+    }
   },
   data() {
     return {
@@ -266,7 +382,7 @@ export default {
       myallcompanies: [],
       myallcuentas: [],
       myallusers: [],
-      proyectosall: [],
+      proyectosall: []
     };
   },
   mounted() {
@@ -281,20 +397,18 @@ export default {
   },
   computed: {
     getmetodo() {
-      this.metodo = this.$store.getters.getmetodo;
+      // this.metodo = this.$store.getters.getmetodo;
       return this.$store.getters.getmetodo;
-    },
+    }
   },
   methods: {
-  filtra(){
-
-  },
+    filtra() {},
     chat(id) {
       this.id_ticket = id;
       this.$bvModal.show("modal-historial");
     },
     descripcionpermisos(allpermissions) {
-      this.allpermissionsd = allpermissions.map((r) => r.descripcion);
+      this.allpermissionsd = allpermissions.map(r => r.descripcion);
     },
     adduser(item) {
       let metodo = this.$store.getters.getmetodo;
@@ -346,7 +460,7 @@ export default {
         namebtn: "Editar Empresa",
         typebtn: "edit",
         showdelete: false,
-        showreset: false,
+        showreset: false
       };
       this.openmodal();
     },
@@ -362,7 +476,7 @@ export default {
       try {
         let repoitems = repo();
         let validaciones = respuestas();
-        await repoitems.onlyusers().then((res) => {
+        await repoitems.onlyusers().then(res => {
           let response = validaciones.validafriends(res);
           this.myallusers = response.data;
         });
@@ -377,7 +491,7 @@ export default {
       try {
         let repoitems = repo();
         let validaciones = respuestas();
-        await repoitems.getmycuentas().then((res) => {
+        await repoitems.getmycuentas().then(res => {
           let response = validaciones.validafriends(res);
           this.myallcuentas = response.data.cuentas;
         });
@@ -400,7 +514,7 @@ export default {
         self.show = true;
         console.log(self);
         this.items = [];
-        let validaciones = respuestas();
+        // let validaciones = respuestas();
         await repoitems
           .PagosBack({
             ////iniciamos la parte del back en
@@ -408,9 +522,9 @@ export default {
             tableFilter: self.tableFilter,
             columnFilter: self.columnFilter,
             itemsLimit: self.itemsLimit,
-            currentpage: self.currentpage,
+            currentpage: self.currentpage
           })
-          .then((res) => {
+          .then(res => {
             // console.log(res)
             // console.log("aqyui las res")
             this.empresasall = res["empresas"];
@@ -430,17 +544,17 @@ export default {
               maxPages: maximo,
               ///header
               header: true, ///bolean heeader
-              headername: "Pagos Registrados",
+              headername: "Egresos Registrados",
               btnadd: true,
               iconadd: "credit-card",
               animation: "cylon",
               fontscale: "1",
               classicon: "mr-2",
               namebtn: "Añadir / Enviar Egreso",
-              badgevariant: "primary",
-              btnvariant: "info",
+              badgevariant: "dark",
+              btnvariant: "primary",
               btnstyle: "float:right",
-              component: "empresashow",
+              component: "empresashow"
             };
             this.totalrowsend = res.count;
             this.datosallback = datosgenericos;
@@ -453,7 +567,7 @@ export default {
         this.show = false;
       }
     },
-    deletedetabla(item) {
+    deletedetabla() {
       //  this.$store.getters.getmetodo? this.datosall.otheritems.push(item):this.datosallback.otheritems.push(item);
     },
 
@@ -464,7 +578,7 @@ export default {
         namebtn: "Ingreso ",
         typebtn: "new",
         showdelete: true,
-        showreset: true,
+        showreset: true
       };
       this.openmodal();
     },
@@ -481,8 +595,8 @@ export default {
       this.show = true; //// el render del reloj?
       try {
         let repoitems = repo();
-        let validaciones = respuestas();
-        await repoitems.getpagossend().then((res) => {
+        // let validaciones = respuestas();
+        await repoitems.getpagossend().then(res => {
           //    let response=validaciones.validafriends(res);
           let response = res.data[0];
           this.empresasall = res.data[1];
@@ -503,7 +617,7 @@ export default {
               { key: "fecha", label: "Solicitado", class: "text-center" },
               { key: "visto", label: "Visto", class: "text-center" },
 
-              { key: "actions", label: "Acciones", class: "text-center" },
+              { key: "actions", label: "Acciones", class: "text-center" }
             ],
             totalfilasmostradas: 15,
             items: response,
@@ -522,7 +636,7 @@ export default {
             badgevariant: "primary",
             btnvariant: "info",
             btnstyle: "float:right",
-            component: "null",
+            component: "null"
           };
           this.datosall = datosgenericos;
           //   console.log(this.datosall)
@@ -545,8 +659,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Borrala!",
-      }).then((result) => {
+        confirmButtonText: "Si, Borrala!"
+      }).then(result => {
         if (result.value) {
           this.actiondeleteempresa(item);
         }
@@ -559,14 +673,15 @@ export default {
       try {
         await dao
           .deletecuenta(item)
-          .then((res) => {
+          .then(() => {
+            // console.log(res);
             this.$store.getters.getmetodo
               ? (this.iddelete = item)
               : (this.iddeleteback = item);
           })
-          .catch((eror) => {
+          .catch(eror => {
             alert.errorservidor();
-            // console.log(eror);
+            console.log(eror);
           });
       } catch (error) {
         // console.log(error.message);
@@ -575,7 +690,7 @@ export default {
       }
     },
     async getparams($params) {
-      console.log('llega')
+      console.log("llega");
       let self = this;
       self.sorter = $params.sorter;
       self.tableFilter = $params.tableFilter;
@@ -589,7 +704,7 @@ export default {
       this.$store.getters.getmetodo
         ? (this.idedit = item)
         : (this.ideditback = item);
-    },
-  },
+    }
+  }
 };
 </script>

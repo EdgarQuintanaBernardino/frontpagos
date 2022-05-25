@@ -15,12 +15,12 @@ exports[`TheSidebar.vue renders correctly 1`] = `
     imgminimized="[object Object]"
     wrappedinlink="[object Object]"
   />
-   
+
   <crenderfunction-stub
     contenttorender="[object Object]"
     flat="true"
   />
-   
+
   <csidebarminimizer-stub
     class="c-d-md-down-none"
   />

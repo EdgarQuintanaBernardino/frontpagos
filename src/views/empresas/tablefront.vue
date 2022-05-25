@@ -1,6 +1,6 @@
 <template>
   <div>
-  
+
  <b-row>
         <b-col cols="12">
           <CCard>
@@ -92,8 +92,8 @@
               >
          <template v-slot:cell(sucursales)="row"
          >
-         
-               
+
+
           <b-button
                         size="md"
                         block
@@ -103,13 +103,13 @@
                       >
                         <b-icon icon="shop-window"></b-icon>Sucursales
                       </b-button>
-     
-     
-   
+
+
+
          </template>
                 <template v-slot:cell(name)="row">
                               <b-row>
-                
+
                     <b-col sm="12" class="mb-2 text-center">
                       <b-button
                         size="sm"
@@ -125,14 +125,14 @@
                     </b-col>
                   </b-row>
                 </template>
-              
+
                 <template v-slot:cell(razon)="row">{{
                   row.item.razonsocial
                 }}</template>
                   <template v-slot:cell(telefono)="row">{{
                   row.item.telefonoContacto
                 }}</template>
-                
+
                       <template v-slot:cell(actions)="row">
               <b-container fluid>
                   <b-row class="justify-content-md-center">
@@ -146,7 +146,7 @@
                         variant="outline-primary"
                         class="mr-1 mb-1 mt-2"
                       >
-                        <b-icon icon="pencil"></b-icon>Editar 
+                        <b-icon icon="pencil"></b-icon>Editar
                       </b-button>
                       <b-button
                    v-if="permi==2"
@@ -180,7 +180,7 @@
                         @click="deleteevent(row.item)"
                          class="mr-1 mb-1  mt-2"
                       >
-                        <b-icon icon="lock-fill"></b-icon>Bloquear 
+                        <b-icon icon="lock-fill"></b-icon>Bloquear
                       </b-button>
                                         </b-col>
 
@@ -206,11 +206,11 @@
 
                   </b-col>
                 </b-row>
-              
 
-                    
+
+
                 </template>
-           
+
                       <template v-slot:cell(actions)="row">
               <b-container fluid>
                   <b-row class="justify-content-md-center">
@@ -224,7 +224,7 @@
                         variant="outline-primary"
                         class="mr-1 mb-1 mt-2"
                       >
-                        <b-icon icon="pencil"></b-icon>Editar 
+                        <b-icon icon="pencil"></b-icon>Editar
                       </b-button>
                       <b-button
                    v-if="permi==2"
@@ -258,7 +258,7 @@
                         @click="deleteevent(row.item)"
                          class="mr-1 mb-1  mt-2"
                       >
-                        <b-icon icon="trash-fill"></b-icon>Borrar 
+                        <b-icon icon="trash-fill"></b-icon>Borrar
                       </b-button>
                                         </b-col>
 
@@ -267,7 +267,7 @@
 
                 </template>
                 <template v-slot:row-details="row">
-                <b-card                   
+                <b-card
                     border-variant="primary"
                     :header="row.item.nombre"
                     header-bg-variant="primary"
@@ -285,31 +285,31 @@
                     'Estado','municipio','Colonia','Calle','Número', 'RFC','Télefono','mail','Regimen_Fiscal']"
                     >
                    <template v-slot:cell(name)>
-                  
+
                  {{row.name}}
-                   </template> 
+                   </template>
                      <template v-slot:cell(municipio)>
                   {{row.item.municipio}}
-                   </template> 
+                   </template>
                       <template v-slot:cell(email)>
-                  
+
                  {{row.email}}
-                   </template>   
+                   </template>
                   <template v-slot:cell(tel)>
-                  
+
                  {{row.telefono}}
-                   </template> 
+                   </template>
                       <template v-slot:cell(razon)>
-                  
+
                  {{row.razonsocial}}
-                   </template> 
+                   </template>
                     </b-table>
                     </b-card>
                </template>
                 <template v-slot:head()="data">
                   <span class="text-info">{{ data.label.toUpperCase() }}</span>
                 </template>
-                         
+
               </b-table>
               <b-row>
                 <b-col sm="7" md="12" class="my-1">
@@ -327,7 +327,7 @@
           </CCard>
         </b-col>
       </b-row>
-     
+
 
 </div>
 </template>
@@ -351,7 +351,7 @@ export default {
   },
   data() {
     return {
-      filteredTodos:[    
+      filteredTodos:[
         { key: "name", label: "Nombre Usuario", class: "text-center",component:{carpeta:"templates",file:"users"}},
 
 
@@ -364,7 +364,7 @@ export default {
           items:[],
           otheritems:[],
 
-        
+
 
 
         },
@@ -403,16 +403,16 @@ export default {
   },
 
 
-  computed: {  
+  computed: {
     dynamicSlotName(){ return "name"; },
-    
-  
+
+
        stepComponent() {
          let c=this.datosall.component;
         return () => import(`@/views/tablesdetails/${c}`);
-     
+
             },
-              
+
     sortOptions() {
       // Create an options list from our fields
       return this.fields
@@ -433,8 +433,8 @@ export default {
     },
 
   },
- 
-  
+
+
   watch:{
     idedit:function(newval,oldval){
           this.actualizaregistro(newval);
@@ -442,7 +442,7 @@ export default {
     },
     datosallin:function(newval,oldvar){
       //this.datosall.items=[];
-      
+
          this.datosall=newval;
          this.items=newval.items;
 
@@ -450,13 +450,13 @@ export default {
     iddeletein:function(newval,oldval){
           this.eliminaregistro(newval);
            this.$emit('deletedetabla',this.iddeletein);
-             
+
 
 },
 
   },
   methods: {
-  
+
      gomycell(key) {
     return `cell(${key})`; // simple string interpolation
   },
@@ -499,4 +499,3 @@ this.$emit('add');
   },
 };
 </script>
-      

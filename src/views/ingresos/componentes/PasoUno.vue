@@ -21,7 +21,8 @@
     <!-- Primer paso value = 50 -->
     <b-row v-if="value == 50">
       <b-col cols="1"> </b-col>
-      <b-col cols="4" class="text-center">
+      <!-- <b-col cols="5" class="text-center"> -->
+      <div class="text-center col-lg-4 col-xs-12">
         <center class="mb-2 mt-2">
           <span>
             Concepto
@@ -77,7 +78,6 @@
             </span>
             <b-button-group size="sm">
               <b-button
-                class=""
                 variant="info"
                 v-b-tooltip.hover
                 title="¿Estas ayudando a realizar la transacción a alguien más ? Inicia la solictud con la información que tengas y cedele la propiedad para que esta persona tenga control y pueda concluir con el proceso"
@@ -109,12 +109,16 @@
                 buttons
                 class="d-block"
                 aria-required="true"
+                @input="resetAccount"
               ></b-form-radio-group>
             </b-form-group>
           </center>
         </b-input-group>
-      </b-col>
-      <b-col cols="6" v-if="form.Ceder === false">
+      </div>
+
+      <!-- </b-col> -->
+      <!-- <b-col cols="6" v-if="form.Ceder === false"> -->
+      <div class="text-center col-lg-6 col-xs-12" v-if="form.Ceder === false">
         <center class="mb-2 mt-2">
           <span>
             Selecciona una empresa y cuenta
@@ -200,8 +204,11 @@
             </b-tab>
           </b-tabs>
         </b-card>
-      </b-col>
-      <b-col cols="6 mt-2" v-if="form.Ceder">
+        <!-- </b-col> -->
+      </div>
+
+      <!-- <b-col cols="6 mt-2" v-if="form.Ceder"> -->
+      <div class="text-center col-lg-6 col-xs-12" v-if="form.Ceder">
         <center class="mb-2">
           <span>
             ¿ A quien cedes el pago ?
@@ -233,11 +240,15 @@
             </b-tab>
           </b-tabs>
         </b-card>
-      </b-col>
+      </div>
+      <!-- </b-col> -->
+      <b-col cols="1"> </b-col>
     </b-row>
+
     <b-row v-if="value == 50">
       <b-col cols="1"> </b-col>
-      <b-col cols="3" class="text-center">
+      <!-- <b-col cols="3" class="text-center"> -->
+      <div class="text-center col-lg-3 col-xs-12">
         <center class="mb-2">
           <span>
             Monto
@@ -267,14 +278,17 @@
             ></b-button>
           </b-input-group-append>
         </b-input-group>
-      </b-col>
-      <b-col cols="2" class="text-center">
+      </div>
+      <!-- </b-col> -->
+
+      <!-- <b-col cols="2" class="text-center"> -->
+      <div class="text-center col-lg-2 col-xs-12">
         <center class="mb-2">
           <span>
             Moneda
           </span>
         </center>
-        <b-input-group size="md">
+        <b-input-group size="md" v-if="form.Ceder == false">
           <b-form-input readonly v-model="moneda" disabled> </b-form-input>
           <b-input-group-append>
             <b-button
@@ -285,8 +299,29 @@
             ></b-button>
           </b-input-group-append>
         </b-input-group>
-      </b-col>
-      <b-col cols="2" class="text-center">
+        <b-input-group size="md" v-if="form.Ceder">
+          <b-form-select v-model="moneda">
+            <b-form-select-option
+              v-for="item in monedas"
+              :key="item.id"
+              :value="item.moneda"
+              :label="item.moneda"
+            />
+          </b-form-select>
+          <b-input-group-append>
+            <b-button
+              variant="info"
+              v-b-tooltip.hover
+              title="Si estas cediendo el pago, selecciona el tipo de moneda que deseas"
+              ><b-icon icon="question-circle" aria-hidden="true"></b-icon
+            ></b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </div>
+      <!-- </b-col> -->
+
+      <div class="text-center col-lg-2 col-xs-12">
+        <!-- <b-col cols="2" class="text-center"> -->
         <center class="mb-2">
           <span>
             IVA
@@ -309,8 +344,11 @@
             ></b-button>
           </b-input-group-append>
         </b-input-group>
-      </b-col>
-      <b-col cols="3" class="text-center">
+      </div>
+      <!-- </b-col> -->
+
+      <div class="text-center col-lg-3 col-xs-12">
+        <!-- <b-col cols="3" class="text-center"> -->
         <center class="mb-2">
           <span>
             Monto Neto
@@ -335,11 +373,16 @@
             ></b-button>
           </b-input-group-append>
         </b-input-group>
-      </b-col>
+      </div>
+      <!-- </b-col> -->
+      <b-col cols="1"> </b-col>
     </b-row>
+
     <b-row v-if="value == 50">
       <b-col cols="1"> </b-col>
-      <b-col cols="3">
+
+      <!-- <b-col cols="3"> -->
+      <div class="text-center col-lg-3 col-xs-6">
         <center class="mb-2 mt-3">
           <b-form-checkbox
             :disabled="form.concepto.length < 4 || form.comentario.length < 6"
@@ -380,8 +423,11 @@
             </b-dropdown-item-button>
           </b-dropdown>
         </center>
-      </b-col>
-      <b-col cols="3" class="text-center">
+      </div>
+      <!-- </b-col> -->
+
+      <!-- <b-col cols="3" class="text-center"> -->
+      <div class="text-center col-lg-3 col-xs-6">
         <center class="mb-2 mt-3">
           <span>
             Selecciona una modalidad
@@ -411,8 +457,11 @@
             aria-required="true"
           ></b-form-radio-group>
         </b-form-group>
-      </b-col>
-      <b-col cols="4" class="text-center">
+      </div>
+      <!-- </b-col> -->
+
+      <!-- <b-col cols="4" class="text-center"> -->
+      <div class="text-center col-lg-4 col-xs-12">
         <center class="mb-2 mt-3">
           <span>
             Usuario(s) a quien le solicito el pago
@@ -447,9 +496,11 @@
           :limit="3"
         >
         </multiselect>
-      </b-col>
+      </div>
+      <!-- </b-col> -->
       <b-col cols="1"> </b-col>
     </b-row>
+
     <b-row class="mt-2" v-if="value == 50">
       <b-col cols="1"> </b-col>
       <b-col cols="10" class="text-center">
@@ -519,7 +570,8 @@
     <!-- Opcion para compartir el pago con uno o mas usuarios -->
     <b-row v-if="value == 100 && form.Ceder == false">
       <b-col cols="3"> </b-col>
-      <b-col cols="6">
+      <!-- <b-col cols="6"> -->
+      <div class="text-center col-lg-6 col-xs-12">
         <center>
           <span>
             ¿Deseas compartir el pago?
@@ -542,17 +594,21 @@
             ></b-form-radio-group>
           </b-form-group>
         </center>
-      </b-col>
+        <!-- </b-col> -->
+      </div>
       <b-col cols="3"> </b-col>
     </b-row>
+
     <b-row v-if="value == 100 && form.Ceder == false">
-      <b-col cols="1" class="text-center mt-1"> </b-col>
-      <b-col cols="10 mt-1" v-if="form.compartir">
+      <b-col cols="1"> </b-col>
+      <!-- <b-col cols="12 mt-1" v-if="form.compartir"> -->
+      <div class="col-lg-10 col-xs-12" v-if="form.compartir">
         <b-card>
           <b-tabs content-class="mt-1">
             <b-tab title="Compartir Pago">
               <b-row>
-                <b-col cols="6" class="text-center mt-2">
+                <!-- <b-col cols="6" class="text-center mt-2"> -->
+                <div class="text-center col-lg-6 col-xs-12">
                   <multiselect
                     :limit="4"
                     v-model="form.permisosUsuario"
@@ -570,8 +626,11 @@
                     :taggable="true"
                     @tag="emailCompartirPago"
                   ></multiselect>
-                </b-col>
-                <b-col cols="6" class="text-center mt-1">
+                  <!-- </b-col> -->
+                </div>
+
+                <!-- <b-col cols="6" class="text-center mt-1"> -->
+                <div class="text-center col-lg-6 col-xs-12">
                   <label>Permisos de los usuarios seleccionados</label>
                   <b-form-checkbox-group
                     v-model="form.permisosSeleccionados"
@@ -581,19 +640,23 @@
                     text-field="name"
                     disabled-field="notEnabled"
                   ></b-form-checkbox-group>
-                </b-col>
+                </div>
+
+                <!-- </b-col> -->
               </b-row>
             </b-tab>
           </b-tabs>
         </b-card>
-      </b-col>
-      <b-col cols="1" class="text-center mt-1"> </b-col>
+        <!-- </b-col> -->
+      </div>
+      <b-col cols="1" class="text-center"> </b-col>
     </b-row>
 
-    <b-row v-if="value == 100 && form.Ceder == false" class="mb-2">
+    <b-row v-if="value == 100 && form.Ceder == false" class="">
       <b-col cols="1"></b-col>
-      <b-col cols="5" class="text-center">
-        <center class="mb-2">
+      <!-- <b-col cols="5" class="text-center"> -->
+      <div class="text-center col-lg-5 col-xs-12">
+        <center class="mb-2 mt-2">
           <span>
             Etiqueta tu ingreso
           </span>
@@ -615,14 +678,16 @@
           separator=" "
           placeholder="Presiona enter para agregar"
         ></b-form-tags>
-      </b-col>
-      <b-col cols="5" class="text-center">
+        <!-- </b-col> -->
+      </div>
+
+      <!-- <b-col cols="5" class="text-center"> -->
+      <div class="text-center col-lg-5 col-xs-12">
         <!-- <label
           ><span>
-
           </span></label
         > -->
-        <center class="mb-2">
+        <center class="mb-2 mt-2">
           <span>
             Proyecto(s) al que se destina el pago
           </span>
@@ -651,13 +716,15 @@
           :allow-empty="true"
           :taggable="true"
         ></multiselect>
-      </b-col>
+      </div>
+      <!-- </b-col> -->
       <b-col cols="1"></b-col>
     </b-row>
 
     <b-row v-if="value == 100" class="mb-3">
       <b-col cols="1" class="text-center"></b-col>
-      <b-col cols="5" class="text-center mt-3">
+      <!-- <b-col cols="5" class="text-center mt-3"> -->
+      <div class="text-center col-lg-5 col-xs-12 mt-3">
         <!-- <label><span>Links de pago</span></label> -->
         <center class="mb-2">
           <span>
@@ -688,8 +755,11 @@
             </b-button>
           </b-input-group-append>
         </b-input-group>
-      </b-col>
-      <b-col cols="5" class="text-center mt-3">
+      </div>
+      <div
+        class="text-center mt-3 col-lg-5 col-xs-12"
+        v-if="form.isrecurrente == false"
+      >
         <center class="mb-2">
           <span>
             Fecha límite de pago
@@ -713,13 +783,14 @@
           v-model="fechaLimite"
           :style="darkMode ? 'background-color:#393a42' : null"
         ></b-form-datepicker>
-      </b-col>
+      </div>
       <b-col cols="1"></b-col>
     </b-row>
     <!-- Tabla con links de pagos -->
     <b-row class="mt-3 mb-1" v-if="value == 100">
       <b-col cols="1"></b-col>
-      <b-col cols="10">
+      <!-- <b-col cols="10"> -->
+      <div class="text-center col-lg-10 col-xs-12">
         <b-table
           v-if="this.form.links.length > 0"
           :items="form.links"
@@ -742,13 +813,15 @@
             >
           </template>
         </b-table>
-      </b-col>
+        <!-- </b-col> -->
+      </div>
       <b-col cols="1"></b-col>
     </b-row>
     <!-- Recurrencia en los pagos -->
     <b-row class="mb-2" v-if="value == 100">
-      <b-col cols="1"></b-col>
-      <b-col cols="3">
+      <b-col cols="3"></b-col>
+      <!-- <b-col cols="3"> -->
+      <div class="text-center col-lg-3 col-xs-12">
         <b-form-group>
           <b-form-checkbox
             v-if="mostrarPrestamo == false"
@@ -763,7 +836,6 @@
             Hacer recurrente el pago
             <b-button-group size="sm">
               <b-button
-                class=""
                 variant="info"
                 v-b-tooltip.hover
                 title="Al hacer recurrente un pago se hará una solicitud en automático en las fechas que establescas"
@@ -772,8 +844,11 @@
             </b-button-group>
           </b-form-checkbox>
         </b-form-group>
-      </b-col>
-      <b-col cols="3">
+      </div>
+
+      <!-- </b-col> -->
+      <!-- <b-col cols="3"> -->
+      <div class="text-center col-lg-3 col-xs-12">
         <b-form-group>
           <!-- Check para hacer el monto variable  v-model="form.pagoVariable" value="accepted"
             unchecked-value="No"-->
@@ -797,13 +872,16 @@
             </b-button-group>
           </b-form-checkbox>
         </b-form-group>
-      </b-col>
-      <b-col cols="5"></b-col>
+      </div>
+      <!-- </b-col> -->
+      <b-col cols="3"></b-col>
     </b-row>
+
     <!-- Calendario para ver los pagos RECURRENTES -->
     <b-row v-if="value == 100 && mostrarPrestamo == false">
       <b-col cols="1"></b-col>
-      <b-col cols="10" v-if="form.isrecurrente">
+      <!-- <b-col cols="10" v-if="form.isrecurrente"> -->
+      <div class="text-center col-lg-10 col-xs-12" v-if="form.isrecurrente">
         <b-card>
           <b-row>
             <b-col>
@@ -902,7 +980,7 @@
             </b-row>
           </b-col>
         </b-card>
-      </b-col>
+      </div>
       <b-col cols="1"></b-col>
     </b-row>
     <!-- SECCION DE ARCHIVOS -->
@@ -1722,18 +1800,19 @@
     <!-- </b-row> -->
     <!-- Terminan los componentes del paso dos -->
     <!-- Los botones van a cambiar dependiendo de value  -->
+    <!-- :disabled="
+            form.monto.length <= 0 ||
+              form.modalidad == 0 ||
+              form.seleccionAmigo.length <= 0
+          " -->
     <b-row>
       <b-col cols="1"> </b-col>
       <b-col cols="10" class="text-center mt-4" v-if="value == 50">
         <b-button
           class="col-12"
           variant="success"
-          @click="Next(1)"
-          :disabled="
-            form.monto.length <= 0 ||
-              form.modalidad == 0 ||
-              form.seleccionAmigo.length <= 0
-          "
+          @click="ValidateTab1()"
+          :disabled="form.concepto.length < 4 || form.comentario.length < 6"
           >Siguiente
           <b-icon
             class="ml-2"
@@ -1756,8 +1835,27 @@
       </b-col>
       <b-col cols="5" v-if="value == 100">
         <!-- Se deba de mandar un 2 para hacer todo el JSON de los datos, falta hacer validacion de campos llenos para avanzar -->
-        <b-button block variant="primary" @click="Next(2)"
+        <b-button
+          block
+          variant="primary"
+          @click="Next(2)"
+          v-if="edit_ingress == false"
+          :disabled="loading"
           >Crear datos
+          <b-icon
+            class="ml-2"
+            icon="arrow-right-square-fill"
+            animation="cylon"
+            font-scale="1"
+          ></b-icon
+        ></b-button>
+        <b-button
+          block
+          variant="warning"
+          @click="Next(2)"
+          v-if="edit_ingress"
+          :disabled="loading"
+          >Editar ingreso
           <b-icon
             class="ml-2"
             icon="arrow-right-square-fill"
@@ -1782,7 +1880,7 @@
       <div>
         <b-row>
           <b-col cols="1"></b-col>
-          <b-col cols="5">
+          <div class="col-lg-5 col-xs-12">
             <center class="mb-1"><span>Fecha de inicio de pagos</span></center>
             <b-form-datepicker
               :disabled="actualizaDataPrestamo"
@@ -1795,8 +1893,8 @@
               v-model="formPrestamo.fechaIncio"
               :style="darkMode ? 'background-color:#393a42' : null"
             ></b-form-datepicker>
-          </b-col>
-          <b-col cols="2" class="text-center">
+          </div>
+          <div class="text-center col-lg-2 col-sm-3 col-xs-12 ">
             <center class="mb-1">
               <span>
                 No. Pagos
@@ -1811,8 +1909,8 @@
                 type="number"
               ></b-form-input>
             </b-input-group>
-          </b-col>
-          <b-col cols="3">
+          </div>
+          <div class="text-center col-lg-3 col-sm-9 col-xs-12">
             <center class="mb-1">
               <span>
                 Cobros
@@ -1825,7 +1923,7 @@
               :options="optionsFrecuencyPay"
               :style="darkMode ? 'background-color:#393a42' : null"
             ></b-form-select>
-          </b-col>
+          </div>
           <b-col cols="1"></b-col>
         </b-row>
 
@@ -1872,7 +1970,6 @@
           </b-col>
           <b-col cols="1"></b-col>
         </b-row> -->
-
         <b-row>
           <b-col cols="1" class="mt-1"></b-col>
           <b-col cols="10" class="mt-1">
@@ -1989,8 +2086,12 @@ export default {
     Calendar
     // Archivos
   },
+  props: ["edit_ingress"],
   data() {
     return {
+      loading: false,
+      idEdit: -1,
+      monedas: [],
       // Dias especificos en el calendario un solo mes con 31 dias
       maxDate: "",
       minDate: " ",
@@ -2028,9 +2129,9 @@ export default {
       // OpCompartir: false,
       HabilitaDatos1: false,
       permisosOptions: [
-        { item: 1, name: "Ver" },
-        { item: 2, name: "Editar" },
-        { item: 3, name: "Eliminar" }
+        { item: 2, name: "Ver" },
+        { item: 3, name: "Editar" },
+        { item: 5, name: "Eliminar" }
       ],
       usuarios: [],
       mensajeok: "En balance",
@@ -2058,11 +2159,11 @@ export default {
         seleccionCuentasCedidas: [],
         seleccionAmigo: [],
         permisosUsuario: [],
-        permisosSeleccionados: [1],
+        permisosSeleccionados: [2],
         proyecto: [],
         links: [],
         isrecurrente: false, // Si el pago es recurrente true
-        selectedTipoRecurrecia: "Diario",
+        selectedTipoRecurrecia: 1,
         fechaInicio: "",
         fechaFin: "",
         tiempo: "",
@@ -2135,7 +2236,6 @@ export default {
         { text: "No", value: false },
         { text: "Si", value: true }
       ],
-      // tags: ["apple", "orange"],
       fields: [
         //campos de tabla
         { key: "name", label: "Usuario" },
@@ -2149,7 +2249,6 @@ export default {
       filterOn: [],
       optionsEmpresaPropia: [],
       optionsEmpresaExterna: [],
-      // value: [{ name: "Javascript", code: "js" }],
       optionsCuentasEmpresaPropia: [],
       optionsProjects: [],
       optionsCuentasEmpresaExterna: [
@@ -2158,18 +2257,83 @@ export default {
         { name: "Open Source", code: "os" },
         { name: "Option Extra", code: "op" }
       ],
-
       optionsCuentasCedidas: [
         { name: "Vue.js", code: "vu" },
         { name: "Javascript", code: "js" },
         { name: "Open Source", code: "os" },
         { name: "Option Extra", code: "op" }
       ],
-      aux: [], //se ocupa para las opciones de modalidad = replica xD
-      hola: []
+      aux: [] //modalidad = replica
     };
   },
   methods: {
+    resetAccount(op) {
+      if (op == true) {
+        this.form.empresaPropia = null;
+        this.temporalCuenta = [];
+      } else {
+        this.form.seleccionCuentasCedidas = [];
+      }
+    },
+    // Limpiar todo el formulario
+    clearForm() {
+      console.log("Aqui si llega");
+      this.moneda = "";
+      this.maxDate = "";
+      this.minDate = " ";
+      this.temporalCuenta = [];
+      this.actualizaDataPrestamo = false;
+      this.lastDatePrestamo = "";
+      this.mostrarPrestamo = false;
+      this.is_Loan = false;
+      this.formPrestamo.fechaIncio = "";
+      this.formPrestamo.duracion = 1;
+      this.formPrestamo.frecuencia1 = 0;
+      this.formPrestamo.frecuencia2 = 1;
+      this.textPrestamo = "Ver detalles";
+      this.prestamo = false;
+      this.warningModal = false;
+      this.optionsTagIngreso = [];
+      this.tituloModal = "Campos Requeridos";
+      this.max = 100;
+      this.value = 50;
+      this.link = "";
+      this.status = false;
+      this.variable = false;
+      this.titulo_botonCeder = "Agregar correo electrónico";
+      this.InputUsuariosCeder = "";
+      this.HabilitaDatos1 = false;
+      this.mensajeok = "En balance";
+      this.mensaje = true;
+      this.diferencia = 0;
+      this.mensajealert = "";
+      this.form.id = "";
+      this.form.concepto = "";
+      this.form.comentario = "";
+      this.form.empresaPropia = null;
+      this.form.Ceder = false;
+      this.form.monto = "";
+      this.form.montoNeto = "";
+      this.form.iva = 0;
+      this.form.modalidad = 1;
+      this.form.cuentaBancaria = null;
+      this.form.seleccionCuentasEmpresaPropia = [];
+      this.form.seleccionCuentasEmpresaExterna = [];
+      this.form.seleccionCuentasCedidas = [];
+      this.form.seleccionAmigo = [];
+      this.form.permisosUsuario = [];
+      this.form.permisosSeleccionados = [2];
+      this.form.proyecto = [];
+      this.form.links = [];
+      this.form.isrecurrente = false;
+      this.form.selectedTipoRecurrecia = 1;
+      this.form.fechaInicio = this.minimoInicio;
+      this.form.fechaFin = this.minimofinish;
+      this.form.tiempo = "";
+      this.form.compartir = false;
+      this.total = 0;
+      this.itemsRec = [];
+    },
     checkStatus() {
       console.log(this.form.modalidad);
     },
@@ -2441,6 +2605,92 @@ export default {
       this.value = 50;
       this.tituloModal = "Campos Requeridos";
     },
+    ValidateTab1() {
+      if (this.form.Ceder == false) {
+        if (this.form.empresaPropia == null) {
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Agrega una empresa para continuar",
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else if (this.temporalCuenta.length == 0) {
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Agrega una cuenta bancaria para continuar",
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else if (this.form.monto.length == 0) {
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Introduce un monto valido",
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else if (this.form.seleccionAmigo.length == 0) {
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Selecciona al menos un usuario a quien solicitas el pago",
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else if (
+          this.form.empresaPropia != null &&
+          this.temporalCuenta.length != 0 &&
+          this.form.monto.length != 0 &&
+          this.form.seleccionAmigo.length != 0
+        ) {
+          // Avanzamos al tab 2
+          this.Next(1);
+        }
+      } else if (this.form.Ceder == true) {
+        console.log("Se esta cediendo el pago");
+        if (this.form.seleccionCuentasCedidas.length == 0) {
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Inidica a quien le estas cediendo el pago",
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else if (this.form.monto.length == 0) {
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Introduce un monto valido",
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else if (this.moneda.length == 0) {
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Selecciona un tipo de moneda para continuar",
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else if (this.form.seleccionAmigo.length == 0) {
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Selecciona al menos un usuario a quien solicitas el pago",
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else if (
+          this.form.seleccionCuentasCedidas.length != 0 &&
+          this.form.monto.length != 0 &&
+          this.form.seleccionAmigo.length != 0
+        ) {
+          this.Next(1);
+        }
+      }
+    },
     Next(op) {
       if (op == 1) {
         this.value = 100;
@@ -2455,14 +2705,12 @@ export default {
           NewObj.Tax = this.form.iva;
           temporalUsers.push(NewObj);
         }
-        // console.log(temporalUsers);
         // Sacamos los datos del prestamo
         let TemporalLoan = {};
         TemporalLoan.Frecuency = this.formPrestamo.frecuencia2;
         TemporalLoan.Start = this.formPrestamo.fechaIncio;
         TemporalLoan.Quantity = this.formPrestamo.duracion;
         // TemporalLoan.Frecuency_Pay = "0";
-
         // Sacamos los datos de la recurrencia en forma de objeto
         let temporalRecurrencia = {}; //
         temporalRecurrencia.Type = this.form.selectedTipoRecurrecia;
@@ -2508,7 +2756,16 @@ export default {
         // RECURRENCIA
         newObj.Recurrent = this.form.isrecurrente;
         newObj.Recurrent_data = temporalRecurrencia;
-        this.createNew(newObj);
+        if (this.edit_ingress) {
+          console.log("Se esta editado...");
+          let editObj = {};
+          editObj.Id_Solicitud = this.idEdit;
+          let editObj2 = Object.assign(editObj, newObj);
+          console.log(editObj2);
+          this.editcreateNew(editObj2);
+        } else {
+          this.createNew(newObj);
+        }
       }
     },
     // ceder_emailFuct() {
@@ -2539,23 +2796,57 @@ export default {
     //   }
     // },
     async createNew(request) {
+      console.log(request);
       try {
+        this.loading = true;
         const alert = alertas();
         const repo = repoupdateprofileuser();
         await repo.addsolicitud(request).then(res => {
+          console.log(res);
           if (res.code == 200) {
             let newObj = {
-              Tit: "Pago",
+              Tit: "Ingreso",
               Text:
-                "Datos creados correctamente, si lo necesitas sube tus archivos",
+                "Creado correctamente, sube tus archivos o edita el ingreso",
               icono: "success"
             };
             alert.PermisosOK(newObj);
             this.$emit("changePassOne", res);
+            this.idEdit = res.back;
           }
+          this.clearForm();
         });
       } catch (error) {
         console.log(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    async editcreateNew(request) {
+      console.log(request);
+      try {
+        this.loading = true;
+        const alert = alertas();
+        const repo = repoupdateprofileuser();
+        await repo.editsolicitud(request).then(res => {
+          console.log(res);
+          if (res.code == 200) {
+            let newObj = {
+              Tit: "Ingreso",
+              Text:
+                "Se actualizaron los datos, si lo necesitas sube tus archivos",
+              icono: "success"
+            };
+            alert.PermisosOK(newObj);
+            this.$emit("changePassOne", res);
+            this.idEdit = res.back;
+          }
+          // this.clearForm();
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loading = false;
       }
     },
     async getUsuarios() {
@@ -2648,6 +2939,23 @@ export default {
         // } finally {
       }
     },
+    async getMonedas() {
+      try {
+        const repo = repoupdateprofileuser();
+        await repo.consMonedas().then(res => {
+          this.monedas = res.data.map(elem => {
+            let newObj = {};
+            newObj.moneda_id = elem.id;
+            newObj.moneda = elem.nombre;
+            return newObj;
+          });
+        });
+      } catch (error) {
+        // console.log(error);
+      } finally {
+        this.showanimation = false;
+      }
+    },
     // async getmycuentas() {
     //   try {
     //     const repo = repoupdateprofileuser();
@@ -2703,15 +3011,15 @@ export default {
     //   this.form.seleccionAmigo.push(tag);
     // },
     addTagAmigo2(newTag) {
-      console.log(newTag);
       let regExMail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
       if (regExMail.test(newTag)) {
         Swal.fire({
           position: "center",
           icon: "success",
           title: "Correo agregado",
-          showConfirmButton: false,
-          timer: 1200
+          text:
+            "Sugerencia: Si tu destinatario es recurrente agregalo como amigo para agilizar futuras transacciones",
+          showConfirmButton: true
         });
         const tag = {
           nombre: newTag,
@@ -2739,8 +3047,9 @@ export default {
           position: "center",
           icon: "success",
           title: "Correo agregado",
-          showConfirmButton: false,
-          timer: 1200
+          text:
+            "Sugerencia: Si tu destinatario es recurrente agregalo como amigo para agilizar futuras transacciones",
+          showConfirmButton: true
         });
         const tag = {
           email: newTag,
@@ -2749,7 +3058,8 @@ export default {
         };
         this.usuarios.push(tag);
         // this.form.cederCorreo.push(tag);
-        this.form.seleccionCuentasCedidas.push(tag);
+        // this.form.seleccionCuentasCedidas.push(tag);
+        this.form.seleccionCuentasCedidas = tag;
         // this.form.seleccionCuentasCedidas.push(tag);
       } else {
         Swal.fire({
@@ -2769,8 +3079,9 @@ export default {
           position: "center",
           icon: "success",
           title: "Correo agregado",
-          showConfirmButton: false,
-          timer: 1200
+          text:
+            "Sugerencia: Si tu destinatario es recurrente agregalo como amigo para agilizar futuras transacciones",
+          showConfirmButton: true
         });
         const tag = {
           email: newTag,
@@ -3390,7 +3701,6 @@ export default {
             return auxiliar;
           case 2:
             auxiliar = this.form.seleccionAmigo.map(elem => {
-              console.log("elem: " + typeof elem);
               let newObj = {};
               newObj.name = elem.email;
               newObj.id = elem.id;
@@ -3475,6 +3785,7 @@ export default {
     // await this.getmycuentas();
     // await this.getCuentas();
     await this.getProjects();
+    await this.getMonedas();
     this.fecha();
   }
 };

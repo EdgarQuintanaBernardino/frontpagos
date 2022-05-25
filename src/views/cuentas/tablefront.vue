@@ -1,6 +1,6 @@
 <template>
   <div>
-  
+
  <b-row>
         <b-col cols="12">
           <CCard>
@@ -95,10 +95,10 @@
                                 <b-badge v-else variant="danger">Sin empresa</b-badge>
 
                 </template>
-              
+
                 <template v-slot:cell(nombre_cuenta)="row">
                               <b-row>
-                
+
                     <b-col sm="12" class="mb-2 text-center">
                       <b-button
                         size="sm"
@@ -114,14 +114,14 @@
                     </b-col>
                   </b-row>
                 </template>
-              
+
                 <template v-slot:cell(razon)="row">{{
                   row.item.razonsocial
                 }}</template>
                   <template v-slot:cell(telefono)="row">{{
                   row.item.telefonoContacto
                 }}</template>
-                
+
                       <template v-slot:cell(actions)="row">
               <b-container fluid>
                   <b-row class="justify-content-md-center">
@@ -135,7 +135,7 @@
                         variant="outline-primary"
                         class="mr-1 mb-1 mt-2"
                       >
-                        <b-icon icon="pencil"></b-icon>Editar 
+                        <b-icon icon="pencil"></b-icon>Editar
                       </b-button>
                       <b-button
                    v-if="permi==2"
@@ -169,7 +169,7 @@
                         @click="deleteevent(row.item)"
                          class="mr-1 mb-1  mt-2"
                       >
-                        <b-icon icon="lock-fill"></b-icon>Bloquear 
+                        <b-icon icon="lock-fill"></b-icon>Bloquear
                       </b-button>
                                         </b-col>
 
@@ -222,9 +222,9 @@
                 <template v-slot:head()="data">
                   <span class="text-info">{{ data.label.toUpperCase() }}</span>
                 </template>
-              
-           
-                         
+
+
+
               </b-table>
               <b-row>
                 <b-col sm="7" md="12" class="my-1">
@@ -242,7 +242,7 @@
           </CCard>
         </b-col>
       </b-row>
-     
+
 
 </div>
 </template>
@@ -266,7 +266,7 @@ export default {
   },
   data() {
     return {
-      filteredTodos:[    
+      filteredTodos:[
         { key: "name", label: "Nombre Usuario", class: "text-center",component:{carpeta:"templates",file:"users"}},
 
 
@@ -279,7 +279,7 @@ export default {
           items:[],
           otheritems:[],
 
-        
+
 
 
         },
@@ -318,16 +318,16 @@ export default {
   },
 
 
-  computed: {  
+  computed: {
     dynamicSlotName(){ return "name"; },
-    
-  
+
+
        stepComponent() {
          let c=this.datosall.component;
         return () => import(`@/views/tablesdetails/${c}`);
-     
+
             },
-              
+
     sortOptions() {
       // Create an options list from our fields
       return this.fields
@@ -348,8 +348,8 @@ export default {
     },
 
   },
- 
-  
+
+
   watch:{
     idedit:function(newval,oldval){
           this.actualizaregistro(newval);
@@ -357,21 +357,21 @@ export default {
     },
     datosallin:function(newval,oldvar){
       //this.datosall.items=[];
-      
+
          this.datosall=newval;
          this.items=newval.items;
 
     },
-    iddeletein:function(newval,oldval){
+    iddeletein:function(newval){
           this.eliminaregistro(newval);
            this.$emit('deletedetabla',this.iddeletein);
-             
+
 
 },
 
   },
   methods: {
-  
+
      gomycell(key) {
     return `cell(${key})`; // simple string interpolation
   },
@@ -400,7 +400,7 @@ this.$emit('add');
             (itemin) => itemin.id != item.id);
   },
   getitems(){
-      this.$emit('recargatabla');
+      this.$ ('recargatabla');
 
   },
      deleteevent(item){
@@ -414,4 +414,3 @@ this.$emit('add');
   },
 };
 </script>
-      

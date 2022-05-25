@@ -7,7 +7,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       <strong>
         Standard buttons
       </strong>
-       
+
       <div
         class="card-header-actions"
       >
@@ -25,7 +25,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
         </a>
       </div>
     </ccardheader-stub>
-     
+
     <ccardbody-stub>
       <crow-stub
         class="align-items-center"
@@ -38,11 +38,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Normal
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -64,7 +64,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -86,7 +86,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -108,7 +108,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -130,7 +130,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -152,7 +152,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -174,7 +174,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -196,7 +196,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -218,7 +218,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -241,7 +241,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           </cbutton-stub>
         </ccol-stub>
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -253,11 +253,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Active State
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -281,7 +281,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -305,7 +305,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -329,7 +329,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -353,7 +353,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -377,7 +377,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -401,7 +401,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -425,7 +425,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -449,7 +449,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -474,7 +474,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           </cbutton-stub>
         </ccol-stub>
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -486,11 +486,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Disabled
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -513,7 +513,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -536,7 +536,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -559,7 +559,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -582,7 +582,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -605,7 +605,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -628,7 +628,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -651,7 +651,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -674,7 +674,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -700,25 +700,25 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       </crow-stub>
     </ccardbody-stub>
   </ccard-stub>
-   
+
   <ccard-stub>
     <ccardheader-stub>
       <strong>
         Outline Buttons
       </strong>
     </ccardheader-stub>
-     
+
     <ccardbody-stub>
       <p>
-        
-        Use 
+
+        Use
         <code>
           variant="outline"
         </code>
          prop
-      
+
       </p>
-       
+
       <crow-stub
         class="align-items-center"
         gutters="true"
@@ -730,11 +730,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Normal
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -757,7 +757,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -780,7 +780,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -803,7 +803,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -826,7 +826,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -849,7 +849,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -872,7 +872,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -895,7 +895,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -918,7 +918,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -928,7 +928,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           xl="true"
         />
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -940,11 +940,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Active State
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -969,7 +969,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -994,7 +994,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1019,7 +1019,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1044,7 +1044,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1069,7 +1069,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1094,7 +1094,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1119,7 +1119,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1144,7 +1144,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1154,7 +1154,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           xl="true"
         />
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -1166,11 +1166,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Disabled
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1194,7 +1194,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1218,7 +1218,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1242,7 +1242,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1266,7 +1266,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1290,7 +1290,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1314,7 +1314,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1338,7 +1338,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1362,7 +1362,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1374,26 +1374,26 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       </crow-stub>
     </ccardbody-stub>
   </ccard-stub>
-   
+
   <ccard-stub>
     <ccardheader-stub>
       <strong>
         Ghost Buttons
       </strong>
     </ccardheader-stub>
-     
+
     <ccardbody-stub>
       <p>
-        
+
         Use
-        
+
         <code>
           variant="ghost"
         </code>
          prop for ghost buttons.
-      
+
       </p>
-       
+
       <crow-stub
         class="align-items-center"
         gutters="true"
@@ -1405,11 +1405,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Normal
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1432,7 +1432,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1455,7 +1455,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1478,7 +1478,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1501,7 +1501,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1524,7 +1524,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1547,7 +1547,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1570,7 +1570,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1593,7 +1593,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1603,7 +1603,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           xl="true"
         />
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -1615,11 +1615,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Active State
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1644,7 +1644,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1669,7 +1669,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1694,7 +1694,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1719,7 +1719,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1744,7 +1744,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1769,7 +1769,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1794,7 +1794,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1819,7 +1819,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1829,7 +1829,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           xl="true"
         />
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -1841,11 +1841,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Disabled
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1869,7 +1869,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1893,7 +1893,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1917,7 +1917,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1941,7 +1941,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1965,7 +1965,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -1989,7 +1989,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2013,7 +2013,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2037,7 +2037,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2049,26 +2049,26 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       </crow-stub>
     </ccardbody-stub>
   </ccard-stub>
-   
+
   <ccard-stub>
     <ccardheader-stub>
       <strong>
         Square Buttons
       </strong>
     </ccardheader-stub>
-     
+
     <ccardbody-stub>
       <p>
-        
+
         Use
-        
+
         <code>
           square
         </code>
          prop for square buttons.
-      
+
       </p>
-       
+
       <crow-stub
         class="align-items-center"
         gutters="true"
@@ -2080,11 +2080,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Normal
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2107,7 +2107,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2130,7 +2130,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2153,7 +2153,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2176,7 +2176,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2199,7 +2199,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2222,7 +2222,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2245,7 +2245,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2268,7 +2268,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2292,7 +2292,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           </cbutton-stub>
         </ccol-stub>
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -2304,11 +2304,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Active State
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2333,7 +2333,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2358,7 +2358,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2383,7 +2383,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2408,7 +2408,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2433,7 +2433,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2458,7 +2458,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2483,7 +2483,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2508,7 +2508,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2534,7 +2534,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           </cbutton-stub>
         </ccol-stub>
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -2546,11 +2546,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Disabled
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2574,7 +2574,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2598,7 +2598,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2622,7 +2622,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2646,7 +2646,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2670,7 +2670,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2694,7 +2694,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2718,7 +2718,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2742,7 +2742,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2769,26 +2769,26 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       </crow-stub>
     </ccardbody-stub>
   </ccard-stub>
-   
+
   <ccard-stub>
     <ccardheader-stub>
       <strong>
         Pill Buttons
       </strong>
     </ccardheader-stub>
-     
+
     <ccardbody-stub>
       <p>
-        
+
         Use
-        
+
         <code>
           pill
         </code>
          prop for pill buttons.
-      
+
       </p>
-       
+
       <crow-stub
         class="align-items-center"
         gutters="true"
@@ -2800,11 +2800,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Normal
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2827,7 +2827,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2850,7 +2850,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2873,7 +2873,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2896,7 +2896,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2919,7 +2919,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2942,7 +2942,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2965,7 +2965,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -2988,7 +2988,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3012,7 +3012,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           </cbutton-stub>
         </ccol-stub>
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -3024,11 +3024,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Active State
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3053,7 +3053,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3078,7 +3078,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3103,7 +3103,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3128,7 +3128,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3153,7 +3153,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3178,7 +3178,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3203,7 +3203,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3228,7 +3228,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3254,7 +3254,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           </cbutton-stub>
         </ccol-stub>
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -3266,11 +3266,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Disabled
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3294,7 +3294,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3318,7 +3318,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3342,7 +3342,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3366,7 +3366,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3390,7 +3390,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Danger
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3414,7 +3414,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3438,7 +3438,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Light
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3462,7 +3462,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Dark
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0"
           col="6"
@@ -3489,27 +3489,27 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       </crow-stub>
     </ccardbody-stub>
   </ccard-stub>
-   
+
   <ccard-stub>
     <ccardheader-stub>
       <strong>
         Sizes
       </strong>
     </ccardheader-stub>
-     
+
     <ccardbody-stub>
       <p>
-        Fancy larger or smaller buttons? Add 
+        Fancy larger or smaller buttons? Add
         <code>
           size="lg"
         </code>
-         or 
+         or
         <code>
           size="sm"
         </code>
          for additional sizes.
       </p>
-       
+
       <crow-stub
         class="align-items-center"
         gutters="true"
@@ -3521,11 +3521,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Small
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3544,7 +3544,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Standard Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3564,7 +3564,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Outline Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3584,7 +3584,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Ghost Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3604,7 +3604,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Square Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3625,7 +3625,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           </cbutton-stub>
         </ccol-stub>
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -3637,11 +3637,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Normal
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3659,7 +3659,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Standard Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3678,7 +3678,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Outline Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3697,7 +3697,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Ghost Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3716,7 +3716,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Square Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3736,7 +3736,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           </cbutton-stub>
         </ccol-stub>
       </crow-stub>
-       
+
       <crow-stub
         class="align-items-center mt-3"
         gutters="true"
@@ -3748,11 +3748,11 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           tag="div"
           xl="true"
         >
-          
+
           Large
-        
+
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3771,7 +3771,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Standard Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3791,7 +3791,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Outline Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3811,7 +3811,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Ghost Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3831,7 +3831,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Square Button
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="mb-3 mb-xl-0 text-center"
           col="2"
@@ -3854,14 +3854,14 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       </crow-stub>
     </ccardbody-stub>
   </ccard-stub>
-   
+
   <ccard-stub>
     <ccardheader-stub>
       <strong>
         With Icons
       </strong>
     </ccardheader-stub>
-     
+
     <ccardbody-stub>
       <crow-stub
         class="align-items-center"
@@ -3887,10 +3887,10 @@ exports[`StandardButtons.vue renders correctly 1`] = `
               name="cil-lightbulb"
             />
              Standard Button
-          
+
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="text-center mt-3"
           sm="true"
@@ -3911,10 +3911,10 @@ exports[`StandardButtons.vue renders correctly 1`] = `
               name="cil-lightbulb"
             />
              Outline Button
-          
+
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="text-center mt-3"
           sm="true"
@@ -3934,10 +3934,10 @@ exports[`StandardButtons.vue renders correctly 1`] = `
               name="cil-lightbulb"
             />
              Ghost Button
-          
+
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="text-center mt-3"
           sm="true"
@@ -3958,10 +3958,10 @@ exports[`StandardButtons.vue renders correctly 1`] = `
               name="cil-lightbulb"
             />
              Square Button
-          
+
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="text-center mt-3"
           sm="true"
@@ -3982,20 +3982,20 @@ exports[`StandardButtons.vue renders correctly 1`] = `
               name="cil-lightbulb"
             />
              Pill Button
-          
+
           </cbutton-stub>
         </ccol-stub>
       </crow-stub>
     </ccardbody-stub>
   </ccard-stub>
-   
+
   <ccard-stub>
     <ccardheader-stub>
       <strong>
         Toggle pressed state
       </strong>
     </ccardheader-stub>
-     
+
     <ccardbody-stub>
       <crow-stub
         gutters="true"
@@ -4020,7 +4020,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Primary Off
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="text-center mt-3"
           sm="true"
@@ -4040,7 +4040,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Secondary Off
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="text-center mt-3"
           sm="true"
@@ -4060,7 +4060,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Success Off
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="text-center mt-3"
           sm="true"
@@ -4080,7 +4080,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Info Off
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="text-center mt-3"
           sm="true"
@@ -4100,7 +4100,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
             Warning Off
           </cbutton-stub>
         </ccol-stub>
-         
+
         <ccol-stub
           class="text-center mt-3"
           sm="true"
@@ -4123,7 +4123,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       </crow-stub>
     </ccardbody-stub>
   </ccard-stub>
-   
+
   <crow-stub
     gutters="true"
     tag="div"
@@ -4136,16 +4136,16 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       <ccard-stub>
         <ccardheader-stub>
           <strong>
-            Block Level CButtons 
+            Block Level CButtons
           </strong>
           <small>
-            Add this 
+            Add this
             <code>
               block
             </code>
           </small>
         </ccardheader-stub>
-         
+
         <ccardbody-stub>
           <cbutton-stub
             activeclass="active"
@@ -4160,7 +4160,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4174,7 +4174,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4188,7 +4188,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4202,7 +4202,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4216,7 +4216,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4230,7 +4230,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4247,7 +4247,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
         </ccardbody-stub>
       </ccard-stub>
     </ccol-stub>
-     
+
     <ccol-stub
       md="6"
       tag="div"
@@ -4256,16 +4256,16 @@ exports[`StandardButtons.vue renders correctly 1`] = `
       <ccard-stub>
         <ccardheader-stub>
           <strong>
-            Block Level CButtons 
+            Block Level CButtons
           </strong>
           <small>
-            Add this 
+            Add this
             <code>
               block
             </code>
           </small>
         </ccardheader-stub>
-         
+
         <ccardbody-stub>
           <cbutton-stub
             activeclass="active"
@@ -4281,7 +4281,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4296,7 +4296,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4311,7 +4311,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4326,7 +4326,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4341,7 +4341,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"
@@ -4356,7 +4356,7 @@ exports[`StandardButtons.vue renders correctly 1`] = `
           >
             Block level button
           </cbutton-stub>
-           
+
           <cbutton-stub
             activeclass="active"
             block="true"

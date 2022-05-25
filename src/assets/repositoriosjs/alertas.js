@@ -31,7 +31,7 @@ const CancelaPolitica = async () => {
   };
   response(mensaje);
 };
-const PermisosOK = async (msg) => {
+const PermisosOK = async msg => {
   let mensaje = {
     tittle: msg.Tit,
     text: msg.Text,
@@ -39,18 +39,18 @@ const PermisosOK = async (msg) => {
   };
   response(mensaje);
 };
-const PermisosCoincidencias = async (msg) => {
+const PermisosCoincidencias = async msg => {
   let mensaje = {
     tittle: msg.Tit,
     text: msg.Text,
     icon: msg.icono,
-    input: 'checkbox',
+    input: "checkbox",
     inputValue: 1,
-    inputPlaceholder:'I agree with the terms and conditions',
-    confirmButtonText:'Continue <i class="fa fa-arrow-right"></i>',
-    inputValidator: (result) => {
-    return !result && 'You need to agree with T&C'}
-
+    inputPlaceholder: "I agree with the terms and conditions",
+    confirmButtonText: 'Continue <i class="fa fa-arrow-right"></i>',
+    inputValidator: result => {
+      return !result && "You need to agree with T&C";
+    }
   };
   response(mensaje);
 };
@@ -201,15 +201,15 @@ const imagenupload = async () => {
   };
   response(mensaje);
 };
-const successmjsgeneric = async () => {
-  let mensaje = {
-    tittle: "Imagen",
-    text:
-      "Seleccionaste una imagen mayor a 1mb o un archivo que NO es imagen, Intente nuevamente",
-    icon: "error"
-  };
-  response(mensaje);
-};
+// const successmjsgeneric = async () => {
+//   let mensaje = {
+//     tittle: "Imagen",
+//     text:
+//       "Seleccionaste una imagen mayor a 1mb o un archivo que NO es imagen, Intente nuevamente",
+//     icon: "error"
+//   };
+//   response(mensaje);
+// };
 const successpass = async () => {
   let mensaje = {
     tittle: "Contraseña",
@@ -237,6 +237,52 @@ const filenotvalidorsize = async () => {
   };
   response(mensaje);
 };
+const filenotvalidorsizeCotizacion = async () => {
+  let mensaje = {
+    tittle: "Cotización",
+    text:
+      "Seleccionaste un archivo mayor a 1mb o un archivo que NO corresponde con las extensiones permitidas",
+    icon: "error"
+  };
+  response(mensaje);
+};
+const filenotvalidorsizeOrden = async () => {
+  let mensaje = {
+    tittle: "Orden de compra",
+    text:
+      "Seleccionaste un archivo mayor a 1mb o un archivo que NO corresponde con las extensiones permitidas",
+    icon: "error"
+  };
+  response(mensaje);
+};
+const filenotvalidorsizeComprobante = async () => {
+  let mensaje = {
+    tittle: "Comprobante de pago",
+    text:
+      "Seleccionaste un archivo mayor a 1mb o un archivo que NO corresponde con las extensiones permitidas",
+    icon: "error"
+  };
+  response(mensaje);
+};
+const filenotvalidorsizeMachote = async () => {
+  let mensaje = {
+    tittle: "Machote / Firmado",
+    text:
+      "Seleccionaste un archivo mayor a 1mb o un archivo que NO es tipo DOC, DOCX, PDF",
+    icon: "error"
+  };
+  response(mensaje);
+};
+const filenotvalidorsizeExtra = async () => {
+  let mensaje = {
+    tittle: "Archivos Extras",
+    text:
+      "Seleccionaste un archivo mayor a 1mb o un archivo que NO corresponde con las extensiones permitidas",
+    icon: "error"
+  };
+  response(mensaje);
+};
+
 const imagenotvalid = async () => {
   let mensaje = {
     tittle: "Imagen",
@@ -476,7 +522,7 @@ const empresadelete = async () => {
   };
   response(mensaje);
 };
-const bloquearusuario = async item => {};
+// const bloquearusuario = async item => {};
 
 const response = async response => {
   return Swal.fire({
@@ -510,6 +556,11 @@ export default () => ({
   fileexist,
   fileaun,
   filenotvalidorsize,
+  filenotvalidorsizeCotizacion,
+  filenotvalidorsizeOrden,
+  filenotvalidorsizeComprobante,
+  filenotvalidorsizeMachote,
+  filenotvalidorsizeExtra,
   response,
   deletemsj,
   cuentaactualizada,
@@ -529,7 +580,7 @@ export default () => ({
   listaamigos,
   yourmail,
   requestcancelada,
-  bloquearusuario,
+  // bloquearusuario,
   errorgenerico,
   denegado,
   invalid,

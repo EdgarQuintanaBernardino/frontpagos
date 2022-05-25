@@ -107,6 +107,8 @@ let yourusersbackadminapi = `${server}/user/interfaceuseradmin`;
 let getsucursalesapi = `${server}/sucursales/getall`;
 ////PAGOS
 let sendfirstpay = `${server}/pagos/create`;
+let editFirstPay = `${server}/pagos/editv2`; //Nuevo de editar temporal sin archivos
+let updatepayapiV2 = `${server}/pagos/destroyv2`; // Nuevo de eliminar ingreso con archivos permanente
 let updatepayapi = `${server}/pagos/update`;
 let createsolicitudapi = `${server}/pagos/createnotemp`;
 let apiaddcuenta = `${server}/pagos/addcuentas`;
@@ -554,7 +556,7 @@ let getGroupAllEmpresas = `${server}/group/all`;
 const consGroupAllEmpresas = async request => {
   let tokenin = store.getters.gettoken;
   let configin = {
-    headers: { Authorization: `Bearer ${tokenin}` },
+    headers: { Authorization: `Bearer ${tokenin}` }
   };
   let result = await Axios.post(getGroupAllEmpresas, request, configin)
     .then(res => {
@@ -593,6 +595,24 @@ const consEmpresasExt = async () => {
     headers: { Authorization: `Bearer ${tokenin}` }
   };
   let result = await Axios.get(getEmpresasExt, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
+    });
+  return result;
+};
+// Modulo de ARCHIVOS, ENTREGA LOS ARCHIOS QUE HAY EN UNA SOLICITUD EXISTENTE
+let getFiles = `${server}/pagos/allfiles`;
+const constUsersFiles = async request => {
+  console.log(request);
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(getFiles, request, configin)
     .then(res => {
       return res.data;
     })
@@ -717,7 +737,7 @@ const consPermisosCuenta = async () => {
   let configin = {
     headers: { Authorization: `Bearer ${tokenin}` }
   };
-  let result = await Axios.post(PermisosCuenta, request,configin)
+  let result = await Axios.post(PermisosCuenta, request, configin)
     .then(res => {
       return res.data;
     })
@@ -1320,6 +1340,35 @@ const addsolicitud = async request => {
   let result = await Axios.post(sendfirstpay, request, configin)
     .then(res => {
       // return response.verifyrequest(res.data);
+      return res.data;
+    })
+    .catch(error => {
+      return response.filtraerror(error);
+    });
+  return result;
+};
+const editsolicitud = async request => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(editFirstPay, request, configin)
+    .then(res => {
+      // return response.verifyrequest(res.data);
+      return res.data;
+    })
+    .catch(error => {
+      return response.filtraerror(error);
+    });
+  return result;
+};
+const deleteSolicitud = async request => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(updatepayapiV2, request, configin)
+    .then(res => {
       return res.data;
     })
     .catch(error => {
@@ -2231,7 +2280,6 @@ const getmycuentas = async request => {
   return result;
 };
 
-
 const getempresasback = async request => {
   let tokenin = store.getters.gettoken;
   let configin = {
@@ -2483,6 +2531,8 @@ export default () => ({
   addsolicitudformal,
   updatesolicitud,
   addsolicitud,
+  editsolicitud,
+  deleteSolicitud,
   deleteproyecto,
   updateproyect,
   ConsRedSociales,
@@ -2612,5 +2662,6 @@ export default () => ({
   consBancos,
   consMonedas,
   ValidateNameC,
-  consGroupAllEmpresas
+  consGroupAllEmpresas,
+  constUsersFiles
 });

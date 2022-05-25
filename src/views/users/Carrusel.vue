@@ -20,22 +20,22 @@
             >56</b-carousel-slide>
         </b-carousel>   -->
         <CCard>
-            <CCardHeader>
-                <b-button class=" btn-block" @click="showMenu()">¿Quieres ganar dinero?</b-button>
-            </CCardHeader>
+            <!-- <CCardHeader> -->
+                <b-button variant="ligth" class="btn-block" @click="showMenu()">¿Quieres ganar dinero?</b-button>
+            <!-- </CCardHeader> -->
         </CCard>
     </div>
 
 </template>
 
-<script>    
+<script>
   // optional style for arrows & dots
-    import rqstin from "@/views/windowmodal/requestin";
-    import rqst from "@/views/windowmodal/requestsend";
-    import requestfriend from "@/views/windowmodal/requestfriend";
+    // import rqstin from "@/views/windowmodal/requestin";
+    // import rqst from "@/views/windowmodal/requestsend";
+    // import requestfriend from "@/views/windowmodal/requestfriend";
 
   export default {
-    components: {rqstin,rqst,requestfriend },
+    // components: {rqstin,rqst,requestfriend },
     data() {
         return {
             settings:{

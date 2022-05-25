@@ -293,6 +293,7 @@ export default {
     },
     // Pintar valores editados
     PintarEditado(value) {
+      console.log(value);
       // this.Bandera = true;
       if (value.Permisos == 7) {
         // this.checkAdmin = true;
@@ -304,7 +305,6 @@ export default {
       }
       // this.bandera = value.Bandera;
       // console.log(this.bandera);
-      console.log(value);
       // Se checa si es ADMIN
       //Se pintan los valores en los permisos
 
@@ -390,7 +390,7 @@ export default {
     passEvent() {
       console.log(this.value);
       this.$emit("ChangePer", this.value);
-      // console.log(this.value);
+      console.log("Si llega en el hijo");
     },
     EditarPermisos() {
       this.$emit("EditPer", this.value);

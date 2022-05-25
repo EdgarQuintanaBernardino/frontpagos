@@ -3,26 +3,31 @@
     <CCol sm="12">
       <CCard>
         <CCardHeader v-if="datosall.header">
-          <h3>
-            {{ datosall.headername }}
-            <b-badge :variant="datosall.badgevariant" pill>{{
-              datosall.totalRow
-            }}</b-badge>
-            <b-btn
-              :style="datosall.btnstyle"
-              :variant="datosall.btnvariant"
-              @click.prevent="addin()"
-              v-if="datosall.btnadd"
-            >
-              <b-icon
-                :icon="datosall.iconadd"
-                :animation="datosall.animation"
-                :font-scale="datosall.fontscale"
-                :class="datosall.classicon"
-              ></b-icon
-              >{{ datosall.namebtn }}
-            </b-btn>
-          </h3>
+          <b-row>
+            <div class="col-lg-6 col-md-6 col-xs-12">
+              <h4>
+                {{ datosall.headername }}
+                <b-badge :variant="datosall.badgevariant" pill>{{
+                  datosall.totalRow
+                }}</b-badge>
+              </h4>
+            </div>
+            <div class="col-lg-6 col-md-6 col-xs-12">
+              <b-btn
+                :style="datosall.btnstyle"
+                :variant="datosall.btnvariant"
+                @click.prevent="addin()"
+                v-if="datosall.btnadd"
+              >
+                <b-icon
+                  :icon="datosall.iconadd"
+                  :font-scale="datosall.fontscale"
+                  :class="datosall.classicon"
+                ></b-icon
+                >{{ datosall.namebtn }}
+              </b-btn>
+            </div>
+          </b-row>
         </CCardHeader>
         <CCardBody>
           <CDataTable
@@ -39,7 +44,7 @@
               external: true,
               lazy: true,
               placeholder: 'Buscar en toda la Tabla',
-              label: 'Buscar:',
+              label: 'Buscar:'
             }"
             @pagination-change="changeItemsLimit"
             :sorter-value.sync="sorter"
@@ -47,12 +52,12 @@
             :table-filter-value.sync="tableFilter"
             :items-per-page-select="{
               label: 'Registros por pagina:',
-              values: ['5', '10', '20', '50'],
+              values: ['5', '10', '20', '50']
             }"
             :loading="loading"
             :noItemsView="{
               noResults: 'No hay resultados de filtrado disponibles',
-              noItems: 'No hay registros disponibles',
+              noItems: 'No hay registros disponibles'
             }"
           >
             <template #sucursales="row">
@@ -69,10 +74,12 @@
               </td>
             </template>
             <template #phone="{item}">
-              <center><label>{{item.phone.length}}</label></center>
+              <center>
+                <label>{{ item.phone.length }}</label>
+              </center>
             </template>
             <template #rfc="{ item }">
-              <td>{{item.rfc}}</td>
+              <td>{{ item.rfc }}</td>
             </template>
             <template #actions="row">
               <b-container fluid>
@@ -88,15 +95,14 @@
                       size="md"
                       block
                       @click.prevent="info(row.item)"
-                      variant="outline-primary"
-                      class="mr-1 mb-1 mt-2"
+                      variant="primary"
+                      class="mr-1 mb-1 mt-2 btn-primary"
                     >
-                      <b-icon icon="pencil"></b-icon>Editar
+                      Editar <b-icon icon="pencil-square"></b-icon>
                     </b-button>
                     <b-button
                       v-if="permi == 2"
                       size="md"
-                      variant="outline-success"
                       block
                       class="mr-1 mb-1 mt-2"
                       @click="relationcuenta(row.item)"
@@ -117,20 +123,18 @@
               </b-container>
             </template>
 
-
             <template #nombre="{ item }">
               <b-row>
                 <b-col sm="12" class="mb-2 text-center">
                   <b-button
-                    size="sm"
+                    size="md"
                     v-b-toggle.sidebar-backdrop
-                    variant="outline-info"
-                    block
-                    pill
+                    v-b-tooltip.hover.v-secondary
+                    title="Ver detalles"
+                    variant="ligth"
                     @click="showuser(item)"
                   >
-                    <b-icon icon="eye"></b-icon><br />
-
+                    <!-- <b-icon icon="eye"></b-icon><br /> -->
                     {{ item.nombre }}
                   </b-button>
                 </b-col>
@@ -158,7 +162,7 @@ export default {
     return {
       datosall: {
         placeholder: "generic",
-        columns: [],
+        columns: []
       },
       lazyTableFields: [],
       items: [],
@@ -173,40 +177,40 @@ export default {
       resuelve: 6,
       itemsporpagina: 5,
       details: [],
-      userin: [],
+      userin: []
     };
   },
   watch: {
-    idedit: function (newval, oldval) {
+    idedit: function(newval) {
       this.actualizaregistro(newval);
     },
-    datosallin: function (newval, oldval) {
+    datosallin: function(newval) {
       this.datosall = newval;
     },
-    iddeletein: function (newval, oldval) {
+    iddeletein: function(newval) {
       this.datosall.items = this.datosall.items.filter(
-        (itemin) => itemin.id != newval
+        itemin => itemin.id != newval
       );
       this.$emit("deletedetabla", newval);
     },
     loadingin() {
       this.loading = this.loadingin;
     },
-    activePage(){
+    activePage() {
       this.eventdispatch();
     },
     sorter: {
       handler() {
         this.eventsorter();
       },
-      deep: true,
+      deep: true
     },
     tableFilter() {
       this.eventdispatch();
     },
     columnFilter() {
       this.eventdispatch();
-    },
+    }
   },
 
   methods: {
@@ -253,11 +257,11 @@ export default {
         itemsLimit: this.itemsLimit,
         columnFilter: this.columnFilter,
         tableFilter: this.tableFilter,
-        sorter: this.sorter,
+        sorter: this.sorter
       });
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     // this.getNotes();
   },
   computed: {
@@ -266,11 +270,40 @@ export default {
     },
     resuelve1() {
       return 6;
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
+/* Clases universales para variantes de todos los botones */
+
+/* Color para boton primario en bootstrap */
+.btn-primary {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); Color azul*/
+  background-color: rgba(0, 129, 194, 255);
+  /* background-color: teal; */
+  border-color: #005a5a;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: rgb(34, 114, 189);
+  border-color: #005a5a;
+}
+
+/* Color para boton info en bootstrap */
+.btn-info {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); */
+  background-color: #229ca5;
+  border-color: #005a5a;
+}
+.btn-info:hover {
+  color: #fff;
+  background-color: #3b9c96;
+  border-color: #005a5a;
+}
+
 .lazyTable {
   display: block;
   height: 450px;

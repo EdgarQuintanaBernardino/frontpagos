@@ -325,7 +325,7 @@
                 </b-overlay>
 
                 <b-row>
-                  <b-col cols="12" md="6" class="mt-3"    
+                  <b-col cols="12" md="6" class="mt-3"
                   disabled
  >                    <CFormGroup
                       wrapperClasses="input-group pt-2"
@@ -362,7 +362,7 @@
                   </b-col>
                 </b-row>
                 <div class="mt-5">
-                
+
                   <b-row>
                     <b-col cols="5"></b-col>
                     <b-col cols="2" style="float:right">
@@ -490,11 +490,11 @@ this.animationall=false;
 this.resetModal();
       if (!this.$parent.config.showreset) {
         this.updateModaledit();
-      } 
+      }
 
-     
-       
-      
+
+
+
     },
     async buscarcp() {
       if (this.form.cp.length != 5) {
@@ -566,7 +566,7 @@ this.resetModal();
         await repo.createempresa(form).then((res) => {
           this.$emit("adduserevent",res.data);
          this.hideModal();
-            
+
         });
       } catch (error) {
         // console.log(error);

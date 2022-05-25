@@ -8,9 +8,11 @@
           <p id="cancel-label">Please wait...</p>
         </div>
       </template>
-
-      <b-tabs content-class="mt-3">
-        <b-tab title="Ingresos Recibidos" active>
+      <b-tabs
+        content-class="mt-3"
+        active-nav-item-class="font-weight-normal text-uppercase"
+      >
+        <b-tab title="Ingresos Recibidos" title-link-class="text-dark">
           <allfront
             v-if="getmetodo"
             :datosallin="datosall"
@@ -38,7 +40,7 @@
             @showtickets="chat"
           ></back>
         </b-tab>
-        <b-tab title="Ingresos en Tramite"
+        <b-tab title="Ingresos en Tramite" title-link-class="text-dark"
           ><allfront
             v-if="getmetodo"
             :datosallin="datosall"
@@ -66,7 +68,7 @@
             @showtickets="chat"
           ></back
         ></b-tab>
-        <b-tab title="Ingresos Pendientes"
+        <b-tab title="Ingresos Pendientes" title-link-class="text-dark"
           ><allfront
             v-if="getmetodo"
             :datosallin="datosall"
@@ -94,7 +96,7 @@
             @showtickets="chat"
           ></back
         ></b-tab>
-        <b-tab title="Ingresos Rechazados"
+        <b-tab title="Ingresos Rechazados" title-link-class="text-dark"
           ><allfront
             v-if="getmetodo"
             :datosallin="datosall"
@@ -142,9 +144,9 @@ import repo from "@/assets/repositoriosjs/repoupdateprofileuser.js";
 import respuestas from "@/assets/repositoriosjs/respuestas.js";
 import alertas from "@/assets/repositoriosjs/alertas";
 import Swal from "sweetalert2";
-import pagosmodal from "@/views/ingresos/pagosmodal";
-import PagosModalV2 from "@/views/ingresos/PagosModalV2";
-import Oldmodal from "@/views/ingresos/Oldmodal";
+// import pagosmodal from "@/views/ingresos/pagosmodal";
+// import PagosModalV2 from "@/views/ingresos/PagosModalV2";
+// import Oldmodal from "@/views/ingresos/Oldmodal";
 
 import chatmodal from "@/views/ingresos/chat";
 import PagosModalV3 from "@/views/ingresos/PagosModalV3";
@@ -154,17 +156,17 @@ export default {
   components: {
     back,
     allfront,
-    pagosmodal,
+    // pagosmodal,
     chatmodal,
-    PagosModalV2,
-    Oldmodal,
-    PagosModalV3,
+    // PagosModalV2,
+    // Oldmodal,
+    PagosModalV3
   },
   watch: {
-    metodo: function (newval, oldvar) {
+    metodo: function(newval) {
       this.resetvalores();
       this.prueba(newval);
-    },
+    }
   },
   data() {
     return {
@@ -206,7 +208,7 @@ export default {
       myallcompanies: [],
       myallcuentas: [],
       myallusers: [],
-      proyectosall: [],
+      proyectosall: []
     };
   },
   mounted() {
@@ -221,9 +223,9 @@ export default {
   },
   computed: {
     getmetodo() {
-      this.metodo = this.$store.getters.getmetodo;
+      // this.metodo = this.$store.getters.getmetodo;
       return this.$store.getters.getmetodo;
-    },
+    }
   },
   methods: {
     chat(id) {
@@ -231,7 +233,7 @@ export default {
       this.$bvModal.show("modal-historial");
     },
     descripcionpermisos(allpermissions) {
-      this.allpermissionsd = allpermissions.map((r) => r.descripcion);
+      this.allpermissionsd = allpermissions.map(r => r.descripcion);
     },
     adduser(item) {
       let metodo = this.$store.getters.getmetodo;
@@ -283,7 +285,7 @@ export default {
         namebtn: "Editar Empresa",
         typebtn: "edit",
         showdelete: false,
-        showreset: false,
+        showreset: false
       };
       this.openmodal();
     },
@@ -299,7 +301,7 @@ export default {
       try {
         let repoitems = repo();
         let validaciones = respuestas();
-        await repoitems.onlyusers().then((res) => {
+        await repoitems.onlyusers().then(res => {
           let response = validaciones.validafriends(res);
           this.myallusers = response.data;
         });
@@ -314,7 +316,7 @@ export default {
       try {
         let repoitems = repo();
         let validaciones = respuestas();
-        await repoitems.getmycuentas().then((res) => {
+        await repoitems.getmycuentas().then(res => {
           let response = validaciones.validafriends(res);
           this.myallcuentas = response.data.cuentas;
         });
@@ -336,7 +338,7 @@ export default {
         let self = this;
         self.show = true;
         this.items = [];
-        let validaciones = respuestas();
+        // let validaciones = respuestas();
         await repoitems
           .PagosBack({
             ////iniciamos la parte del back en
@@ -344,21 +346,57 @@ export default {
             tableFilter: self.tableFilter,
             columnFilter: self.columnFilter,
             itemsLimit: self.itemsLimit,
-            currentpage: self.currentpage,
+            currentpage: self.currentpage
           })
-          .then((res) => {
-            // console.log(res)
-            // console.log("aqyui las res")
+          .then(res => {
+            console.log(res);
+            // Vamos a hacer un temporal de los datos de la tabla en lo que esta en el endpoint
+            let temporalData = {};
+            temporalData.userin = "DonLuis";
+            temporalData.concepto = "Test1 ";
+            temporalData.comentario = "Este ingreso es estatico";
+            temporalData.empresa = "Empresa D'Pizzas";
+            temporalData.cuenta = "Cuenta Cuenta 1";
+            temporalData.ceder = true;
+            temporalData.monto_bruto = 12000;
+            temporalData.moneda = "Dolares";
+            temporalData.iva = 16;
+            temporalData.monto_solicitado = 15000;
+            temporalData.prestamo = true;
+            temporalData.titulo = "Replica";
+            temporalData.usuarios = 12;
+            temporalData.tag = ["Tag1", "Pagos", "Nómina", "test"];
+            temporalData.links = [
+              "https://lybflow.atlassian.net/jira/software/projects/LB/boards/2/backlog",
+              "https://codepen.io/search/pens?q=cursor+css&cursor=ZD0xJm89MCZwPTM=",
+              "https://developer.mozilla.org/es/docs/Web/CSS/cursor",
+              "test"
+            ];
+            temporalData.fechaLimite = "12/04/2022";
+            temporalData.recurrente = true;
+            temporalData.visto = true;
+            temporalData.status = "Pendiente";
+            temporalData.status_factura = "Aprovada";
+            temporalData.id_propio = 2;
+            temporalData.creado = "01/04/2022";
+            temporalData.archivos = [
+              "https://lybflow.atlassian.net/jira/software/projects/LB/boards/2/backlog",
+              "https://codepen.io/search/pens?q=cursor+css&cursor=ZD0xJm89MCZwPTM=",
+              "https://developer.mozilla.org/es/docs/Web/CSS/cursor",
+              "test"
+            ];
+            temporalData.actions = [1, 2];
+
             this.empresasall = res["empresas"];
             this.proyectosall = res["proyectos"];
             this.tagsall = res["tags"];
-
             let maximo = Math.round(res.count / self.itemsLimit);
             let datosgenericos = {
               placeholder: "Busca Pago",
               columns: [],
               totalfilasmostradas: 5,
-              items: res.data,
+              // items: res.data,
+              items: temporalData,
               resuelve: 6, ////el col
               initrows: res.data.length,
               totalRow: res.count,
@@ -366,17 +404,17 @@ export default {
               maxPages: maximo,
               ///header
               header: true, ///bolean heeader
-              headername: "Pagos Registrados",
+              headername: "Ingresos Registrados",
               btnadd: true,
               iconadd: "credit-card",
-              animation: "cylon",
+              // animation: "cylon",
               fontscale: "1",
               classicon: "mr-2",
               namebtn: "Añadir / Solicitar Ingreso",
-              badgevariant: "primary",
-              btnvariant: "info",
+              badgevariant: "dark",
+              btnvariant: "primary",
               btnstyle: "float:right",
-              component: "empresashow",
+              component: "empresashow"
             };
             this.totalrowsend = res.count;
             this.datosallback = datosgenericos;
@@ -389,7 +427,7 @@ export default {
         this.show = false;
       }
     },
-    deletedetabla(item) {
+    deletedetabla() {
       //  this.$store.getters.getmetodo? this.datosall.otheritems.push(item):this.datosallback.otheritems.push(item);
     },
 
@@ -401,7 +439,7 @@ export default {
         namebtn: "Editar Empresa",
         typebtn: "edit",
         showdelete: false,
-        showreset: false,
+        showreset: false
       };
       this.openmodalempresa();
     },
@@ -412,7 +450,7 @@ export default {
         namebtn: "Ingreso ",
         typebtn: "new",
         showdelete: true,
-        showreset: true,
+        showreset: true
       };
 
       this.openmodal();
@@ -422,7 +460,9 @@ export default {
     },
     openmodal() {
       // console.log("modal");
+      // Esta es la chida pero la comentamos para hacer pruebas de archivos
       this.$refs.modal3.warningModal = true;
+      // this.$refs.modal3.modalArchivos = true;
       // console.log(this.$refs.modal3.warningModal);
       this.$bvModal.show("modal-pagos-add");
     },
@@ -430,8 +470,8 @@ export default {
       this.show = true; //// el render del reloj?
       try {
         let repoitems = repo();
-        let validaciones = respuestas();
-        await repoitems.getpagossend().then((res) => {
+        // let validaciones = respuestas();
+        await repoitems.getpagossend().then(res => {
           //    let response=validaciones.validafriends(res);
           let response = res.data[0];
           this.empresasall = res.data[1];
@@ -452,7 +492,7 @@ export default {
               { key: "fecha", label: "Solicitado", class: "text-center" },
               { key: "visto", label: "Visto", class: "text-center" },
 
-              { key: "actions", label: "Acciones", class: "text-center" },
+              { key: "actions", label: "Acciones", class: "text-center" }
             ],
             totalfilasmostradas: 15,
             items: response,
@@ -471,7 +511,7 @@ export default {
             badgevariant: "primary",
             btnvariant: "info",
             btnstyle: "float:right",
-            component: "null",
+            component: "null"
           };
           this.datosall = datosgenericos;
           //   console.log(this.datosall)
@@ -494,8 +534,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Borrala!",
-      }).then((result) => {
+        confirmButtonText: "Si, Borrala!"
+      }).then(result => {
         if (result.value) {
           this.actiondeleteempresa(item);
         }
@@ -508,12 +548,14 @@ export default {
       try {
         await dao
           .deletecuenta(item)
-          .then((res) => {
+          .then(res => {
+            console.log(res);
             this.$store.getters.getmetodo
               ? (this.iddelete = item)
               : (this.iddeleteback = item);
           })
-          .catch((eror) => {
+          .catch(eror => {
+            console.log(eror);
             alert.errorservidor();
             // console.log(eror);
           });
@@ -537,7 +579,7 @@ export default {
       this.$store.getters.getmetodo
         ? (this.idedit = item)
         : (this.ideditback = item);
-    },
-  },
+    }
+  }
 };
 </script>

@@ -1,28 +1,49 @@
 <template>
   <div>
-    <!-- Progress bar dentro del paso uno -->
+    <b-row v-if="value == 50">
+      <b-col cols="1"> </b-col>
+      <b-col cols="7"> </b-col>
+      <div class="text-center col-lg-3 col-xs-12">
+        <b-button
+          class="col-12"
+          variant="info"
+          @click="ValidateTab1(0)"
+          v-b-tooltip.hover
+          title="Ver campos opcionales"
+          >Opcionales <b-icon icon="arrow-right-circle"></b-icon>
+        </b-button>
+      </div>
+      <b-col cols="1"> </b-col>
+    </b-row>
+    <b-row v-if="value == 100">
+      <b-col cols="1"> </b-col>
+      <div class="text-center col-lg-3 col-xs-12">
+        <b-button
+          class="col-12"
+          variant="info"
+          @click="backStep()"
+          v-b-tooltip.hover
+          title="Regresar a campos requeridos"
+        >
+          <b-icon icon="arrow-left-circle"></b-icon> Requeridos
+        </b-button>
+      </div>
+      <b-col cols="7"> </b-col>
+      <b-col cols="1"> </b-col>
+    </b-row>
     <b-row>
-      <b-col cols="1"></b-col>
+      <b-col cols="1"> </b-col>
       <b-col cols="10" class="text-center">
-        <b-progress :max="max" height="1.5rem">
-          <b-progress-bar :value="value" variant="primary">
-            <span>
-              <strong>PASO {{ value.toFixed(2) / 50 }}</strong>
-            </span>
-          </b-progress-bar>
-        </b-progress>
-        <!-- Texto titulo -->
         <h5 class="mt-3 mb-3">
           {{ tituloModal }}
         </h5>
       </b-col>
-      <b-col cols="1"></b-col>
+      <b-col cols="1"> </b-col>
     </b-row>
-    <!-- Primer paso value = 50 -->
     <b-row v-if="value == 50">
       <b-col cols="1"> </b-col>
       <!-- <b-col cols="5" class="text-center"> -->
-      <div class="text-center col-lg-4 col-xs-12">
+      <div class="text-center col-xl-4 col-lg-4 col-xs-12">
         <center class="mb-2 mt-2">
           <span>
             Concepto
@@ -50,10 +71,6 @@
           </span>
         </center>
         <b-input-group size="md" class="mt-2">
-          <!--Comentarios y/o descripción -->
-          <!-- <b-input-group-prepend is-text>
-          Descripción
-        </b-input-group-prepend> -->
           <b-form-textarea
             id="textarea-rows"
             placeholder="Comentarios"
@@ -74,29 +91,19 @@
         <b-input-group size="md" class="text-center mt-2">
           <center class="mt-1 mb-2">
             <span>
-              ¿Deseas ceder el pago a alguien más?
+              El pago se cedío
             </span>
             <b-button-group size="sm">
               <b-button
+                class=""
                 variant="info"
                 v-b-tooltip.hover
                 title="¿Estas ayudando a realizar la transacción a alguien más ? Inicia la solictud con la información que tengas y cedele la propiedad para que esta persona tenga control y pueda concluir con el proceso"
                 ><b-icon icon="question-circle" aria-hidden="true"></b-icon
               ></b-button>
             </b-button-group>
-            <!-- <CSwitch
-              v-b-tooltip.hover
-              title="¿Estas ayudando a solicitar un pago de alguien más ? Cedele la transacción llenando todos los campos"
-              color="success"
-              labelOn="Si"
-              labelOff="No"
-              shape="pill"
-              size="sm"
-              class="ml-2 mt-1"
-              @update:checked="val => OpCederFunct(val)"
-            /> -->
+
             <b-form-group v-slot="{ ariaDescribedby }" class="mt-1">
-              <!-- HabilitaDatos1 === -->
               <b-form-radio-group
                 :disabled="false"
                 id="btn-radios-2"
@@ -109,15 +116,11 @@
                 buttons
                 class="d-block"
                 aria-required="true"
-                @input="resetAccount"
               ></b-form-radio-group>
             </b-form-group>
           </center>
         </b-input-group>
       </div>
-
-      <!-- </b-col> -->
-      <!-- <b-col cols="6" v-if="form.Ceder === false"> -->
       <div class="text-center col-lg-6 col-xs-12" v-if="form.Ceder === false">
         <center class="mb-2 mt-2">
           <span>
@@ -126,11 +129,9 @@
         </center>
         <b-card>
           <b-tabs content-class="mt-1">
-            <!-- Uno -->
             <b-tab title="Empresa Propia" active>
               <b-row>
                 <b-col cols="6" class="text-center">
-                  <!-- dos -->
                   <b-form-select
                     class="mb-2 mt-2"
                     v-model="form.empresaPropia"
@@ -152,8 +153,6 @@
                   <b-link href="empresas">Agregar nueva empresa</b-link>
                 </b-col>
                 <b-col cols="6" class="text-center">
-                  <!-- <b-input-group size="md" class="mt-2"> -->
-                  <!-- <b-button block variant="info">Agregar nueva cuenta</b-button> -->
                   <b-form-select
                     class="mb-2 mt-2"
                     v-model="temporalCuenta"
@@ -204,12 +203,10 @@
             </b-tab>
           </b-tabs>
         </b-card>
-        <!-- </b-col> -->
       </div>
 
-      <!-- <b-col cols="6 mt-2" v-if="form.Ceder"> -->
       <div class="text-center col-lg-6 col-xs-12" v-if="form.Ceder">
-        <center class="mb-2">
+        <center class="mb-2 mt-2">
           <span>
             ¿ A quien cedes el pago ?
           </span>
@@ -241,14 +238,12 @@
           </b-tabs>
         </b-card>
       </div>
-      <!-- </b-col> -->
       <b-col cols="1"> </b-col>
     </b-row>
 
     <b-row v-if="value == 50">
       <b-col cols="1"> </b-col>
-      <!-- <b-col cols="3" class="text-center"> -->
-      <div class="text-center col-lg-3 col-xs-12">
+      <div class="text-center col-xl-3 col-lg-5 col-xs-12">
         <center class="mb-2">
           <span>
             Monto
@@ -256,7 +251,6 @@
         </center>
         <b-input-group size="md" prepend="$">
           <b-form-input
-            :disabled="form.concepto.length < 4 || form.comentario.length < 6"
             v-model="form.monto"
             :min="0"
             type="number"
@@ -279,10 +273,8 @@
           </b-input-group-append>
         </b-input-group>
       </div>
-      <!-- </b-col> -->
 
-      <!-- <b-col cols="2" class="text-center"> -->
-      <div class="text-center col-lg-2 col-xs-12">
+      <div class="text-center col-xl-2 col-lg-5 col-xs-12">
         <center class="mb-2">
           <span>
             Moneda
@@ -318,10 +310,8 @@
           </b-input-group-append>
         </b-input-group>
       </div>
-      <!-- </b-col> -->
 
-      <div class="text-center col-lg-2 col-xs-12">
-        <!-- <b-col cols="2" class="text-center"> -->
+      <div class="text-center col-xl-2 col-lg-5 col-xs-12">
         <center class="mb-2">
           <span>
             IVA
@@ -329,7 +319,6 @@
         </center>
         <b-input-group size="md">
           <b-form-select
-            :disabled="form.concepto.length < 4 || form.comentario.length < 6"
             v-model="form.iva"
             :options="optionsIva"
             @change="calculaMontoNeto"
@@ -345,10 +334,8 @@
           </b-input-group-append>
         </b-input-group>
       </div>
-      <!-- </b-col> -->
 
-      <div class="text-center col-lg-3 col-xs-12">
-        <!-- <b-col cols="3" class="text-center"> -->
+      <div class="text-center col-xl-3 col-lg-5 col-xs-12">
         <center class="mb-2">
           <span>
             Monto Neto
@@ -374,18 +361,15 @@
           </b-input-group-append>
         </b-input-group>
       </div>
-      <!-- </b-col> -->
+      <div class="col-xl-0 col-lg-1 col-xs-0"></div>
       <b-col cols="1"> </b-col>
     </b-row>
 
     <b-row v-if="value == 50">
       <b-col cols="1"> </b-col>
-
-      <!-- <b-col cols="3"> -->
-      <div class="text-center col-lg-3 col-xs-6">
+      <div class="text-center col-lg-4 col-xs-6">
         <center class="mb-2 mt-3">
-          <b-form-checkbox
-            :disabled="form.concepto.length < 4 || form.comentario.length < 6"
+          <!-- <b-form-checkbox
             id="checkbox-1"
             v-model="mostrarPrestamo"
             name="checkbox-1"
@@ -395,17 +379,28 @@
             ¿Es un prestamo?
             <b-button-group size="sm">
               <b-button
-                class=""
                 variant="info"
                 v-b-tooltip.hover
                 title="Si estas solicitado un préstamo haz check aqui para crear una transacción en automático de tus cuentas por pagar"
                 ><b-icon icon="question-circle" aria-hidden="true"></b-icon
               ></b-button>
             </b-button-group>
-          </b-form-checkbox>
+          </b-form-checkbox> -->
+          <span>
+            Prestamo
+          </span>
+          <b-button-group size="sm">
+            <b-button
+              class=""
+              variant="info"
+              v-b-tooltip.hover
+              title="Si solicitaste un prestamo puedes modificarlo en este apartado"
+              ><b-icon icon="question-circle" aria-hidden="true"></b-icon
+            ></b-button>
+          </b-button-group>
         </center>
         <center class="mt-2">
-          <b-dropdown variant="warning" :disabled="mostrarPrestamo == false">
+          <b-dropdown variant="warning">
             <template #button-content>
               Datos del Prestamo
             </template>
@@ -424,47 +419,11 @@
           </b-dropdown>
         </center>
       </div>
-      <!-- </b-col> -->
 
-      <!-- <b-col cols="3" class="text-center"> -->
-      <div class="text-center col-lg-3 col-xs-6">
+      <div class="text-center col-lg-6 col-xs-12">
         <center class="mb-2 mt-3">
           <span>
-            Selecciona una modalidad
-          </span>
-          <b-button-group size="sm">
-            <b-button
-              variant="info"
-              v-b-tooltip.hover
-              title="Unico: Pago a una sola persona, Replica: El mismo pago a varias personas, Dividir: Divide el monto total entre las personas seleccionadas"
-              ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-            ></b-button>
-          </b-button-group>
-        </center>
-        <b-form-group v-slot="{ ariaDescribedby }">
-          <!-- HabilitaDatos1 === -->
-          <b-form-radio-group
-            :disabled="form.concepto.length < 4 || form.comentario.length < 6"
-            id="btn-radios-2"
-            v-model="form.modalidad"
-            :options="optionsModalidad"
-            :aria-describedby="ariaDescribedby"
-            button-variant="outline-info"
-            size="md"
-            name="radio-btn-outline"
-            buttons
-            class="d-block"
-            aria-required="true"
-          ></b-form-radio-group>
-        </b-form-group>
-      </div>
-      <!-- </b-col> -->
-
-      <!-- <b-col cols="4" class="text-center"> -->
-      <div class="text-center col-lg-4 col-xs-12">
-        <center class="mb-2 mt-3">
-          <span>
-            Usuario(s) a quien le solicito el pago
+            Nuevo usuario a quien le solicita el pago
           </span>
           <b-button-group size="sm">
             <b-button
@@ -476,16 +435,14 @@
             ></b-button>
           </b-button-group>
         </center>
-        <!-- HabilitaDatos1 ===  -->
         <multiselect
-          :disabled="form.concepto.length < 4 || form.comentario.length < 6"
           v-model="form.seleccionAmigo"
           :options="usuarios"
-          :multiple="!isDisable"
-          :close-on-select="false"
+          :multiple="isDisable"
+          :close-on-select="true"
           :clear-on-select="false"
           :preserve-search="true"
-          placeholder="Selecciona los usuarios / agrega email"
+          placeholder="Selecciona un usuario / agrega email"
           tag-placeholder="Agregar nuevo"
           label="nombre"
           track-by="id"
@@ -497,76 +454,9 @@
         >
         </multiselect>
       </div>
-      <!-- </b-col> -->
       <b-col cols="1"> </b-col>
     </b-row>
 
-    <b-row class="mt-2" v-if="value == 50">
-      <b-col cols="1"> </b-col>
-      <b-col cols="10" class="text-center">
-        <center class="mb-2 mt-2">
-          <h5>
-            Total Solicitado
-          </h5>
-        </center>
-        <b-table responsive :items="items" :fields="fields">
-          <template #cell(bruto)="data">
-            <span v-if="form.iva == 0">${{ data.item.monto }}</span>
-            <span v-else>
-              ${{ ((form.monto / 100) * data.item.range).toFixed(2) }}
-            </span>
-          </template>
-          <template #cell(iva)="data">
-            <span v-if="form.iva == 0">$0</span>
-            <span v-else>
-              ${{
-                (
-                  (((form.monto / 100) * form.iva) / 100) *
-                  data.item.range
-                ).toFixed(2)
-              }}
-            </span>
-          </template>
-          <template #cell(monto)="data">
-            <!-- <span>$ {{data.item.monto}}</span> Este es si quieres dejar el monto estatico -->
-            <!-- Este es si se quiere cambiar el monto desde el input -->
-            <b-input-group size="md" prepend="$">
-              <b-input
-                type="number"
-                min="0"
-                :max="form.monto"
-                :disabled="
-                  form.modalidad == 1 ||
-                    form.modalidad == 2 ||
-                    items.length == 1
-                "
-                v-if="items[data.index]"
-                oninput="javascript:value=this.value.replace('e',''); if(this.value.length>=20);"
-                @input="validamontototal(data.item.monto, data.index)"
-                v-model="items[data.index].monto"
-              ></b-input>
-            </b-input-group>
-          </template>
-          <template #cell(name)="data">
-            <b class="text-info"> {{ data.item.name }} </b>
-          </template>
-          <template #cell(porcentaje)="data">
-            <span>{{ Math.trunc(data.item.range) }} %</span>
-          </template>
-        </b-table>
-        <b-alert :show="mensaje" variant="info"
-          ><h5 class="text-dark">{{ this.mensajeok }}</h5></b-alert
-        >
-        <b-alert :show="!mensaje" variant="danger">
-          <h5 class="text-dark">
-            {{ mensajealert }} {{ this.diferencia }}
-            <b-button @click="calculaporcentaje" variant="info"
-              ><span class="ti-loop"></span> Original
-            </b-button>
-          </h5></b-alert
-        >
-      </b-col>
-    </b-row>
     <!-- Opcion para compartir el pago con uno o mas usuarios -->
     <b-row v-if="value == 100 && form.Ceder == false">
       <b-col cols="3"> </b-col>
@@ -574,7 +464,7 @@
       <div class="text-center col-lg-6 col-xs-12">
         <center>
           <span>
-            ¿Deseas compartir este egreso?
+            ¿Deseas compartir el pago?
           </span>
           <b-form-group v-slot="{ ariaDescribedby }" class="mt-1">
             <b-form-radio-group
@@ -819,12 +709,11 @@
     </b-row>
     <!-- Recurrencia en los pagos -->
     <b-row class="mb-2" v-if="value == 100">
-      <b-col cols="3"></b-col>
+      <b-col cols="1"></b-col>
       <!-- <b-col cols="3"> -->
-      <div class="text-center col-lg-3 col-xs-12">
-        <b-form-group>
+      <div class="text-center col-lg-5 col-xs-12">
+        <!-- <b-form-group>
           <b-form-checkbox
-            v-if="mostrarPrestamo == false"
             id="checkbox-1"
             v-model="status"
             name="checkbox-1"
@@ -843,17 +732,35 @@
               ></b-button>
             </b-button-group>
           </b-form-checkbox>
-        </b-form-group>
+        </b-form-group> -->
+        <center>
+          <span>
+            ¿El pago es recurrente?
+          </span>
+          <b-form-group v-slot="{ ariaDescribedby }" class="mt-1">
+            <b-form-radio-group
+              @change="resetitems"
+              v-b-tooltip.hover
+              title="Al hacer recurrente un pago se hará una solicitud en automático en las fechas que establescas"
+              id="btn-radios-2"
+              v-model="status"
+              :options="optionsCeder"
+              :aria-describedby="ariaDescribedby"
+              button-variant="outline-success"
+              size="sm"
+              name="radio-btn-outline"
+              buttons
+              class="d-block"
+              aria-required="true"
+            ></b-form-radio-group>
+          </b-form-group>
+        </center>
       </div>
 
-      <!-- </b-col> -->
-      <!-- <b-col cols="3"> -->
-      <div class="text-center col-lg-3 col-xs-12">
-        <b-form-group>
-          <!-- Check para hacer el monto variable  v-model="form.pagoVariable" value="accepted"
+      <div class="text-center col-lg-5 col-xs-12">
+        <!-- Check para hacer el monto variable  v-model="form.pagoVariable" value="accepted"
             unchecked-value="No"-->
-          <b-form-checkbox
-            v-if="mostrarPrestamo == false"
+        <!-- <b-form-checkbox
             v-model="variable"
             id="checkbox-2"
             name="checkbox-1"
@@ -870,11 +777,32 @@
                 ><b-icon icon="question-circle" aria-hidden="true"></b-icon
               ></b-button>
             </b-button-group>
-          </b-form-checkbox>
-        </b-form-group>
+          </b-form-checkbox> -->
+        <center>
+          <span>
+            Monto variable
+          </span>
+          <b-form-group v-slot="{ ariaDescribedby }" class="mt-1">
+            <b-form-radio-group
+              v-b-tooltip.hover
+              title="Al seleccionar monto variable se creará la solictud recurrente y te recordaremos para que actualices el monto de la fecha en curso"
+              :disabled="form.isrecurrente == false"
+              id="btn-radios-2"
+              v-model="variable"
+              :options="optionsCeder"
+              :aria-describedby="ariaDescribedby"
+              button-variant="outline-success"
+              size="sm"
+              name="radio-btn-outline"
+              buttons
+              class="d-block"
+              aria-required="true"
+            ></b-form-radio-group>
+          </b-form-group>
+        </center>
       </div>
       <!-- </b-col> -->
-      <b-col cols="3"></b-col>
+      <b-col cols="1"></b-col>
     </b-row>
 
     <!-- Calendario para ver los pagos RECURRENTES -->
@@ -980,375 +908,25 @@
             </b-row>
           </b-col>
         </b-card>
-        <!-- Calendario para ver los pagos RECURRENTES -->
-        <!-- <b-row v-if="value == 100">
-      <b-col cols="1"></b-col> -->
-        <!-- <b-col cols="10" v-if="form.isrecurrente"> -->
-        <!-- <div class="text-center col-lg-10 col-xs-12" v-if="form.isrecurrente">
-        <b-card>
-          <b-row>
-            <b-col>
-              <b-form-radio-group
-                v-model="form.selectedTipoRecurrecia"
-                :options="optionsRecurrencia"
-                class="text-center mb-3"
-                value-field="value"
-                text-field="name"
-                disabled-field="notEnabled"
-                @change="calculapagos"
-              ></b-form-radio-group>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col cols="6" class="text-center mt-3">
-              <label><h4>Iniciar Recurrencia</h4></label>
-            </b-col>
-            <b-col cols="6" class="text-center mt-3">
-              <label><h4>Terminar Recurrencia</h4></label>
-            </b-col>
-            <b-col cols="6">
-              <b-form-datepicker
-                id="datepicker-sm 2"
-                size="sm"
-                locale="es-MX"
-                class="mb-2"
-                :min="minimoInicio"
-                v-model="form.fechaInicio"
-                @input="cambiafechainicial"
-                :style="darkMode ? 'background-color:#393a42' : null"
-              ></b-form-datepicker>
-            </b-col>
-            <b-col cols="6">
-              <b-form-datepicker
-                id="datepicker-sm 1"
-                size="sm"
-                locale="es-MX"
-                class="mb-2"
-                v-model="form.fechaFin"
-                :min="minimofinish"
-                :style="darkMode ? 'background-color:#393a42' : null"
-                @input="cambiafecha"
-              ></b-form-datepicker>
-            </b-col>
-          </b-row>
-          <b-col
-            cols="12"
-            v-if="form.selectedTipoRecurrecia == 5"
-            class="mt-2 text-center"
-          >
-            <label class=" w-100">
-              <h4 class="">Días que se quieren fijar</h4>
-            </label>
-            <Calendar
-              :step="0"
-              :min-date="dayCalendar()"
-              :attributes="attributes"
-              @dayclick="onDayClick"
-              class="w-100"
-              style=""
-            />
-          </b-col>
-          <b-col cols="12" class="mt-1">
-            <label class="d-block ">
-              <h4
-                class=" text-center"
-                style="padding-top: 10px; padding-bottom: 10px"
-              >
-                Cantidad de Pagos <strong>{{ total }}</strong>
-              </h4>
-            </label>
-            <b-row>
-              <b-col cols="12">
-                <b-table
-                  responsive
-                  :current-page="currentPage"
-                  :per-page="filasmostradas"
-                  striped
-                  hover
-                  sticky-header
-                  :items="itemsRec"
-                  :fields="fieldsRec"
-                > -->
-        <!-- <b-row> </b-row> -->
-        <!-- </b-table>
-                <b-pagination
-                  v-model="currentPage"
-                  :total-rows="itemsRec.length"
-                  :per-page="perpage"
-                  align="fill"
-                  size="sm"
-                  class="my-0"
-                ></b-pagination>
-              </b-col>
-            </b-row>
-          </b-col>
-        </b-card>
-      </div>
-      <b-col cols="1"></b-col>
-    </b-row> -->
       </div>
       <b-col cols="1"></b-col>
     </b-row>
-    <!-- CheckBox para facturar un egreso -->
-    <b-row class="mt-2 mb-2" v-if="value == 100">
-      <b-col cols="3"></b-col>
-      <div class="text-center col-lg-6 col-xs-12">
-        <b-form-group>
-          <b-form-checkbox v-model="invoice" @change="changeInvoice" size="md">
-            Facturar Egreso
-            <b-button-group size="sm">
-              <b-button variant="info" v-b-tooltip.hover title="etetstste"
-                ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-              ></b-button>
-            </b-button-group>
-          </b-form-checkbox>
-        </b-form-group>
-      </div>
-      <b-col cols="3"></b-col>
-    </b-row>
-    <!-- Datos para facturación ! -->
-    <b-row v-if="value == 100 && showDataInvoice" class="mb-4">
-      <b-col cols="1"> </b-col>
-      <div class="text-center col-lg-10 col-xs-12">
-        <b-card>
-          <b-row v-if="value == 100 && showDataInvoice">
-            <div class="text-center col-lg-4 col-xs-12">
-              <center class="mb-2">
-                <span>
-                  Código de facturación
-                </span>
-              </center>
-              <b-input-group size="md">
-                <b-form-input
-                  rows="2"
-                  v-model="facturacion.codigo"
-                  placeholder="Ingresa el código de facturación"
-                  :state="facturacion.codigo.length >= 4"
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-button
-                    variant="info"
-                    v-b-tooltip.hover
-                    title="El código de facturación debe de contener al menos 4 caracteres"
-                    ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-                  ></b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </div>
-
-            <div class="text-center col-lg-4 col-xs-12">
-              <center class="mb-2">
-                <span>
-                  Uso de CFDI
-                </span>
-              </center>
-              <b-input-group size="md">
-                <b-form-select
-                  v-model="facturacion.cfdi"
-                  :options="optionsIva"
-                  :style="darkMode ? 'background-color:#393a42' : null"
-                ></b-form-select>
-                <b-input-group-append>
-                  <b-button
-                    variant="info"
-                    v-b-tooltip.hover
-                    title="El uso del CFDI es ..."
-                    ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-                  ></b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </div>
-
-            <div class="text-center col-lg-4 col-xs-12">
-              <center class="mb-2">
-                <span>
-                  Metodo de pago
-                </span>
-              </center>
-              <b-input-group size="md">
-                <b-form-select
-                  v-model="facturacion.metodoPago"
-                  :options="optionsIva"
-                  :style="darkMode ? 'background-color:#393a42' : null"
-                ></b-form-select>
-                <b-input-group-append>
-                  <b-button
-                    variant="info"
-                    v-b-tooltip.hover
-                    title="Selecciona si tu transacción incluye IVA para solicitar tu comprabante fiscal y llevar un mejor control de tus finanzas"
-                    ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-                  ></b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </div>
-            <!-- <b-col cols="1"> </b-col> -->
-          </b-row>
-
-          <b-row v-if="value == 100 && showDataInvoice" class="mt-2">
-            <!-- <b-col cols="1"> </b-col> -->
-            <div class="text-center col-lg-4 col-xs-12">
-              <center class="mb-2">
-                <span>
-                  Forma de pago
-                </span>
-              </center>
-              <b-input-group size="md">
-                <b-form-select
-                  v-model="facturacion.formaPago"
-                  :options="optionsIva"
-                  :style="darkMode ? 'background-color:#393a42' : null"
-                ></b-form-select>
-                <b-input-group-append>
-                  <b-button
-                    variant="info"
-                    v-b-tooltip.hover
-                    title="El uso del CFDI es ..."
-                    ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-                  ></b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </div>
-            <div class="text-center col-lg-4 col-xs-12">
-              <center class="mb-2">
-                <span>
-                  Banco de cuenta de retiro
-                </span>
-              </center>
-              <b-input-group size="md">
-                <b-form-select
-                  v-model="facturacion.banco"
-                  :options="optionsIva"
-                  :style="darkMode ? 'background-color:#393a42' : null"
-                ></b-form-select>
-                <b-input-group-append>
-                  <b-button
-                    variant="info"
-                    v-b-tooltip.hover
-                    title="Selecciona un banco de retiro"
-                    ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-                  ></b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </div>
-            <div class="text-center col-lg-4 col-xs-12">
-              <center class="mb-2">
-                <span>
-                  Últimos 4 dígitos
-                </span>
-              </center>
-              <b-input-group size="md">
-                <b-form-input
-                  :min="0"
-                  maxlength="4"
-                  type="number"
-                  rows="2"
-                  v-model="facturacion.digitos"
-                  placeholder="Últimos 4 dígitos de cuenta de retiro"
-                  :state="facturacion.digitos >= 4"
-                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);value=this.value.replace('e','')"
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-button
-                    variant="info"
-                    v-b-tooltip.hover
-                    title="Ingresa los últimos 4 dígitos de cuenta de retiro"
-                    ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-                  ></b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </div>
-            <!-- <b-col cols="1"> </b-col> -->
-          </b-row>
-
-          <b-row v-if="value == 100 && showDataInvoice" class="mt-2 mb-4">
-            <!-- <b-col cols="1"> </b-col> -->
-            <div class="text-center col-lg-6 col-xs-12">
-              <center class="mb-2">
-                <span>
-                  Concepto
-                </span>
-              </center>
-              <b-input-group size="md">
-                <b-form-input
-                  rows="2"
-                  v-model="facturacion.concepto"
-                  placeholder="Ingresa el concepto de facturación"
-                  :state="facturacion.concepto.length >= 5"
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-button
-                    variant="info"
-                    v-b-tooltip.hover
-                    title="El código de facturación debe de contener al menos 4 caracteres"
-                    ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-                  ></b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </div>
-
-            <div class="text-center col-lg-6 col-xs-12">
-              <center class="mb-2">
-                <span>
-                  Cometario cliente
-                </span>
-              </center>
-              <b-input-group size="md">
-                <b-form-input
-                  rows="2"
-                  v-model="facturacion.comentario"
-                  placeholder="Ingresa el comentario de la facturación"
-                  :state="facturacion.comentario.length >= 5"
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-button
-                    variant="info"
-                    v-b-tooltip.hover
-                    title="El código de facturación debe de contener al menos 4 caracteres"
-                    ><b-icon icon="question-circle" aria-hidden="true"></b-icon
-                  ></b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </div>
-            <!-- <b-col cols="1"> </b-col> -->
-          </b-row>
-        </b-card>
-      </div>
-      <b-col cols="1"> </b-col>
-    </b-row>
-    <!-- Se terminan los campos de facturación -->
-
-
     <b-row>
       <b-col cols="1"> </b-col>
-      <b-col cols="10" class="text-center mt-4" v-if="value == 50">
-        <b-button
-          class="col-12"
-          variant="primary"
-          @click="ValidateTab1()"
-          :disabled="form.concepto.length < 4 || form.comentario.length < 6"
-          >Siguiente
-          <b-icon
-            class="ml-2"
-            icon="arrow-right-square-fill"
-            animation="cylon"
-            font-scale="1"
-          ></b-icon>
+      <b-col cols="10" class="text-center mt-4">
+        <b-button class="col-12" variant="success" @click="ValidateTab1(1)"
+          >Editar Ingreso
+          <b-icon class="ml-2" icon="file-check" font-scale="1"></b-icon>
         </b-button>
       </b-col>
-      <b-col cols="5" v-if="value == 100">
-        <b-button block variant="primary" @click="backStep()">
-          <b-icon
-            class="mr-2"
-            icon="arrow-left-square-fill"
-            animation="cylon"
-            font-scale="1"
-          ></b-icon
-          >Regresar</b-button
-        >
-      </b-col>
-      <b-col cols="5" v-if="value == 100">
-        <!-- Se deba de mandar un 2 para hacer todo el JSON de los datos, falta hacer validacion de campos llenos para avanzar -->
-        <b-btn block variant="success" @click="Next(2)" :disabled="loading"
+      <!-- <b-col cols="5" v-if="value == 100"> -->
+      <!-- Se deba de mandar un 2 para hacer todo el JSON de los datos, falta hacer validacion de campos llenos para avanzar -->
+      <!-- <b-button
+          block
+          variant="primary"
+          @click="Next(2)"
+          v-if="edit_ingress == false"
+          :disabled="loading"
           >Crear datos
           <b-icon
             class="ml-2"
@@ -1356,8 +934,22 @@
             animation="cylon"
             font-scale="1"
           ></b-icon
-        ></b-btn>
-      </b-col>
+        ></b-button>
+        <b-button
+          block
+          variant="warning"
+          @click="Next(2)"
+          v-if="edit_ingress"
+          :disabled="loading"
+          >Editar ingreso
+          <b-icon
+            class="ml-2"
+            icon="arrow-right-square-fill"
+            animation="cylon"
+            font-scale="1"
+          ></b-icon
+        ></b-button>
+      </b-col> -->
       <b-col cols="1"> </b-col>
     </b-row>
     <!-- Ventana modal para pedir un prestamo -->
@@ -1572,8 +1164,6 @@ import Swal from "sweetalert2";
 import moment from "moment";
 import Calendar from "v-calendar/lib/components/calendar.umd";
 import alertas from "../../../assets/repositoriosjs/alertas";
-// import alertas from "../../../assets/repositoriosjs/alertas";
-// import Archivos from "@/views/ingresos/componentes/ArchivosV2";
 
 export default {
   components: {
@@ -1581,19 +1171,9 @@ export default {
     Calendar
     // Archivos
   },
-  props: ["edit_ingress"],
+  props: ["edit_ingress", "solicitud"],
   data() {
     return {
-      facturacion: {
-        codigo: 0,
-        cfdi: [],
-        metodoPago: [],
-        formaPago: [],
-        banco: [],
-        digitos: "",
-        concepto: "",
-        comentario: ""
-      },
       loading: false,
       idEdit: -1,
       monedas: [],
@@ -1624,8 +1204,6 @@ export default {
       value: 50,
       link: "", // Paso dos, links de pago
       status: false, // Recurrencia en los pagos, "No, es pago único"
-      invoice: false, // Si se factura
-      showDataInvoice: false,
       variable: false,
       titulo_botonCeder: "Agregar correo electrónico",
       // ceder_pago: false,
@@ -1636,9 +1214,9 @@ export default {
       // OpCompartir: false,
       HabilitaDatos1: false,
       permisosOptions: [
-        { item: 1, name: "Ver" },
-        { item: 2, name: "Editar" },
-        { item: 3, name: "Eliminar" }
+        { item: 2, name: "Ver" },
+        { item: 3, name: "Editar" },
+        { item: 5, name: "Eliminar" }
       ],
       usuarios: [],
       mensajeok: "En balance",
@@ -1666,7 +1244,7 @@ export default {
         seleccionCuentasCedidas: [],
         seleccionAmigo: [],
         permisosUsuario: [],
-        permisosSeleccionados: [1],
+        permisosSeleccionados: [2],
         proyecto: [],
         links: [],
         isrecurrente: false, // Si el pago es recurrente true
@@ -1774,14 +1352,6 @@ export default {
     };
   },
   methods: {
-    resetAccount(op) {
-      if (op == true) {
-        this.form.empresaPropia = null;
-        this.temporalCuenta = [];
-      } else {
-        this.form.seleccionCuentasCedidas = [];
-      }
-    },
     // Limpiar todo el formulario
     clearForm() {
       console.log("Aqui si llega");
@@ -1829,7 +1399,7 @@ export default {
       this.form.seleccionCuentasCedidas = [];
       this.form.seleccionAmigo = [];
       this.form.permisosUsuario = [];
-      this.form.permisosSeleccionados = [1];
+      this.form.permisosSeleccionados = [2];
       this.form.proyecto = [];
       this.form.links = [];
       this.form.isrecurrente = false;
@@ -2112,89 +1682,127 @@ export default {
       this.value = 50;
       this.tituloModal = "Campos Requeridos";
     },
-    ValidateTab1() {
-      if (this.form.Ceder == false) {
-        if (this.form.empresaPropia == null) {
-          Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "Agrega una empresa para continuar",
-            showConfirmButton: false,
-            timer: 2000
-          });
-        } else if (this.temporalCuenta.length == 0) {
-          Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "Agrega una cuenta bancaria para continuar",
-            showConfirmButton: false,
-            timer: 2000
-          });
-        } else if (this.form.monto.length == 0) {
-          Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "Introduce un monto valido",
-            showConfirmButton: false,
-            timer: 2000
-          });
-        } else if (this.form.seleccionAmigo.length == 0) {
-          Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "Selecciona al menos un usuario a quien solicitas el pago",
-            showConfirmButton: false,
-            timer: 2000
-          });
-        } else if (
-          this.form.empresaPropia != null &&
-          this.temporalCuenta.length != 0 &&
-          this.form.monto.length != 0 &&
-          this.form.seleccionAmigo.length != 0
-        ) {
-          // Avanzamos al tab 2
-          this.Next(1);
-        }
-      } else if (this.form.Ceder == true) {
-        console.log("Se esta cediendo el pago");
-        if (this.form.seleccionCuentasCedidas.length == 0) {
-          Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "Inidica a quien le estas cediendo el pago",
-            showConfirmButton: false,
-            timer: 2000
-          });
-        } else if (this.form.monto.length == 0) {
-          Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "Introduce un monto valido",
-            showConfirmButton: false,
-            timer: 2000
-          });
-        } else if (this.moneda.length == 0) {
-          Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "Selecciona un tipo de moneda para continuar",
-            showConfirmButton: false,
-            timer: 2000
-          });
-        } else if (this.form.seleccionAmigo.length == 0) {
-          Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "Selecciona al menos un usuario a quien solicitas el pago",
-            showConfirmButton: false,
-            timer: 2000
-          });
-        } else if (
-          this.form.seleccionCuentasCedidas.length != 0 &&
-          this.form.monto.length != 0 &&
-          this.form.seleccionAmigo.length != 0
-        ) {
-          this.Next(1);
+    ValidateTab1(op) {
+      if (op == 0) {
+        this.Next(1);
+      } else if (op == 1) {
+        if (this.form.Ceder == false) {
+          if (this.form.concepto.length < 4) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Ingresa un concepto valido",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.form.comentario.length < 7) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Comentario no valido",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.form.empresaPropia == null) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Agrega una empresa para continuar",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.temporalCuenta.length == 0) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Agrega una cuenta bancaria para continuar",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.form.monto.length == 0) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Introduce un monto valido",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.form.seleccionAmigo.length == 0) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Selecciona al menos un usuario a quien solicitas el pago",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (
+            this.form.empresaPropia != null &&
+            this.temporalCuenta.length != 0 &&
+            this.form.monto.length != 0 &&
+            this.form.seleccionAmigo.length != 0
+          ) {
+            // Se mandan los datos al endpoint de editar
+            console.log("Mandando a endpoint ...");
+            // Mandamos la solicitud al endpoint
+            this.Next(2);
+          }
+        } else if (this.form.Ceder == true) {
+          if (this.form.concepto.length < 4) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Ingresa un concepto valido",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.form.comentario.length < 7) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Comentario no valido",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.form.seleccionCuentasCedidas.length == 0) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Inidica a quien le estas cediendo el pago",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.form.monto.length == 0) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Introduce un monto valido",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.moneda.length == 0) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Selecciona un tipo de moneda para continuar",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (this.form.seleccionAmigo.length == 0) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Selecciona al menos un usuario a quien solicitas el pago",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          } else if (
+            this.form.seleccionCuentasCedidas.length != 0 &&
+            this.form.monto.length != 0 &&
+            this.form.seleccionAmigo.length != 0
+          ) {
+            // Se mandan los datos al endpoint de editar
+            console.log("Mandando a endpoint ...");
+          }
         }
       }
     },
@@ -2204,14 +1812,14 @@ export default {
         this.tituloModal = "Campos Opcionales";
       } else if (op == 2) {
         let temporalUsers = [];
-        for (let a = 0; a < this.items.length; a++) {
-          let NewObj = {};
-          NewObj.Email = this.items[a].name;
-          NewObj.Percentage = this.items[a].range;
-          NewObj.Ammount = this.items[a].monto;
-          NewObj.Tax = this.form.iva;
-          temporalUsers.push(NewObj);
-        }
+
+        let NewObj = {};
+        NewObj.Email = this.form.seleccionAmigo.email;
+        NewObj.Percentage = "100";
+        NewObj.Ammount = this.form.monto;
+        NewObj.Tax = this.form.iva;
+        temporalUsers.push(NewObj);
+
         // Sacamos los datos del prestamo
         let TemporalLoan = {};
         TemporalLoan.Frecuency = this.formPrestamo.frecuencia2;
@@ -2263,16 +1871,14 @@ export default {
         // RECURRENCIA
         newObj.Recurrent = this.form.isrecurrente;
         newObj.Recurrent_data = temporalRecurrencia;
-        if (this.edit_ingress) {
-          console.log("Se esta editado...");
-          let editObj = {};
-          editObj.Id_Solicitud = this.idEdit;
-          let editObj2 = Object.assign(editObj, newObj);
-          console.log(editObj2);
-          this.editcreateNew(editObj2);
-        } else {
-          this.createNew(newObj);
-        }
+        newObj.Id_Solicitud = this.solicitud;
+        // console.log("Se esta editado en modal...");
+        // let editObj = {};
+        // editObj.Id_Solicitud = this.idEdit;
+        // let editObj2 = Object.assign(editObj, newObj);
+        console.log(newObj);
+        // Se manda la petición para editar los datos
+        this.editcreateNew(newObj);
       }
     },
     // ceder_emailFuct() {
@@ -2321,7 +1927,7 @@ export default {
             this.$emit("changePassOne", res);
             this.idEdit = res.back;
           }
-          this.clearForm();
+          // this.clearForm();
         });
       } catch (error) {
         console.log(error);
@@ -2499,24 +2105,6 @@ export default {
       this.optionsCuentasEmpresaExterna.push(tag);
       this.form.seleccionCuentasEmpresaExterna.push(tag);
     },
-    // addTagCe(newTag) {
-    //   //addTagCedida
-    //   const tag = {
-    //     name: newTag,
-    //     code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
-    //   };
-    //   this.optionsCuentasCedidas.push(tag);
-    //   this.form.seleccionCuentasCedidas.push(tag);
-    // },
-    // addTagAmigo(newTag) {
-    //   //addTagCedida
-    //   const tag = {
-    //     nombre: newTag,
-    //     id: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
-    //   };
-    //   this.usuarios.push(tag);
-    //   this.form.seleccionAmigo.push(tag);
-    // },
     addTagAmigo2(newTag) {
       let regExMail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
       if (regExMail.test(newTag)) {
@@ -2649,11 +2237,6 @@ export default {
       if (this.form.isrecurrente == false) {
         this.variable = false;
       }
-    },
-    changeInvoice() {
-      console.log("Este es una facturación");
-      // this.invoice = !this.invoice;
-      this.showDataInvoice = !this.showDataInvoice;
     },
     // Cambia de estado la variable prestamo
     estatusPrestamo(op) {
@@ -3179,114 +2762,16 @@ export default {
         highlight: true,
         dates: date
       }));
-    },
-    // Iteams de la tabla
-    items() {
-      let auxiliar = [];
-      this.form.modalidad == 1
-        ? (this.isDisable = true)
-        : (this.isDisable = false);
-      if (!Array.isArray(this.form.seleccionAmigo)) {
-        let newObj = {};
-        newObj.name = this.form.seleccionAmigo.email;
-        newObj.id = this.form.seleccionAmigo.id;
-        newObj.range = 100;
-        newObj.bruto = this.form.monto;
-        newObj.iva = this.form.iva;
-        newObj.monto = this.form.montoNeto;
-        auxiliar[0] = newObj;
-        return auxiliar;
-      } else if (this.form.seleccionAmigo.length > 0) {
-        switch (this.form.modalidad) {
-          case 1:
-            auxiliar = this.form.seleccionAmigo.map(elem => {
-              let newObj = {};
-              newObj.name = elem.email;
-              newObj.id = elem.id;
-              newObj.range = 100;
-              newObj.bruto = this.form.monto;
-              newObj.iva = this.form.iva;
-              newObj.monto = this.form.montoNeto;
-              return newObj;
-            });
-            console.log(auxiliar);
-            return auxiliar;
-          case 2:
-            auxiliar = this.form.seleccionAmigo.map(elem => {
-              let newObj = {};
-              newObj.name = elem.email;
-              newObj.id = elem.id;
-              newObj.range = 100;
-              newObj.bruto = this.form.monto;
-              newObj.iva = this.form.iva;
-              newObj.monto = this.form.montoNeto;
-              return newObj;
-            });
-            return (this.aux = auxiliar);
-          case 3:
-            auxiliar = this.form.seleccionAmigo.map(elem => {
-              let newObj = {};
-              newObj.name = elem.email;
-              newObj.id = elem.id;
-              newObj.range = (100 / this.form.seleccionAmigo.length).toFixed(2);
-              newObj.bruto = (
-                this.form.monto * parseFloat(newObj.range / 100)
-              ).toFixed(2);
-              newObj.iva = parseFloat(
-                newObj.bruto * (this.form.iva / 100)
-              ).toFixed(2);
-              newObj.monto = (
-                parseFloat(newObj.bruto) + parseFloat(newObj.iva)
-              ).toFixed(2);
-              return newObj;
-            });
-            return auxiliar;
-        }
-      }
-    },
-    sumatotal() {
-      let resuelve = 0;
-      for (let a = 0; a < this.items.length; a++) {
-        if (this.items[a].monto > 0) {
-          resuelve += parseFloat(this.items[a].monto);
-        }
-      }
-      return resuelve;
-    },
-    sumaIVA() {
-      // Este es el IVA que se esta aplicando ->  console.log(this.form.iva);
-      // Este es el monto bruto
-      // console.log(this.items[0].monto);
-      let iva = 0;
-      iva = (this.form.iva / 100) * this.items[0].monto;
-      return iva;
-    },
-    validasuma() {
-      if (this.items.length == 0) {
-        return true;
-      } else {
-        return false;
-      }
     }
   },
-  watch: {
-    "form.modalidad"(newValue) {
-      if (newValue == 1 && this.form.seleccionAmigo.length > 0) {
-        this.form.seleccionAmigo = [];
-        // this.form.seleccionAmigo = this.form.seleccionAmigo[0];
-        // this.$emit("changePassOne");
-        // console.log(this.form.empresaPropia);
-      }
-    }
-  },
+  watch: {},
   validations: {
     form: {
       concepto: { required, minLength: minLength(7) },
       comentario: { required, minLength: minLength(7) },
       monto: { required },
       iva: { required },
-      seleccionAmigo: { required },
-      modalidad: { required }
+      seleccionAmigo: { required }
     }
   },
   async mounted() {
@@ -3309,29 +2794,4 @@ export default {
 /* h4{
   filter: droop-shadow(15px 15px 10px orchild);
 } */
-.btn-primary {
-  /* color: #fff; */
-  /* background-color: rgb(31, 104, 172); Color azul*/
-  background-color: rgba(0, 129, 194, 255);
-  /* background-color: teal; */
-  border-color: #005a5a;
-}
-.btn-primary:hover {
-  color: #fff;
-  background-color: rgba(0, 145, 194, 255);
-  border-color: #005a5a;
-}
-
-/* Color para boton info en bootstrap */
-.btn-info {
-  color: #fff;
-  /* background-color: rgb(31, 104, 172); */
-  background-color: #229ca5;
-  border-color: #005a5a;
-}
-.btn-info:hover {
-  color: #fff;
-  background-color: #3b9c96;
-  border-color: #005a5a;
-}
 </style>

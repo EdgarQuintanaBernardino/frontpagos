@@ -2,84 +2,68 @@
   <div>
     <CCard>
       <CCardHeader>
-        <b-row class="mb-2">
-          <b-col auto="md">
-            <h3>
+        <b-row class="mb-1">
+          <div class="col-lg-3 col-xs-12 mt-1">
+            <h4>
               Amigos
-              <b-badge variant="primary" pill>{{ countfriends }}</b-badge>
-            </h3>
-          </b-col>
-          <b-col auto="md">
+              <b-badge variant="dark" pill>{{ countfriends }}</b-badge>
+            </h4>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-lg-12 col-xl-9  mt-1">
             <b-btn
-              style="float:right"
-              variant="info"
-              @click.prevent="addcuenta()"
-              pill
-            >
-              <b-icon
-                icon="person-plus-fill"
-                animation="fade"
-                font-scale="2"
-                class="mr-2"
-              ></b-icon
-              >Invitar Amigo
-            </b-btn>
-          </b-col>
-        </b-row>
-
-        <b-row>
-          <b-col auto="md">
-            <b-btn
-              style="float:right"
-              variant="primary"
+              variant="ligth"
               @click.prevent="showrqstin()"
-              pill
+              style="float:right"
             >
-              <b-icon
-                icon="arrow-right-circle"
-                animation="cylon"
-                font-scale="1"
-                class="mr-2"
-              ></b-icon
-              >Solicitudes de Amistad Recibidas
+              <b-icon icon="arrow-right-circle"></b-icon> Solicitudes de Amistad
+              Recibidas
               <b-badge style="text-color: white" pill>{{
                 requestin.length
               }}</b-badge>
             </b-btn>
-          </b-col>
-          <b-col auto="md">
             <b-btn
-              style="float:right"
-              variant="success"
+              variant="ligth"
               @click.prevent="showrqst()"
-              pill
+              style="float:right"
             >
-              <b-icon
-                icon="arrow-left-circle"
-                animation="cylon"
-                font-scale="1"
-                class="mr-2"
-              ></b-icon
-              >Solicitudes de Amistad Enviadas
+              <b-icon icon="arrow-left-circle"></b-icon> Solicitudes de Amistad
+              Enviadas
               <b-badge style="text-color: white" pill>{{
                 requestsend.length
               }}</b-badge>
             </b-btn>
-          </b-col>
+            <b-btn
+              variant="ligth"
+              @click.prevent="addcuenta()"
+              style="float:right"
+            >
+              Invitar Amigo
+              <b-icon icon="person-plus-fill"></b-icon>
+            </b-btn>
+          </div>
         </b-row>
       </CCardHeader>
       <CButton
         @click="(warningModal = true), (limpiarin = !limpiarin)"
         color="primary"
-        >Crear grupo de amigos</CButton
-      >
-      <CModal
-        title="Crear grupos"
-        :show.sync="warningModal"
-        size="xl"
-        color="primary"
-        :closeOnBackdrop="false"
-      >
+        >Crear grupo de amigos
+        <b-icon icon="person-plus"></b-icon>
+      </CButton>
+      <CModal :show.sync="warningModal" size="xl" :closeOnBackdrop="false">
+        <template #header>
+          <h5>
+            <b-icon icon="person-plus-fill" class="mr-2"></b-icon>Crear grupo de
+            amigos
+          </h5>
+          <div>
+            <b-button
+              class="float-right btn-sm"
+              variant="danger"
+              @click="closeAll()"
+              ><b-icon icon="x"></b-icon
+            ></b-button>
+          </div>
+        </template>
         <Grupos :limpiarin="limpiarin"></Grupos>
         <template #footer-wrapper>
           <CButton />
@@ -137,6 +121,9 @@ export default {
     clearInterval(this.datosback);
   },
   methods: {
+    closeAll() {
+      this.warningModal = false;
+    },
     async actualizauser() {
       this.datosback = setInterval(async () => {
         this.getitemsasync();
@@ -159,7 +146,7 @@ export default {
       } catch (err) {
         //  console.log(err);
       } finally {
-        console.log("Finally");
+        // console.log("Finally");
       }
     },
 
@@ -184,3 +171,30 @@ export default {
   }
 };
 </script>
+<style>
+.btn-primary {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); Color azul*/
+  background-color: rgba(0, 129, 194, 255);
+  /* background-color: teal; */
+  border-color: #005a5a;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: rgba(0, 145, 194, 255);
+  border-color: #005a5a;
+}
+
+/* Color para boton info en bootstrap */
+.btn-info {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); */
+  background-color: #229ca5;
+  border-color: #005a5a;
+}
+.btn-info:hover {
+  color: #fff;
+  background-color: #3b9c96;
+  border-color: #005a5a;
+}
+</style>

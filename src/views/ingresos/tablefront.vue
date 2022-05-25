@@ -3,12 +3,10 @@
 
  <b-row>
         <b-col cols="12">
-
           <CCard>
                <CCardHeader v-if="datosall.header">
               <h3>
                 {{datosall.headername}}
-
               <b-badge :variant="datosall.badgevariant" pill>{{ datosall.items.length }}</b-badge>
                 <b-btn
                   :style="datosall.btnstyle"

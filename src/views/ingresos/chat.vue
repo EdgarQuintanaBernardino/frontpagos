@@ -19,10 +19,10 @@
           </template>
           <CCol>
             <CCard>
-            
+
               <CCardBody>
 
-  
+
   <b-row>
 <b-col cols="12" class="bg-dark" v-if="nodo_raiz.length>0">
 <div style="overflow-y:auto;max-height:450px;">
@@ -39,7 +39,7 @@
             <img :src="'https://pagosfile.s3-us-west-2.amazonaws.com/'+message.comenta.photo" alt="" class="rounded" v-if="message.comenta.photo">
             <img src='https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/profile/sinfoto.png' alt="" class="rounded" v-else>
 
-            
+
             </div>
 					<!-- Contenedor del Comentario -->
 					<div class="comment-box">
@@ -50,27 +50,27 @@
 			<b-link class="ml-2" v-b-toggle="['comenta'+message.id]">	<b-icon icon="reply" aria-hidden="true" rotate="180" scale="1.5"></b-icon></b-link>
 						</div>
 						<div class="comment-content">
-            {{message.comentario}}	
+            {{message.comentario}}
 					  </div>
 					</div>
 				</div>
 
 				<!-- Respuestas de los comentarios -->
-			                
-      
+
+
       	<ul class="comments-list reply-list">
           <div  style="overflow-y:auto;max-height:350px">
 
 					<li  v-for="replicas in getreplicas(message.replicas)" :key="replicas.id" >
 						<!-- Avatar -->
 						<div class="comment-avatar">
-              
-              
+
+
            <img :src="'https://pagosfile.s3-us-west-2.amazonaws.com/'+replicas.comenta.photo" alt="" class="rounded" v-if="replicas.comenta.photo">
             <img src='https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/profile/sinfoto.png' alt="" class="rounded" v-else>
 
-              
-              
+
+
               </div>
 						<!-- Contenedor del Comentario -->
 						<div class="comment-box">
@@ -88,24 +88,24 @@
 
 					</li>
 
-          
+
           </div>
           <b-collapse :id="'comenta'+message.id">
  		<li >
 						<!-- Avatar -->
 						<div class="comment-avatar">
-            
+
            <img :src="getfoto" alt="" class="rounded" v-if="getfoto">
             <img src='https://pagosfile.s3-us-west-2.amazonaws.com/imagenes_basicas/profile/sinfoto.png' alt="" class="rounded" v-else>
 
-             
+
               </div>
 						<!-- Contenedor del Comentario -->
 						<div class="comment-box">
 							<div class="comment-head">
 								<h6 class="comment-name">{{getuser.name}}</h6>
-								
-							
+
+
 							</div>
 							<div class="comment-content">
                 <b-row>
@@ -117,7 +117,7 @@
 							<b-button variant="success"  @click.prevent="agregacoment(message.id,index)" class="mt-1 p-2 text-white" block>Comentar</b-button>
 
                     </b-col>
-                  
+
 
                 </b-row>
 							</div>
@@ -128,9 +128,9 @@
 
 
           </b-collapse>
-         
 
-     		
+
+
 
 				</ul>
 
@@ -142,7 +142,7 @@
 		</ul>
 	</div>
 
-  
+
 
     </b-col>
 
@@ -152,10 +152,10 @@
     <b-col cols="12" class="mt-3">
 
  		<h3 class="text-dark">Agrega un comentario</h3>
-			
+
 						<!-- Contenedor del Comentario -->
 						<div class="comment-box">
-				
+
 							<div class="comment-content">
                 <b-row>
                     <b-col cols="12">
@@ -166,24 +166,24 @@
 							<b-button variant="success"  @click.prevent="agregacomentfirst()" class="mt-1 p-2 text-white" block>Comentar</b-button>
 
                     </b-col>
-                  
+
 
                 </b-row>
 							</div>
 						</div>
 
 
-				
+
 
     </b-col>
   </b-row>
-  
 
 
 
 
-       
-           
+
+
+
               </CCardBody>
             </CCard>
           </CCol>
@@ -487,7 +487,7 @@ export default {
     Swal
   },
   validations: {
-    
+
   },
   methods: {
 
@@ -497,15 +497,15 @@ export default {
 
         let fecha= new Date(element.created_at);
           let nuevo=fecha.toDateString("es-ES")
-            
-       element.created_at=nuevo; 
-        
+
+       element.created_at=nuevo;
+
 
       });
          return array;
-       
 
- 
+
+
     },
      async getitems() {
       this.show = true;//// el render del reloj?
@@ -515,11 +515,11 @@ export default {
         await repoitems.getpagossend().then((res) => {
 
      //    let response=validaciones.validafriends(res);
-       let response=res.data[0]; 
+       let response=res.data[0];
        this.empresasall=res.data[1];
        this.proyectosall=res.data[2];
        this.tagsall=res.data[3];
-      
+
        this.totalrowsend=response.count;
 
         let datosgenericos={
@@ -528,7 +528,7 @@ export default {
                        { key: "nombre_cuenta", label: "Solicitado a", sortable: true},
 
                         { key: "concepto", label: "Concepto", sortable: true},
-                   
+
                         { key: "archivos", label: "Archivos", class: "text-center"},
                         { key: "status", label: "Status", class: "text-center"},
                         { key: "fecha", label: "Solicitado", class: "text-center"},
@@ -577,10 +577,10 @@ let formenv={
    try {
         let repoitems = repocreate();
 
-         
+
  await repoitems.First_Message(formenv).then((res) => {
           this.eventdetected();
-                     
+
             });
 
 
@@ -610,9 +610,9 @@ let formenv={
    try {
         let repoitems = repocreate();
         await repoitems.Send_Message(formenv).then((res) => {
-          this.eventdetected();                    
+          this.eventdetected();
             });
-          
+
 
       } catch (err) {
         // console.log(err);
@@ -632,7 +632,7 @@ let formenv={
       //here you can set any behavior
     },
     updateModaledit() {
- 
+
     },
     async eventdetected() {
 this.nodo_raiz=[];
@@ -667,7 +667,7 @@ this.inicial='';
       /// console.log("maestra")
     },
     resetModal() {
- 
+
     },
 
     async empresacreate(form) {
@@ -678,12 +678,12 @@ this.inicial='';
 
         await repo.adcuenta(form).then((res) => {
         this.resetModal();
-      
+
        this.$emit("adduserevent",res.data[0]);
            this.hideModal();
-      
+
         });
-       
+
       } catch (error) {
         let res=alertas();
         // console.log(error);
@@ -694,12 +694,12 @@ this.inicial='';
         this.animationall = false;
       }
     },
-  
+
   },
   computed: {
        getuser(){
                 return this.$store.getters.getuser;
-     
+
 
     },
    getfoto(){

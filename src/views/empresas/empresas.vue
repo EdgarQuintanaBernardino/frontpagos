@@ -69,13 +69,13 @@ export default {
     allfront,
     modalempresa,
     sucursales,
-    sucursalesmodal,
+    sucursalesmodal
   },
   watch: {
-    metodo: function (newval, oldvar) {
+    metodo: function(newval) {
       this.resetvalores();
       this.prueba(newval);
-    },
+    }
   },
   data() {
     return {
@@ -110,11 +110,10 @@ export default {
       ///unicos
       empresa: false,
       config: false,
-      showsucursales: false,
+      showsucursales: false
     };
   },
   mounted() {
-
     if (this.metodo == this.$store.getters.getmetodo) {
       this.prueba(this.metodo);
     } else {
@@ -131,13 +130,15 @@ export default {
   },
   computed: {
     getmetodo() {
-      this.metodo = this.$store.getters.getmetodo;
+      // this.metodo = this.$store.getters.getmetodo;
+      // Se comenta esta linea de manera temporal para la edición del front
+      // this.metodo = this.$store.getters.getmetodo;
       return this.$store.getters.getmetodo;
-    },
+    }
   },
   methods: {
     descripcionpermisos(allpermissions) {
-      this.allpermissionsd = allpermissions.map((r) => r.descripcion);
+      this.allpermissionsd = allpermissions.map(r => r.descripcion);
     },
     adduser(item) {
       let metodo = this.$store.getters.getmetodo;
@@ -201,7 +202,7 @@ export default {
         namebtn: "Editar Empresa",
         typebtn: "edit",
         showdelete: false,
-        showreset: false,
+        showreset: false
       };
       this.openmodal();
     },
@@ -220,16 +221,16 @@ export default {
         let self = this;
         self.show = true;
         this.items = [];
-        let validaciones = respuestas();
+        // let validaciones = respuestas();
         await repoitems
           .getempresasback({
             sorter: self.sorter,
             tableFilter: self.tableFilter,
             columnFilter: self.columnFilter,
             itemsLimit: self.itemsLimit,
-            currentpage: self.currentpage,
+            currentpage: self.currentpage
           })
-          .then((res) => {
+          .then(res => {
             //   let response=validaciones.validafriends(res);
             console.log(res);
             let response = res.data;
@@ -237,7 +238,12 @@ export default {
             let datosgenericos = {
               placeholder: "mis Empresas",
               columns: [
-                { key: "nombre", label: "Nombre Empresa o Alias", sortable: true },
+                {
+                  key: "nombre",
+                  label: "Nombre/Alias",
+                  sortable: true,
+                  _classes: "text-center"
+                },
                 // {
                 //   key: "email",label: "Email",sortable: true,class: "text-center",
                 // },
@@ -248,13 +254,19 @@ export default {
                 //   key: "razonsocial",label: "Razón Social",class: "text-center",sorteable: true,
                 // },
                 {
-                  key: "rfc",label: "RFC",class: "text-center",sorteable: true,
+                  key: "rfc",
+                  label: "RFC",
+                  class: "text-center",
+                  sorteable: true
                 },
                 {
-                  key: "regimen",label: "Regimen",class: "text-center",sorteable: true,
+                  key: "regimen",
+                  label: "Regimen",
+                  class: "text-center",
+                  sorteable: true
                 },
 
-                { key: "actions", label: "Acciones", class: "text-center" },
+                { key: "actions", label: "Acciones", _classes: "text-center", _style: "width: 150px" }
               ],
               totalfilasmostradas: 15,
               items: response.data,
@@ -270,13 +282,13 @@ export default {
               btnadd: true,
               iconadd: "building",
               animation: "fade",
-              fontscale: "2",
+              fontscale: "1",
               classicon: "mr-2",
               namebtn: "Agrega Empresas",
-              badgevariant: "primary",
-              btnvariant: "info",
+              badgevariant: "dark",
+              btnvariant: "primary",
               btnstyle: "float:right",
-              component: "empresashow",
+              component: "empresashow"
             };
             this.totalrowsend = res.count;
             this.datosallback = datosgenericos;
@@ -299,7 +311,7 @@ export default {
         namebtn: "Empresa Usuario",
         typebtn: "new",
         showdelete: true,
-        showreset: true,
+        showreset: true
       };
       this.openmodal();
     },
@@ -311,7 +323,7 @@ export default {
       try {
         let repoitems = repo();
         let validaciones = respuestas();
-        await repoitems.getempresas().then((res) => {
+        await repoitems.getempresas().then(res => {
           let response = validaciones.validafriends(res);
           this.totalrowsend = response.data.length;
           let datosgenericos = {
@@ -322,12 +334,12 @@ export default {
                 key: "email",
                 label: "Email",
                 sortable: true,
-                class: "text-center",
+                class: "text-center"
               },
               { key: "razon", label: "Razón Social", class: "text-center" },
               { key: "telefono", label: "Télefono", class: "text-center" },
               { key: "sucursales", label: "Sucursales", class: "text-center" },
-              { key: "actions", label: "Acciones", class: "text-center" },
+              { key: "actions", label: "Acciones", class: "text-center" }
             ],
             totalfilasmostradas: 15,
             items: response.data,
@@ -347,7 +359,7 @@ export default {
             badgevariant: "primary",
             btnvariant: "info",
             btnstyle: "float:right",
-            component: "empresashow",
+            component: "empresashow"
           };
           this.datosall = datosgenericos;
           //   console.log(this.datosall)
@@ -368,8 +380,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Borrala!",
-      }).then((result) => {
+        confirmButtonText: "Si, Borrala!"
+      }).then(result => {
         if (result.value) {
           this.actiondeleteempresa(item);
         }
@@ -382,12 +394,14 @@ export default {
       try {
         await dao
           .deleteempresa(item)
-          .then((res) => {
+          .then(res => {
+            console.log(res);
             this.$store.getters.getmetodo
               ? (this.iddelete = item.id)
               : (this.iddeleteback = item.id);
           })
-          .catch((eror) => {
+          .catch(eror => {
+            console.log(eror);
             alert.errorservidor();
             // console.log(eror);
           });
@@ -410,7 +424,7 @@ export default {
       this.$store.getters.getmetodo
         ? (this.idedit = item)
         : (this.ideditback = item);
-    },
-  },
+    }
+  }
 };
 </script>

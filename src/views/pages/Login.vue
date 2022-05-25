@@ -2,13 +2,20 @@
   <div class="c-app flex-row align-items-center">
     <CContainer>
       <CRow class="justify-content-center">
-        <CCol md="8">
+        <CCol md="6">
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
                 <CForm @submit.prevent="login(item)">
-                  <h1>Login</h1>
-                  <p class="text-muted">Ingresa con tus credenciales</p>
+                  <center>
+                    <img
+                      src="../../assets/icons/LyBFlow.jpeg"
+                      alt="Logo LyBFlow"
+                      :height="80"
+                    />
+                    <h2>Iniciar sesión</h2>
+                    <p class="text-muted">Ingresa con tus credenciales</p>
+                  </center>
                   <CInput
                     :disabled="peticion"
                     placeholder="Correo registrado"
@@ -36,7 +43,6 @@
                         :variant="colorlogin"
                         type="submit"
                         block
-                        pill
                         :disabled="$v.$invalid || peticion"
                         v-if="!peticion"
                         >{{ msj }}
@@ -56,12 +62,15 @@
                     <!-- <b-col cols="4"> </b-col> -->
                     <!-- <CCol col="4"></CCol> -->
                     <CCol col="12" class="text-right">
-                      <CButton color="link" class="px-0" :disabled="true"
+                      <!-- <CButton color="link" class="px-0" :disabled="true"
                         >¿Olvidaste tu contraseña?</CButton
+                      > -->
+                      <CButton
+                        class="btn btn-ligth mt-3"
+                        to="register"
+                        style="float:left"
                       >
-                      <CButton class="btn btn-info m-2" to="register">
-                        <b-icon-arrow-up></b-icon-arrow-up>Registrate
-                        Aquí</CButton
+                        <b-icon-person></b-icon-person> Crear cuenta</CButton
                       >
                     </CCol>
                   </CRow>
@@ -101,9 +110,9 @@ export default {
   computed: {
     colorlogin() {
       if (this.$v.$invalid) {
-        return "outline-dark";
+        return "dark";
       } else {
-        return "outline-info";
+        return "primary";
       }
     },
     msj() {
@@ -214,3 +223,31 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.btn-primary {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); Color azul*/
+  background-color: rgba(0, 129, 194, 255);
+  /* background-color: teal; */
+  border-color: #005a5a;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: rgba(0, 145, 194, 255);
+  border-color: #005a5a;
+}
+
+/* Color para boton info en bootstrap */
+.btn-info {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); */
+  background-color: #229ca5;
+  border-color: #005a5a;
+}
+.btn-info:hover {
+  color: #fff;
+  background-color: #3b9c96;
+  border-color: #005a5a;
+}
+</style>

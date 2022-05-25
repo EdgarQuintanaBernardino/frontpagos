@@ -7,7 +7,6 @@
         v-model="show"
         no-close-on-esc
         no-close-on-backdrop
-        title="Selección de filtros"
         :header-bg-variant="headerBgVariant"
         :header-text-variant="headerTextVariant"
         :body-bg-variant="bodyBgVariant"
@@ -17,170 +16,177 @@
       >
         <template #modal-header>
           <!-- Emulate built in modal header close button action -->
-          <h5>Selección de filtros</h5>
+          <h5>
+            <b-icon
+              icon="filter-circle-fill"
+              aria-hidden="true"
+              class="mr-2"
+            ></b-icon
+            >Selección de filtros
+          </h5>
           <div class="mb-1">
-            <b-button class="float-right" @click="showAlertCambios">X</b-button>
+            <b-button
+              class="float-right"
+              @click="showAlertCambios"
+              variant="danger btn-sm"
+              ><b-icon icon="x"></b-icon
+            ></b-button>
           </div>
         </template>
         <b-form @submit.prevent="agregarFiltro()">
-          <b-container class="row" fluid>
-            <b-row class="mb-1 text-center col-12 ">
-              <b-col class="col-12 col-lg-3 d-lg-block d-none">Filtros</b-col>
+          <!-- <b-container class="row"> -->
+          <!-- <b-row class="mb-1 text-center col-12 ">
+              <b-col class="col-12 col-lg-3 col-xs-12 d-lg-block d-none">Filtros</b-col>
               <b-col class="col-12 col-lg-3 d-lg-block d-none"
                 >Condiciones
               </b-col>
               <b-col class="col-12 col-lg-3 d-lg-block d-none">Valores</b-col>
               <b-col class="col-12 col-lg-3 d-lg-block d-none"></b-col>
-            </b-row>
-            <b-row class="mb-1 col-12 ">
-              <!-- Columna de filtros-->
-              <b-col class="col-12 col-lg-3">
-                <div class="d-block d-lg-none ">
-                  <p>Filtros</p>
-                </div>
-                <b-form-select
-                  v-model="filtro.id"
-                  @input="selectFiltro(filtro.id)"
+            </b-row> -->
+          <b-row class="mb-3">
+            <!-- Columna de filtros-->
+            <!-- <b-col class="col-lg-3 col-xs-12"> -->
+            <div class="mb-2 text-center col-lg-3 col-xs-12">
+              <p>Filtros</p>
+              <b-form-select
+                v-model="filtro.id"
+                @input="selectFiltro(filtro.id)"
+              >
+                <option
+                  v-for="Filter in FiltrosDisponibles"
+                  :value="Filter.id"
+                  :disabled="Filter.disabled"
+                  :key="Filter.id"
+                  >{{ Filter.label }}</option
                 >
-                  <option
-                    v-for="Filter in FiltrosDisponibles"
-                    :value="Filter.id"
-                    :disabled="Filter.disabled"
-                    :key="Filter.id"
-                    >{{ Filter.label }}</option
-                  >
-                </b-form-select>
-              </b-col>
-              <b-col class="col-12 col-lg-3">
-                <div v-if="filtro.filtro != -1" class="d-block d-lg-none">
-                  <p>Condiciones</p>
-                </div>
-                <!--Columna de parametros-->
-                <multiselect
-                  v-if="filtro.filtro != -1"
-                  v-model="filtro.parametro"
-                  track-by="key"
-                  label="label"
-                  placeholder="Select one"
-                  :options="Op_Multiselect(filtro.id)"
-                  :searchable="false"
-                  :allow-empty="false"
-                >
-                </multiselect>
-              </b-col>
-              <!--Columna de criterios-->
-              <b-col class="col-12 col-lg-3">
-                <div class="d-block d-lg-none">
-                  <p>Valores</p>
-                </div>
-                <b-row v-if="esFecha()">
-                  <b-col>
-                    <b-form-datepicker
-                      :max="validaParametro() ? maxDe : max"
-                      v-model="filtro.valor[0]"
-                      :date-format-options="{
-                        year: 'numeric',
-                        month: 'numeric',
-                        day: 'numeric'
-                      }"
-                      :placeholder="
-                        validaParametro() ? 'De' : 'Ingresa el valor'
-                      "
-                    ></b-form-datepicker>
-                  </b-col>
-                  <b-col v-if="validaParametro() && filtro.valor[0] !== ''">
-                    <b-form-datepicker
-                      :max="max"
-                      :min="minHasta()"
-                      v-model="filtro.valor[1]"
-                      class=""
-                      :date-format-options="{
-                        year: 'numeric',
-                        month: 'numeric',
-                        day: 'numeric'
-                      }"
-                      placeholder="Hasta"
-                    ></b-form-datepicker>
-                  </b-col>
-                </b-row>
-                <b-input-group v-if="!isMultiselect() && !esFecha()">
-                  <b-form-input
-                    v-model="filtro.valor[0]"
-                    :type="
-                      validaTipos() === 2
-                        ? 'text'
-                        : validaTipos() === 3
-                        ? 'number'
-                        : 'text'
-                    "
-                    :placeholder="
-                      validaParametro()
-                        ? 'Desde'
-                        : validaTipos() === 2
-                        ? '55555555'
-                        : validaTipos() === 3
-                        ? 'Ingresa el monto'
-                        : 'Ingresa el valor'
-                    "
-                    :disabled="filtro.valor[0] === 'NA' ? true : false"
-                    :state="
-                      validaTipos() === 2 ? validar(filtro.valor[0]) : null
-                    "
-                    :onkeypress="
-                      validaTipos() === 2
-                        ? 'return (event.charCode >= 48 && event.charCode <= 57)'
-                        : validaTipos() === 3
-                        ? 'return (event.charCode >= 48 && event.charCode <= 57)'
-                        : ''
-                    "
-                    :maxlength="validaTipos() === 2 ? 10 : 100"
-                  ></b-form-input>
-                  <b-form-input
-                    v-if="validaParametro()"
-                    :type="validaTipos() === 3 ? 'number' : 'text'"
-                    placeholder="Hasta"
-                    v-model="filtro.valor[1]"
-                  ></b-form-input>
-                </b-input-group>
+              </b-form-select>
+            </div>
 
-                <b-input-group size="md" v-if="isMultiselect()">
-                  <multiselect
-                    v-if="filtro.id !== 15"
-                    v-model="filtro.valor"
-                    tag-placeholder="Add this as new tag"
-                    placeholder="Datos"
-                    label="label"
-                    track-by="key"
-                    :options="subOp_Multiselect()"
-                    :multiple="true"
-                    :taggable="true"
-                  ></multiselect>
-                  <multiselect
-                    v-if="filtro.id === 15"
+            <div class="mb-2 text-center col-lg-3 col-xs-12">
+              <div v-if="filtro.filtro != -1">
+                <p>Condiciones</p>
+              </div>
+              <!--Columna de parametros-->
+              <multiselect
+                v-if="filtro.filtro != -1"
+                v-model="filtro.parametro"
+                track-by="key"
+                label="label"
+                placeholder="Select one"
+                :options="Op_Multiselect(filtro.id)"
+                :searchable="false"
+                :allow-empty="false"
+              >
+              </multiselect>
+            </div>
+            <!--Columna de criterios-->
+            <div class="mb-2 text-center col-lg-3 col-xs-12">
+              <p>Valores</p>
+              <b-row v-if="esFecha()">
+                <b-col>
+                  <b-form-datepicker
+                    :max="validaParametro() ? maxDe : max"
                     v-model="filtro.valor[0]"
-                    tag-placeholder="Add this as new tag"
-                    placeholder="Datos"
-                    label="label"
-                    track-by="key"
-                    :options="subOp_Multiselect()"
-                    :multiple="false"
-                    :taggable="true"
-                  ></multiselect>
-                </b-input-group>
-              </b-col>
-              <!--Boton de agregar filtros-->
-              <b-col class="col-12 col-lg-3">
-                <b-button
-                  block
-                  variant="info"
-                  type="submit"
-                  :disabled="deshabilitado"
-                >
-                  <b-icon icon="check2-circle" aria-hidden="true"></b-icon
-                ></b-button>
-              </b-col>
-            </b-row>
-          </b-container>
+                    :date-format-options="{
+                      year: 'numeric',
+                      month: 'numeric',
+                      day: 'numeric'
+                    }"
+                    :placeholder="validaParametro() ? 'De' : 'Ingresa el valor'"
+                  ></b-form-datepicker>
+                </b-col>
+                <b-col v-if="validaParametro() && filtro.valor[0] !== ''">
+                  <b-form-datepicker
+                    :max="max"
+                    :min="minHasta()"
+                    v-model="filtro.valor[1]"
+                    class=""
+                    :date-format-options="{
+                      year: 'numeric',
+                      month: 'numeric',
+                      day: 'numeric'
+                    }"
+                    placeholder="Hasta"
+                  ></b-form-datepicker>
+                </b-col>
+              </b-row>
+              <b-input-group v-if="!isMultiselect() && !esFecha()">
+                <b-form-input
+                  v-model="filtro.valor[0]"
+                  :type="
+                    validaTipos() === 2
+                      ? 'text'
+                      : validaTipos() === 3
+                      ? 'number'
+                      : 'text'
+                  "
+                  :placeholder="
+                    validaParametro()
+                      ? 'Desde'
+                      : validaTipos() === 2
+                      ? '55555555'
+                      : validaTipos() === 3
+                      ? 'Ingresa el monto'
+                      : 'Ingresa el valor'
+                  "
+                  :disabled="filtro.valor[0] === 'NA' ? true : false"
+                  :state="validaTipos() === 2 ? validar(filtro.valor[0]) : null"
+                  :onkeypress="
+                    validaTipos() === 2
+                      ? 'return (event.charCode >= 48 && event.charCode <= 57)'
+                      : validaTipos() === 3
+                      ? 'return (event.charCode >= 48 && event.charCode <= 57)'
+                      : ''
+                  "
+                  :maxlength="validaTipos() === 2 ? 10 : 100"
+                ></b-form-input>
+                <b-form-input
+                  v-if="validaParametro()"
+                  :type="validaTipos() === 3 ? 'number' : 'text'"
+                  placeholder="Hasta"
+                  v-model="filtro.valor[1]"
+                ></b-form-input>
+              </b-input-group>
+
+              <b-input-group size="md" v-if="isMultiselect()">
+                <multiselect
+                  v-if="filtro.id !== 15"
+                  v-model="filtro.valor"
+                  tag-placeholder="Add this as new tag"
+                  placeholder="Datos"
+                  label="label"
+                  track-by="key"
+                  :options="subOp_Multiselect()"
+                  :multiple="true"
+                  :taggable="true"
+                ></multiselect>
+                <multiselect
+                  v-if="filtro.id === 15"
+                  v-model="filtro.valor[0]"
+                  tag-placeholder="Add this as new tag"
+                  placeholder="Datos"
+                  label="label"
+                  track-by="key"
+                  :options="subOp_Multiselect()"
+                  :multiple="false"
+                  :taggable="true"
+                ></multiselect>
+              </b-input-group>
+            </div>
+
+            <!--Boton de agregar filtros-->
+            <div class="mb-2 text-center col-lg-3 col-xs-12">
+              <p>Agregar filtro</p>
+              <b-button
+                block
+                variant="info"
+                type="submit"
+                :disabled="deshabilitado"
+              >
+                <b-icon icon="check2-circle" aria-hidden="true"></b-icon
+              ></b-button>
+            </div>
+          </b-row>
         </b-form>
         <template>
           <!-- Tabla con formulario -->
@@ -355,44 +361,48 @@
 
         <!--Parte del footer en el modal-->
         <template #modal-footer>
-          <div class="w-100">
-            <b-button
+          <div>
+            <b-btn
               class="float-right"
               variant="primary"
               type="submit"
               @click="cerrar()"
-              >Guardar</b-button
+              >Guardar</b-btn
             >
           </div>
         </template>
       </b-modal>
     </div>
-    <div class="col col-12 col-lg-6">
-      <b-button @click="cerrar()" variant="primary" class="ml-5 mt-5 mb-4"
-        >Busqueda avanzada <b-icon icon="search"></b-icon
+    <div class="col-xs-12 col-lg-11 mt-2 mb-1"></div>
+    <div class="col-xs-12 col-lg-1 mt-2 mb-1">
+      <!-- <h5 class="text-center ">
+        Busqueda avanzada
+      </h5> -->
+      <b-button
+        class="float-right"
+        @click="cerrar()"
+        variant="dark"
+        v-b-tooltip.hover
+        title="Busqueda avanzada"
+        ><b-icon icon="search"></b-icon
       ></b-button>
     </div>
-    <div class="col col-12 col-lg-6">
+    <div class="col-xs-12 col-lg-12">
       <b-card-group v-if="FiltrosImp.length > 0" deck>
-        <b-card
-          tag="article"
-          header="Filtros seleccionados"
-          header-tag="header"
-          style="max-width: 45rem;"
-          class="mb-5"
-        >
-          <template #header>
+        <!-- style="max-width: 45rem;" -->
+        <b-card tag="article" header-tag="header" class="mb-1">
+          <!-- <template #header>
             <div class="row">
               <div class="col-6" @click="cerrar()" style="cursor: pointer;">
-                <h5 class="mt-2">Filtros seleccionados</h5>
+                <span class="mt-2">Filtros </span>
               </div>
               <div class="col-6">
                 <CButtonClose @click="BorrarFiltros()"
-                  ><b-icon icon="x" font-scale="2"></b-icon
+                  ><b-icon icon="x" font-scale="1"></b-icon
                 ></CButtonClose>
               </div>
             </div>
-          </template>
+          </template> -->
           <b-card-text>
             <div>
               <b-button-group
@@ -401,11 +411,11 @@
                 size="sm"
                 class="mr-2 mb-1"
               >
-                <b-button variant="primary" @click="cerrar()">{{
+                <b-button variant="ligth" @click="cerrar()">{{
                   Filtros
                 }}</b-button>
-                <b-button variant="danger" @click="eliminarItem(index)"
-                  ><b-icon icon="trash"></b-icon
+                <b-button variant="ligth" @click="eliminarItem(index)"
+                  ><b-icon icon="x"></b-icon
                 ></b-button>
               </b-button-group>
             </div>
@@ -413,6 +423,7 @@
         </b-card>
       </b-card-group>
     </div>
+    <!-- <div class="col-xs-12 col-lg-6"></div> -->
   </div>
 </template>
 
@@ -421,18 +432,19 @@ const now = new Date();
 const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 const maxDate = new Date(today);
 const maxDateDesde = new Date(today.setDate(maxDate.getDate() - 1));
-import { isEmpty } from "lodash";
+// import { isEmpty } from "lodash";
+import Swal from "sweetalert2";
 import Multiselect from "vue-multiselect";
 
 export default {
   components: { Multiselect },
   data() {
     return {
-      headerBgVariant: "dark",
-      headerTextVariant: "light",
+      headerBgVariant: "light",
+      headerTextVariant: "dark",
       bodyBgVariant: "light",
       bodyTextVariant: "dark",
-      footerBgVariant: "dark",
+      footerBgVariant: "ligth",
       footerTextVariant: "dark",
       show: false,
       max: maxDate,
@@ -686,7 +698,7 @@ export default {
         return false;
       }
     },
-    JsonFiltros()  {
+    JsonFiltros() {
       this.FiltrosRequest = this.Filtros.map(function(objp) {
         let filSelect = {};
         filSelect.Id = objp.id;
@@ -916,7 +928,7 @@ export default {
               break;
             }
           }
-          indice++;
+          indice = indice++;
         }
       }
       this.limpiar();
@@ -948,8 +960,8 @@ export default {
             }
           }
         } else if (this.esFecha()) {
-          const FechaDe = new Date(this.filtro.valor[0]);
-          const FechaHasta = new Date(this.filtro.valor[1]);
+          // const FechaDe = new Date(this.filtro.valor[0]);
+          // const FechaHasta = new Date(this.filtro.valor[1]);
           if (
             Date.parse(this.filtro.valor[0]) < Date.parse(this.filtro.valor[1])
           ) {
@@ -1052,30 +1064,48 @@ export default {
     },
     showAlertCambios() {
       if (this.cambiosPendientes) {
-        this.$bvModal
-          .msgBoxConfirm("¿Desea salir sin guardar?", {
-            title: "Confirme porfavor",
-            size: "sm",
-            buttonSize: "sm",
-            okVariant: "danger",
-            okTitle: "SI",
-            cancelTitle: "NO",
-            footerClass: "p-2",
-            hideHeaderClose: false,
-            centered: true
-          })
+        // this.$bvModal
+        //   .msgBoxConfirm("¿Desea salir sin guardar?", {
+        //     title: "Confirme porfavor",
+        //     size: "sm",
+        //     buttonSize: "sm",
+        //     okVariant: "danger",
+        //     okTitle: "SI",
+        //     cancelTitle: "NO",
+        //     footerClass: "p-2",
+        //     hideHeaderClose: false,
+        //     centered: true
+        //   })
+        //   .then(value => {
+        //     if (value) {
+        //       let arr = new Array();
+        //       this.cambiosPendientes = false;
+        //       if (value) {
+        //         this.Filtros = this.FiltrosTemp.slice();
+        //       }
+        //       this.cerrar();
+        //     }
+        //   })
+        Swal.fire({
+          title: "¿Salir sin guardar cambios?",
+          text: "Confirmar",
+          icon: "warning",
+          showCancelButton: false,
+          showDenyButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          denyButtonText: "No, regresar",
+          confirmButtonText: "Sí, salir"
+        })
           .then(value => {
-            if (value) {
-              let arr = new Array();
+            if (value.value) {
               this.cambiosPendientes = false;
-              if (value) {
-                this.Filtros = this.FiltrosTemp.slice();
-              }
+              this.Filtros = this.FiltrosTemp.slice();
               this.cerrar();
             }
           })
-          .catch(err => {
-            // An error occurred
+          .catch(error => {
+            console.log(error + "An error has been ocurred");
           });
       } else {
         this.cerrar();
@@ -1097,13 +1127,12 @@ export default {
           })
           .then(value => {
             if (value) {
-              if (value) {
-                this.Filtros = this.FiltrosTemp.slice();
-              }
+              this.Filtros = this.FiltrosTemp.slice();
               this.cerrar();
             }
           })
           .catch(err => {
+            console.log(err);
             // An error occurred
           });
       } else {
@@ -1116,7 +1145,11 @@ export default {
 };
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css" scoped>
+<style
+  type="text/css"
+  src="vue-multiselect/dist/vue-multiselect.min.css"
+  scoped
+>
 thead tr th {
   position: sticky;
   top: 0;
@@ -1125,11 +1158,36 @@ thead tr th {
 }
 
 .table-responsive {
-  height: 400px;
+  height: 50px;
   overflow: scroll;
 }
 
 .iconx {
   cursor: hand;
+}
+.btn-primary {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); Color azul*/
+  background-color: rgba(0, 129, 194, 255);
+  /* background-color: teal; */
+  border-color: #005a5a;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: rgba(0, 145, 194, 255);
+  border-color: #005a5a;
+}
+
+/* Color para boton info en bootstrap */
+.btn-info {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); */
+  background-color: #229ca5;
+  border-color: #005a5a;
+}
+.btn-info:hover {
+  color: #fff;
+  background-color: #3b9c96;
+  border-color: #005a5a;
 }
 </style>

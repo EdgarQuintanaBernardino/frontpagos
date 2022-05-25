@@ -52,7 +52,7 @@ export default {
     Carrusel
   },
   watch: {
-    metodo: function(newval, oldvar) {
+    metodo: function(newval) {
       this.resetvalores();
       this.prueba(newval);
     }
@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     getmetodo() {
-      this.metodo = this.$store.getters.getmetodo;
+      // this.metodo = this.$store.getters.getmetodo;
       return this.$store.getters.getmetodo;
     }
   },
@@ -135,6 +135,7 @@ export default {
         self.show = true;
         this.items = [];
         let validaciones = respuestas();
+        console.log(validaciones);
         await repoitems
           .yourusersback({
             sorter: self.sorter,
@@ -149,15 +150,25 @@ export default {
             let datosgenericos = {
               placeholder: "Amigos",
               columns: [
-                { key: "name", label: "Nombre Usuario", sortable: true },
+                {
+                  key: "name",
+                  label: "Nombre Usuario",
+                  sortable: true,
+                  _classes: "text-center"
+                },
                 {
                   key: "email",
                   label: "Email",
                   sortable: true,
                   class: "text-center"
                 },
-                { key: "nickname", label: "NickName", class: "text-center" },
-                { key: "actions", label: "Acciones", class: "text-center" }
+                { key: "nickname", label: "NickName" },
+                {
+                  key: "actions",
+                  label: "Acciones",
+                  _classes: "text-center",
+                  _style: "width: 150px"
+                }
               ],
               totalfilasmostradas: 5,
               items: response.data,
@@ -185,6 +196,7 @@ export default {
             //  self.maxPages = res.last_page;
           });
       } catch (err) {
+        console.log(err);
       } finally {
         this.show = false;
       }
@@ -249,13 +261,15 @@ export default {
     },
     deletevento(item) {
       Swal.fire({
-        title: "¿Bloquear?",
+        title: "Bloquear",
         text: "¿Deseas bloquear al usuario '" + item.name + "'?",
         icon: "warning",
-        showCancelButton: true,
+        showCancelButton: false,
+        showDenyButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Bloquealo!"
+        confirmButtonText: "Si, Bloquealo !",
+        denyButtonText: "No, regresar"
       }).then(result => {
         if (result.value) {
           this.actiondeleteempresa(item);
@@ -270,11 +284,13 @@ export default {
         await dao
           .lockuser(item)
           .then(res => {
+            console.log(res);
             this.$store.getters.getmetodo
               ? (this.iddelete = item)
               : (this.iddeleteback = item);
           })
           .catch(eror => {
+            console.log(eror);
             alert.errorservidor();
             // console.log(eror);
           });

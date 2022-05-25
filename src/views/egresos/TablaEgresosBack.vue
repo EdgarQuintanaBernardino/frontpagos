@@ -4,32 +4,70 @@
       <CCol sm="12">
         <CCard>
           <CCardHeader v-if="datosall.header">
-            <h5>
-              <div>
-                <b-nav  pills class="d-flex">
-                  <b-nav-item @click="navEgresos(1)" :active="nav==1" class="mt-1">Pagos Recibidos</b-nav-item>
-                  <b-nav-item @click="navEgresos(2)" :active="nav==2" class="mt-1">Pagos en Tramite</b-nav-item>
-                  <b-nav-item @click="navEgresos(3)" :active="nav==3" class="mt-1">Pagos Pendientes</b-nav-item>
-                  <b-nav-item @click="navEgresos(4)" :active="nav==4" class="mt-1">Pagos Rechazados</b-nav-item>
-                  <b-nav-form class="ml-auto">
-                    <b-btn
-                      :style="datosall.btnstyle"
-                      :variant="datosall.btnvariant"
-                      @click.prevent="addin()"
-                      v-if="datosall.btnadd"
-                    >
-                      <b-icon
-                        :icon="datosall.iconadd"
-                        :animation="datosall.animation"
-                        :font-scale="datosall.fontscale"
-                        :class="datosall.classicon"
-                      ></b-icon
-                      >{{ datosall.namebtn }}
-                    </b-btn>
-                  </b-nav-form>
-                </b-nav>
-              </div>
-            </h5>
+            <h4>
+              {{ datosall.headername }}
+              <b-badge :variant="datosall.badgevariant" pill>{{
+                datosall.totalRow
+              }}</b-badge>
+              <b-btn
+                :style="datosall.btnstyle"
+                :variant="datosall.btnvariant"
+                @click.prevent="addin()"
+                v-if="datosall.btnadd"
+              >
+                <!-- :animation="datosall.animation" -->
+                <b-icon
+                  :icon="datosall.iconadd"
+                  :font-scale="datosall.fontscale"
+                  :class="datosall.classicon"
+                ></b-icon
+                >{{ datosall.namebtn }}
+              </b-btn>
+              <!-- <div> -->
+              <!-- <b-nav pills class="d-flex"> -->
+              <!-- <b-nav-item
+                    @click="navEgresos(1)"
+                    :active="nav == 1"
+                    class="mt-1"
+                    >Pagos Recibidos</b-nav-item
+                  >
+                  <b-nav-item
+                    @click="navEgresos(2)"
+                    :active="nav == 2"
+                    class="mt-1"
+                    >Pagos en Tramite</b-nav-item
+                  >
+                  <b-nav-item
+                    @click="navEgresos(3)"
+                    :active="nav == 3"
+                    class="mt-1"
+                    >Pagos Pendientes</b-nav-item
+                  >
+                  <b-nav-item
+                    @click="navEgresos(4)"
+                    :active="nav == 4"
+                    class="mt-1"
+                    >Pagos Rechazados</b-nav-item
+                  > -->
+              <!-- <b-nav-form class="ml-auto"> -->
+              <!-- <b-btn
+                    :style="datosall.btnstyle"
+                    :variant="datosall.btnvariant"
+                    @click.prevent="addin()"
+                    v-if="datosall.btnadd"
+                  > -->
+              <!-- :animation="datosall.animation" -->
+              <!-- <b-icon
+                      :icon="datosall.iconadd"
+                      :font-scale="datosall.fontscale"
+                      :class="datosall.classicon"
+                    ></b-icon
+                    >{{ datosall.namebtn }}
+                  </b-btn>
+                </b-nav-form>
+              </b-nav> -->
+              <!-- </div> -->
+            </h4>
           </CCardHeader>
           <div>
             <b-form-group
@@ -50,13 +88,28 @@
 
           <b-container fluid>
             <!-- User Interface controls -->
-
             <b-row>
-              <b-col lg="6" class="my-1 mt-4">
-                <h4 class="typo__label text-center">
+              <b-col lg="12">
+                <filtros></filtros>
+                <!-- <h4 class="typo__label text-center">
                   Columnas que desea visualizar
-                </h4>
+                </h4> -->
+                <!-- <multiselect
+                  v-model="selected"
+                  tag-placeholder="Add this as new tag"
+                  placeholder="Columna a visualizar"
+                  label="label"
+                  track-by="key"
+                  :options="columns"
+                  :multiple="true"
+                  :taggable="true"
+                  @input="onChange"
+                ></multiselect> -->
+              </b-col>
+              <b-col lg="12">
                 <multiselect
+                  class="mmulti"
+                  :limit="8"
                   v-model="selected"
                   tag-placeholder="Add this as new tag"
                   placeholder="Columna a visualizar"
@@ -67,9 +120,7 @@
                   :taggable="true"
                   @input="onChange"
                 ></multiselect>
-              </b-col>
-              <b-col lg="6" class="">
-                <b-form-group
+                <!-- <b-form-group
                   label-for="per-page-select"
                   label-cols-sm="6"
                   label-cols-md="4"
@@ -86,14 +137,12 @@
                     :options="pageOptions"
                     @change="eventdispatch"
                   ></b-form-select>
-                </b-form-group>
+                </b-form-group> -->
               </b-col>
             </b-row>
 
-            <filtros />
-
             <!-- Main table element -->
-            <b-row>
+            <!-- <b-row>
               <b-col cols="12">
                 <b-form-group class="table-responsive">
                   <tablecomplete
@@ -113,6 +162,59 @@
                     class="my-0"
                   ></b-pagination>
                 </b-col>
+              </b-col>
+            </b-row> -->
+            <b-row>
+              <b-col cols="12">
+                <b-form-group class="table-responsive">
+                  <tablecomplete
+                    :selectedin="selected"
+                    :datosalltable="datosall"
+                    @edit="addin"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col sm="12" md="6" lg="6" class="mb-4">
+                <b-pagination
+                  v-model="activePage"
+                  :total-rows="datosall.totalRow"
+                  :per-page="itemsLimit"
+                  @change="eventdispatch"
+                  align="fill"
+                  size="sm"
+                ></b-pagination>
+              </b-col>
+              <b-col sm="12" md="6" lg="6" class="mb-4">
+                <!-- <b-form-group
+                  label-for="per-page-select"
+                  label-cols-sm="6"
+                  label-cols-md="4"
+                  label-cols-lg="3"
+                  label-align-sm="right"
+                  label-size="sm"
+                > -->
+                <!-- <h5 class="text-center">Registros Mostrados</h5> -->
+                <b-input-group size="sm">
+                  <b-input-group-append>
+                    <b-button
+                      variant="dark"
+                      v-b-tooltip.hover
+                      title="Cantidad de registros que deseas visualizar"
+                      ><b-icon
+                        icon="question-circle"
+                        aria-hidden="true"
+                      ></b-icon
+                    ></b-button>
+                  </b-input-group-append>
+                  <b-form-select
+                    :style="darkMode ? 'background-color:#393a42' : null"
+                    id="per-page-select"
+                    v-model="itemsLimit"
+                    :options="pageOptions"
+                    @change="eventdispatch"
+                  ></b-form-select>
+                </b-input-group>
+                <!-- </b-form-group> -->
               </b-col>
             </b-row>
 
@@ -134,7 +236,32 @@
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
-    <style type="text/css" scoped>
+<style type="text/css" scoped>
+.btn-primary {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); Color azul*/
+  background-color: rgba(0, 129, 194, 255);
+  /* background-color: teal; */
+  border-color: #005a5a;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: rgba(0, 145, 194, 255);
+  border-color: #005a5a;
+}
+
+/* Color para boton info en bootstrap */
+.btn-info {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); */
+  background-color: #229ca5;
+  border-color: #005a5a;
+}
+.btn-info:hover {
+  color: #fff;
+  background-color: #3b9c96;
+  border-color: #005a5a;
+}
 thead tr th {
   position: sticky;
   top: 0;
@@ -150,25 +277,25 @@ thead tr th {
 <script>
 import { BFormSelect } from "bootstrap-vue";
 import { mapState } from "vuex";
-import HorizontalScroll from "vue-horizontal-scroll";
-import draggable from "vuedraggable";
+// import HorizontalScroll from "vue-horizontal-scroll";
+// import draggable from "vuedraggable";
 import Multiselect from "vue-multiselect";
 import _ from "lodash";
 import "vue-horizontal-scroll/dist/vue-horizontal-scroll.css";
 import sidebarcustom from "@/views/empresas/sidebarcustom";
-import Vue from "vue";
-import filtros from "./componentes/filtros";
-import tablecomplete from "./componentes/tablecomplete.vue";
+// import Vue from "vue";
+import filtros from "./componentes/filtrosV2";
+import tablecomplete from "./componentes/tablecompleteV2.vue";
 
 export default {
   components: {
     BFormSelect,
     sidebarcustom,
-    HorizontalScroll,
-    draggable,
+    // HorizontalScroll,
+    // draggable,
     Multiselect,
     filtros,
-    tablecomplete,
+    tablecomplete
   },
   name: "generic",
   props: ["loadingin", "iddeletein", "datosallin", "idedit"],
@@ -177,7 +304,7 @@ export default {
   data() {
     return {
       navEgresosAct: false,
-      nav:0,
+      nav: 0,
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
@@ -190,80 +317,149 @@ export default {
       infoModal: {
         id: "info-modal",
         title: "",
-        content: "",
+        content: ""
       },
-
-      ////
+      // Nuevas columnas
       columns: [
         {
           key: "clear",
           label: "Quitar Todos",
           sortable: true,
-          class: "text-center",
+          class: "text-center"
         },
         {
           key: "all",
           label: "Seleccionar Todo",
           sortable: true,
-          class: "text-center",
+          class: "text-center"
         },
-        { key: "usersin", label: "Enviado a", sortable: true },
-        { key: "concepto", label: "Concepto", sortable: true },
-        { key: "comentario", label: "Comentario", class: "text-center" },
-        { key: "cuenta", label: "Cuenta Bancaria", class: "text-center" },
+        { key: "multiple", label: "Editar múltiple", sortable: true },
+        { key: "concepto", label: "Concepto de Pago", sortable: true },
+        { key: "comentario", label: "Comentario", sortable: true },
+        { key: "empresa", label: "Empresa", sortable: true },
+        { key: "cuenta", label: "Cuenta", sortable: true },
+        { key: "ceder", label: "Cedido", sortable: true },
+
         {
           key: "monto_bruto",
-          label: "Monto",
+          label: "Monto Bruto",
           sortable: true,
-          class: "text-center",
+          class: "text-center"
+        },
+        { key: "iva", label: "IVA", sortable: true, class: "text-center" },
+        {
+          key: "monto_solicitado",
+          label: "Monto Solicitado",
+          sortable: true,
+          class: "text-center"
         },
         {
           key: "moneda",
           label: "Moneda",
           sortable: true,
-          class: "text-center",
+          class: "text-center"
         },
-        { key: "iva", label: "Iva", sortable: true, class: "text-center" },
-        {
-          key: "monto_solicitado",
-          label: "Monto Neto",
-          sortable: true,
-          class: "text-center",
-        },
+        { key: "prestamo", label: "Prestamo", class: "text-center" },
+        { key: "titulo", label: "Tipo", class: "text-center" },
+        // { key: "usuarios", label: "Usuarios", class: "text-center" }, ///todos los usuarios
+        { key: "tag", label: "Tags", class: "text-center" },
+        { key: "proyecto", label: "Proyecto", class: "text-center" },
         { key: "links", label: "Links", class: "text-center" },
+        { key: "fechaLimite", label: "Fecha Limite", class: "text-center" },
+        { key: "recurrente", label: "Recurrente", class: "text-center" },
+        { key: "variable", label: "Monto variable", class: "text-center" },
+
+        // { key: "cuenta", label: "Cuenta Bancaria", class: "text-center" },
+        // { key: "comentario", label: "Comentario", class: "text-center" },
+        { key: "visto", label: "Visto", class: "text-center" },
+        { key: "status", label: "Status Pago", class: "text-center" },
+        // { key: "ticket", label: "Chat", class: "text-center" },
+        {
+          key: "status_factura",
+          label: "Status Factura",
+          class: "text-center"
+        },
+        { key: "id_propio", label: "ID", class: "text-center" },
         {
           key: "creado",
-          label: "Fecha Límite",
+          label: "Fecha de Solicitud",
           sortable: true,
-          class: "text-center",
+          class: "text-center"
         },
         { key: "archivos", label: "Archivos", class: "text-center" },
-        { key: "status", label: "Status Pago", class: "text-center" },
-        { key: "actions", label: "Acciones", class: "text-center" },
-        // { key: "id_propio", label: "Id", class: "text-center" },
-        //{ key: "usuarios", label: "Usuarios", class: "text-center" }, ///todos los usuarios
-        // { key: "titulo", label: "Tipo", class: "text-center" },
-        // { key: "visto", label: "Visto", class: "text-center" },
-        // { key: "recurrente", label: "Recurrente", class: "text-center" },
-        // { key: "proyecto", label: "Proyecto", class: "text-center" },
-        // { key: "tag", label: "Tags", class: "text-center" },
-        // { key: "ticket", label: "Chat", class: "text-center" },
-        // {
-        //   key: "status_factura",
-        //   label: "Status Factura",
-        //   class: "text-center",
-        // },
+        { key: "actions", label: "Editar / Eliminar", class: "text-center" }
       ],
+      ////
+      // columns: [
+      //   {
+      //     key: "clear",
+      //     label: "Quitar Todos",
+      //     sortable: true,
+      //     class: "text-center"
+      //   },
+      //   {
+      //     key: "all",
+      //     label: "Seleccionar Todo",
+      //     sortable: true,
+      //     class: "text-center"
+      //   },
+      //   { key: "usersin", label: "Enviado a", sortable: true },
+      //   { key: "concepto", label: "Concepto", sortable: true },
+      //   { key: "comentario", label: "Comentario", class: "text-center" },
+      //   { key: "cuenta", label: "Cuenta Bancaria", class: "text-center" },
+      //   {
+      //     key: "monto_bruto",
+      //     label: "Monto",
+      //     sortable: true,
+      //     class: "text-center"
+      //   },
+      //   {
+      //     key: "moneda",
+      //     label: "Moneda",
+      //     sortable: true,
+      //     class: "text-center"
+      //   },
+      //   { key: "iva", label: "Iva", sortable: true, class: "text-center" },
+      //   {
+      //     key: "monto_solicitado",
+      //     label: "Monto Neto",
+      //     sortable: true,
+      //     class: "text-center"
+      //   },
+      //   { key: "links", label: "Links", class: "text-center" },
+      //   {
+      //     key: "creado",
+      //     label: "Fecha Límite",
+      //     sortable: true,
+      //     class: "text-center"
+      //   },
+      //   { key: "archivos", label: "Archivos", class: "text-center" },
+      //   { key: "status", label: "Status Pago", class: "text-center" },
+      //   { key: "actions", label: "Acciones", class: "text-center" }
+      //   // { key: "id_propio", label: "Id", class: "text-center" },
+      //   //{ key: "usuarios", label: "Usuarios", class: "text-center" }, ///todos los usuarios
+      //   // { key: "titulo", label: "Tipo", class: "text-center" },
+      //   // { key: "visto", label: "Visto", class: "text-center" },
+      //   // { key: "recurrente", label: "Recurrente", class: "text-center" },
+      //   // { key: "proyecto", label: "Proyecto", class: "text-center" },
+      //   // { key: "tag", label: "Tags", class: "text-center" },
+      //   // { key: "ticket", label: "Chat", class: "text-center" },
+      //   // {
+      //   //   key: "status_factura",
+      //   //   label: "Status Factura",
+      //   //   class: "text-center",
+      //   // },
+      // ],
       selected: [], // Must be an array reference!
       options: [
         { name: "Vue.js", code: "vu" },
         { name: "Javascript", code: "js" },
-        { name: "Open Source", code: "os" },
+        { name: "Open Source", code: "os" }
       ],
       headervar: false,
       datosall: {
         placeholder: "generic",
-        columns: [],
+        columns: []
       },
       lazyTableFields: [],
       items: [],
@@ -278,19 +474,19 @@ export default {
       resuelve: 6,
       itemsporpagina: 5,
       details: [],
-      userin: [],
+      userin: []
     };
   },
   watch: {
-    idedit: function (newval, oldval) {
+    idedit: function(newval) {
       this.actualizaregistro(newval);
     },
-    datosallin: function (newval, oldval) {
+    datosallin: function(newval) {
       this.datosall = newval;
     },
-    iddeletein: function (newval, oldval) {
+    iddeletein: function(newval) {
       this.datosall.items = this.datosall.items.filter(
-        (itemin) => itemin.id != newval.id
+        itemin => itemin.id != newval.id
       );
       this.$emit("deletedetabla", newval);
     },
@@ -304,37 +500,37 @@ export default {
       handler() {
         this.eventsorter();
       },
-      deep: true,
+      deep: true
     },
 
     columnFilter() {
       this.eventdispatch();
-    },
+    }
   },
 
   methods: {
-    navEgresos(num){
-      this.nav = num
-      this.$emit('cambiatabla',num);
+    navEgresos(num) {
+      this.nav = num;
+      this.$emit("cambiatabla", num);
     },
     tableFilterin() {
       this.eventdispatch();
     },
     onChange(value) {
-      let clear = value.filter((e) => e.key == "clear");
-      let all = value.filter((e) => e.key == "all");
+      let clear = value.filter(e => e.key == "clear");
+      let all = value.filter(e => e.key == "all");
       if (clear.length > 0) {
         this.selected = [];
       }
       if (all.length > 0) {
-        this.selected = this.columns.filter((e) => {
+        this.selected = this.columns.filter(e => {
           return e.key != "clear" && e.key != "all";
         });
       }
     },
     getreplicas(array) {
       if (array) {
-        array.forEach((element) => {
+        array.forEach(element => {
           let fecha = new Date(element.created_at);
           let nuevo = fecha.toDateString("es-ES");
 
@@ -365,7 +561,7 @@ export default {
         return archivo;
       }
     },
-    ordenar(item) {
+    ordenar() {
       // console.log("ordena por"+item)
       // console.log(item)
     },
@@ -408,9 +604,9 @@ export default {
     showuser(item) {
       this.userin = item;
     },
-    info(item) {
-      this.$emit("info", item);
-    },
+    // info(item) {
+    //   this.$emit("info", item);
+    // },
     changeItemsLimit(val) {
       this.itemsLimit = val;
       this.eventdispatch();
@@ -421,7 +617,7 @@ export default {
       // this.getNotes();
     },
     eventdispatch() {
-      let columnas = this.filter;
+      // let columnas = this.filter;
       console.log(this.filter);
       console.log(this.Filter_Columns);
 
@@ -430,18 +626,18 @@ export default {
         itemsLimit: this.itemsLimit,
         columnFilter: this.Filter_Columns,
         tableFilter: this.filter,
-        sorter: this.sorter,
+        sorter: this.sorter
       });
-    },
+    }
 
-    agregarElementos() {
-      //Agregra elemeos a un array
-      elementos.parametros.push(selectedOption);
-      elementos.criterios.push(criterios);
-    },
+    // agregarElementos() {
+    //   //Agregra elemeos a un array
+    //   elementos.parametros.push(selectedOption);
+    //   elementos.criterios.push(criterios);
+    // }
   },
 
-  mounted: function () {
+  mounted: function() {
     // this.getNotes();
   },
   computed: {
@@ -455,31 +651,29 @@ export default {
         animation: 0,
         group: "description",
         disabled: false,
-        ghostClass: "ghost",
+        ghostClass: "ghost"
       };
     },
     sortOptions() {
       // Create an options list from our fields
       return this.columns
-        .filter((f) => f.sortable)
-        .map((f) => {
+        .filter(f => f.sortable)
+        .map(f => {
           return { text: f.label, value: f.key };
         });
     },
     columnsalldates() {
-      return this.columns.filter(
-        (opt) => this.selected.indexOf(opt.label) != -1
-      );
+      return this.columns.filter(opt => this.selected.indexOf(opt.label) != -1);
     },
     columnscomputed() {
-      return this.columns.map((e) => e.label);
+      return this.columns.map(e => e.label);
     },
     getacciones() {
       return this.datosall.acciones;
     },
     resuelve1() {
       return 6;
-    },
-  },
+    }
+  }
 };
 </script>

@@ -8,6 +8,24 @@
       size="xl"
       hide-footer
     >
+      <template #modal-header>
+        <h5>
+          <b-icon
+            icon="credit-card-fill"
+            aria-hidden="true"
+            class="mr-1"
+          ></b-icon>
+          {{ tittlemodal.titulo }} Cuenta
+        </h5>
+        <div>
+          <b-button
+            class="float-right btn-sm"
+            variant="danger"
+            @click="closeModal()"
+            ><b-icon icon="x"></b-icon
+          ></b-button>
+        </div>
+      </template>
       <b-form autocomplete="off">
         <b-overlay :show="animationall" rounded="sm">
           <template v-slot:overlay>
@@ -22,11 +40,11 @@
           </template>
           <CCol>
             <CCard>
-              <CCardHeader class="bg-info">
+              <!-- <CCardHeader class="bg-info">
                 <h2 class="text-center text-white">
                   {{ tittlemodal.titulo }} Cuenta
                 </h2>
-              </CCardHeader>
+              </CCardHeader> -->
               <CCardBody>
                 <b-row v-if="this.empresas.length > 0">
                   <!-- <b-col cols="12" md="12" class="mb-3">
@@ -101,6 +119,7 @@
                         <b-icon icon="credit-card"></b-icon>
                       </b-input-group-prepend>
                       <b-form-input
+                        min="0"
                         v-model="form.num_tarjeta"
                         type="number"
                         placeholder="Número de tarjeta"
@@ -180,8 +199,7 @@
                       <span>Fecha de corte</span>
                     </label>
                     <b-input-group size="md">
-
-                      <b-form-datepicker ></b-form-datepicker>
+                      <b-form-datepicker></b-form-datepicker>
                     </b-input-group>
                     <!-- <datalist id="bancos">
                       <option v-for="item in bancos" :key="item">
@@ -243,7 +261,7 @@
                   </b-col>
                   <b-col cols="12" md="6" class="text-center mt-3">
                     <label>
-                      <h4 class="text-info">Alias de la Cuenta</h4>
+                      <span class="text-info">Alias de la Cuenta</span>
                     </label>
                     <b-input-group size="md">
                       <b-input-group-prepend is-text>
@@ -257,7 +275,7 @@
                   </b-col>
                   <b-col cols="12" md="6" class="text-center mt-3">
                     <label>
-                      <h4 class="text-info">Moneda</h4>
+                      <span class="text-info">Moneda</span>
                     </label>
                     <b-input-group size="md">
                       <b-input-group-prepend is-text>
@@ -319,7 +337,7 @@
                     v-if="this.$store.state.flagcuenta != 9"
                   >
                     <label>
-                      <h2 class="text-info">Tus Empresas</h2>
+                      <h5 class="text-info">Tus Empresas</h5>
                     </label>
                     <b-input-group size="md">
                       <b-input-group-prepend is-text>
@@ -333,11 +351,11 @@
                   </b-col>
                 </b-row>
 
-                <div class="mt-5">
+                <div class="mt-4">
                   <div id="btnin">
                     <b-button
                       block
-                      variant="outline-success"
+                      variant="success"
                       :hidden="$v.$invalid || btnadios"
                       @click.prevent="empresacreate(form)"
                       v-if="
@@ -345,16 +363,15 @@
                           this.form.empresa.length > 0 &&
                           this.empresas.length > 0
                       "
-                      pill
                     >
-                      <h3>
+                      <h5>
                         <b-icon
                           icon="person-badge"
                           aria-hidden="true"
                           class="mr-3"
                         ></b-icon
                         >Agrega Cuenta
-                      </h3>
+                      </h5>
                     </b-button>
                     <b-button
                       block
@@ -374,7 +391,7 @@
                     </b-button>
                     <b-button
                       block
-                      variant="outline-success"
+                      variant="success"
                       @click.prevent="empresaupdate()"
                       v-if="
                         !this.$parent.config.showreset &&
@@ -382,16 +399,15 @@
                           this.empresas.length > 0 &&
                           this.form.empresa != ''
                       "
-                      pill
                     >
-                      <h3>
+                      <h5>
                         <b-icon
                           icon="check-circle"
                           aria-hidden="true"
                           class="mr-3"
                         ></b-icon
                         >Actualiza Cuenta
-                      </h3>
+                      </h5>
                     </b-button>
                     <h2
                       class="text-danger text-center"
@@ -408,7 +424,7 @@
               </CCardBody>
             </CCard>
           </CCol>
-          <b-row>
+          <!-- <b-row>
             <b-col cols="12">
               <b-button
                 variant="outline-danger"
@@ -420,17 +436,24 @@
                 <h4><b-icon icon="door-closed" class="mr-3"></b-icon>Cerrar</h4>
               </b-button>
             </b-col>
-          </b-row>
+          </b-row> -->
         </b-overlay>
       </b-form>
+      <!-- <template #modal-footer>
+        <div>
+          <b-button variant="danger" @click="hideModal">
+            Cancelar
+          </b-button>
+        </div>
+      </template> -->
     </b-modal>
   </div>
 </template>
 
 <script>
 import "regenerator-runtime/runtime";
-import Multiselect from "vue-multiselect";
-import { required, minLength, between } from "vuelidate/lib/validators";
+// import Multiselect from "vue-multiselect";
+import { required, minLength } from "vuelidate/lib/validators"; //between
 import repocreate from "@/assets/repositoriosjs/repoupdateprofileuser.js";
 // import Swal from "sweetalert2";
 import alertas from "@/assets/repositoriosjs/alertas";
@@ -558,7 +581,7 @@ export default {
     };
   },
   components: {
-    Multiselect
+    // Multiselect
     // Swal,
   },
   validations() {
@@ -590,7 +613,10 @@ export default {
     await this.getMonedas();
   },
   methods: {
-    addTag(newTag) {
+    closeModal() {
+      this.$bvModal.hide("modal-prevent-cuentapoli");
+    },
+    addTag() {
       // console.log(newTag);
       // const tag = {
       //   id:this.CuentasCompleto.length+1,
@@ -709,7 +735,7 @@ export default {
       this.$router.push(`/empresas`);
     },
 
-    async empresacreate(form) {
+    async empresacreate() {
       this.animationall = true;
       this.btnadios = true;
       this.update = false;

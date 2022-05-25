@@ -34,7 +34,8 @@
         @roles="roles"
         @tablasus="cambiatabla"
       ></back>
-      <suspendidas v-if="suspendidas"
+      <suspendidas
+        v-if="suspendidas"
         :datosallin="datossuspendidos"
         @getparams="getparams"
         :iddeletein="iddeleteback"
@@ -42,7 +43,7 @@
         @restaurar="restaurar"
         :idedit="ideditback"
         @tablasus="cambiatabla"
-        ></suspendidas>
+      ></suspendidas>
     </b-overlay>
 
     <permisosuser
@@ -84,17 +85,17 @@ export default {
     permisosuser,
     modalempresa,
     modalcuenta,
-    suspendidas,
+    suspendidas
   },
   watch: {
-    metodo: function(newval, oldvar) {
+    metodo: function(newval) {
       this.resetvalores();
       this.prueba(newval);
     }
   },
   data() {
     return {
-      suspendidas:false,
+      suspendidas: false,
       revisa: false,
       show: false,
       itemscolumns: [""],
@@ -124,7 +125,7 @@ export default {
       metodo: true,
       totalrowsend: 0,
       user: [],
-      datossuspendidos:'',
+      datossuspendidos: "",
       ///unicos
       empresa: false,
       config: false,
@@ -141,15 +142,15 @@ export default {
   },
   computed: {
     getmetodo() {
-      this.metodo = this.$store.getters.getmetodo;
+      // this.metodo = this.$store.getters.getmetodo; SE comenta de manera temporal
       return this.$store.getters.getmetodo;
     }
   },
   methods: {
-    cambiatabla(){
-      if(this.suspendidas){
+    cambiatabla() {
+      if (this.suspendidas) {
         this.getitemsback();
-      }else{
+      } else {
         this.getitemsbacksuspendidas();
       }
       this.suspendidas = !this.suspendidas;
@@ -204,7 +205,7 @@ export default {
       this.user = item;
       this.user.empresas = this.myallcompanies;
       this.config = {
-        titulo: "Editar ",
+        titulo: "Editar",
         namebtn: "Editar Empresa",
         typebtn: "edit",
         showdelete: false,
@@ -227,7 +228,7 @@ export default {
         let self = this;
         self.show = true;
         this.items = [];
-        let validaciones = respuestas();
+        // let validaciones = respuestas();
         await repoitems
           .getcuentasback({
             ////iniciamos la parte del back en
@@ -283,13 +284,18 @@ export default {
                   label: "Número de Tarjeta",
                   class: "text-center"
                 },
-                { key: "actions", label: "Acciones", class: "text-center" }
+                {
+                  key: "actions",
+                  label: "Editar / Eliminar",
+                  _classes: "text-center",
+                  _style: "width: 300px"
+                }
               ],
               totalfilasmostradas: 15,
               items: response.data.map(element => {
                 let newObj = {};
                 newObj.nickname = element.nickname;
-                newObj.id = element.id
+                newObj.id = element.id;
                 newObj.nombre_cuenta = element.nombre_cuenta;
                 newObj.num_tarjeta = element.num_tarjeta;
                 newObj.numero_cuenta = element.numero_cuenta;
@@ -319,11 +325,11 @@ export default {
               btnadd: true,
               iconadd: "pencil",
               animation: "fade",
-              fontscale: "2",
+              fontscale: "1",
               classicon: "mr-2",
               namebtn: "Agrega Cuenta",
-              badgevariant: "primary",
-              btnvariant: "info",
+              badgevariant: "dark",
+              btnvariant: "primary",
               btnstyle: "float:right",
               component: "empresashow"
             };
@@ -340,12 +346,11 @@ export default {
     },
     async getitemsbacksuspendidas() {
       try {
-
         let repoitems = repo();
         let self = this;
         self.show = true;
         this.items = [];
-        let validaciones = respuestas();
+        // let validaciones = respuestas();
         await repoitems
           .consCuentasSus({
             ////iniciamos la parte del back en
@@ -396,13 +401,17 @@ export default {
                   label: "Número de Tarjeta",
                   class: "text-center"
                 },
-                { key: "actions", label: "Acciones", class: "text-center" }
+                {
+                  key: "actions",
+                  label: "Acciones",
+                  class: "text-center",
+                }
               ],
               totalfilasmostradas: 15,
               items: response.data.map(element => {
                 let newObj = {};
                 newObj.nickname = element.nickname;
-                newObj.id = element.id
+                newObj.id = element.id;
                 newObj.nombre_cuenta = element.nombre_cuenta;
                 newObj.num_tarjeta = element.num_tarjeta;
                 newObj.numero_cuenta = element.numero_cuenta;
@@ -435,7 +444,7 @@ export default {
               fontscale: "2",
               classicon: "mr-2",
               namebtn: "Agrega Cuenta",
-              badgevariant: "primary",
+              badgevariant: "dark",
               btnvariant: "info",
               btnstyle: "float:right",
               component: "empresashow"
@@ -449,7 +458,7 @@ export default {
         this.show = false;
       }
     },
-    deletedetabla(item) {
+    deletedetabla() {
       //  this.$store.getters.getmetodo? this.datosall.otheritems.push(item):this.datosallback.otheritems.push(item);
     },
 
@@ -566,9 +575,7 @@ export default {
       Swal.fire({
         title: "¿Suspender?",
         text:
-          "¿Deseas suspender la cuenta con el nombre '" +
-          item.nickname +
-          "'?",
+          "¿Deseas suspender la cuenta con el nombre '" + item.nickname + "'?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -585,13 +592,16 @@ export default {
       let dao = repo();
       let alert = alertas();
       try {
-        await dao.deletecuenta(item)
+        await dao
+          .deletecuenta(item)
           .then(res => {
+            console.log(res);
             this.$store.getters.getmetodo
               ? (this.iddelete = item)
               : (this.iddeleteback = item);
           })
           .catch(eror => {
+            console.log(eror);
             alert.errorservidor();
             // console.log(eror);
           });
@@ -605,9 +615,7 @@ export default {
       Swal.fire({
         title: "¿Restaurar?",
         text:
-          "¿Deseas restaurar la cuenta con el nombre '" +
-          item.nickname +
-          "'?",
+          "¿Deseas restaurar la cuenta con el nombre '" + item.nickname + "'?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -624,7 +632,8 @@ export default {
       let dao = repo();
       let alert = alertas();
       try {
-        await dao.restauracuenta(item)
+        await dao
+          .restauracuenta(item)
           .then(res => {
             console.log(res);
             this.$store.getters.getmetodo

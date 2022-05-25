@@ -1,9 +1,17 @@
 <template>
   <div class="c-app" :class="{ 'c-dark-theme': $store.state.darkMode }">
-    <TheSidebar :locale="locale" :roleactive="roleactive"  v-on:success-api="successapi"/>
-    <TheAside/>
+    <TheSidebar
+      :locale="locale"
+      :roleactive="roleactive"
+      v-on:success-api="successapi"
+    />
+    <TheAside />
     <CWrapper>
-      <TheHeader v-on:change-locale="changeLocale"  v-on:change-Role="changeRole" :reloj="reloj"/>
+      <TheHeader
+        v-on:change-locale="changeLocale"
+        v-on:change-Role="changeRole"
+        :reloj="reloj"
+      />
       <div class="c-body">
         <main class="c-main">
           <CContainer fluid>
@@ -12,47 +20,47 @@
             </transition>
           </CContainer>
         </main>
-        <TheFooter/>
+        <TheFooter />
       </div>
     </CWrapper>
   </div>
 </template>
 
 <script>
-import TheSidebar from './TheSidebar'
-import TheHeader from './TheHeader'
-import TheFooter from './TheFooter'
-import TheAside from './TheAside'
+import TheSidebar from "./TheSidebar";
+import TheHeader from "./TheHeader";
+import TheFooter from "./TheFooter";
+import TheAside from "./TheAside";
 
 export default {
-  name: 'TheContainer',
+  name: "TheContainer",
   components: {
     TheSidebar,
     TheHeader,
     TheFooter,
     TheAside
   },
-  data(){
+  data() {
     return {
-      locale: 'en',
-      roleactive:'',
-      reloj:false
-    }
+      locale: "en",
+      roleactive: "",
+      reloj: false
+    };
   },
 
-
   methods: {
-    changeLocale(value){
+    changeLocale(value) {
       this.locale = value;
     },
-    successapi(option){
-    this.reloj=!this.reloj;
-     },
-    changeRole(value){
-    this.roleactive = value;
+    successapi(option) {
+      console.log(option);
+      this.reloj = !this.reloj;
+    },
+    changeRole(value) {
+      this.roleactive = value;
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -167,6 +167,13 @@
         >
           Agregar
         </b-button>
+        <b-button
+          class="mr-2 mb-1"
+          variant="outline-success"
+          @click="cambiaEstatusTempo()"
+        >
+          Cambia "Validate"
+        </b-button>
       </b-row>
     </div>
     <div v-if="Formint > 4 && Crear.Propietario === 1">
@@ -706,6 +713,10 @@ export default {
     // }
   },
   methods: {
+    cambiaEstatusTempo() {
+      this.Crear.Validate = !this.Crear.Validate;
+      console.log("Estatus de validate ->", this.Crear.Validate);
+    },
     // OPCIONES DE LA VENTANA MODAL EN CASO DE TENER USUARIS CON PERMISOS DE PROPIETARIO
     RemoveUsers() {
       console.log(this.RemoveAfeterCoincidence);
@@ -1381,7 +1392,9 @@ export default {
             return newObj;
           });
 
-          this.DepartamentosNew = this.Departamentos.filter(ele => ele.id !== 5);
+          this.DepartamentosNew = this.Departamentos.filter(
+            ele => ele.id !== 5
+          );
           console.log(this.DepartamentosNew);
         });
       } catch (error) {

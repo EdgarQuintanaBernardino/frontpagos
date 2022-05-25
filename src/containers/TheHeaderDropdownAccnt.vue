@@ -83,12 +83,12 @@ export default {
         tema:localStorage.getItem('tema')
       })
       .then(function (response) {
-      
+
         self.$router.push({ path: '/login' });
       }).catch(function (error) {
                 self.$router.push({ path: '/login' });
 
-        // console.log(error); 
+        // console.log(error);
       });
     }
   },  computed:{

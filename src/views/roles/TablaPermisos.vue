@@ -2,9 +2,12 @@
   <div>
     <CCard>
       <CCardHeader class="d-flex">
-        <h3>Permisos</h3>
-        <CButton class="ml-auto" @click="modalGrupos = true" color="success"
-          >Nuevo permiso</CButton
+        <h4>
+          Permisos
+          <b-badge variant="dark" pill>{{ items.length }}</b-badge>
+        </h4>
+        <CButton class="ml-auto" @click="modalGrupos = true" color="primary">
+          <b-icon icon="file-earmark-text"></b-icon> Nuevo permiso</CButton
         >
       </CCardHeader>
       <CCardBody>
@@ -44,16 +47,22 @@
                 </p>
               </td>
             </template>
-            <template #acciones="{item}">
-              <td>
-                <b-button-group>
-                  <b-button @click="getPermisosUsuario(item)" variant="primary"
-                    >Editar</b-button
-                  >
-                  <b-button @click="confirmDelete(item.id)" variant="danger"
-                    >Eliminar</b-button
-                  >
-                </b-button-group>
+            <template #acciones="{item}" class="text-center">
+              <td class="py-2">
+                <center>
+                  <b-button-group>
+                    <b-button
+                      @click="getPermisosUsuario(item)"
+                      variant="primary"
+                      class="mr-2"
+                    >
+                      <b-icon icon="pencil-square"></b-icon> Editar</b-button
+                    >
+                    <b-button @click="confirmDelete(item.id)" variant="danger">
+                      <b-icon icon="trash-fill"></b-icon> Eliminar</b-button
+                    >
+                  </b-button-group>
+                </center>
               </td>
             </template>
           </CDataTable>
@@ -64,21 +73,18 @@
           :show.sync="modalGrupos"
           @update:show="inicio()"
         >
-          <template #header-wrapper>
-            <div class="mt-3">
-              <b-row>
-                <b-col class="col-2"></b-col>
-                <b-col class="col-8">
-                  <center>
-                    <h5>Agregar un nuevo permiso</h5>
-                  </center>
-                </b-col>
-                <b-col class="col-2">
-                  <CButton class="float-end" color="danger" @click="closeAll()"
-                    >Cerrar</CButton
-                  >
-                </b-col>
-              </b-row>
+          <template #header>
+            <h5>
+              <b-icon icon="file-earmark-text" class="mr-2"></b-icon>Agregar
+              nuevo permiso
+            </h5>
+            <div>
+              <b-button
+                class="float-right btn-sm"
+                variant="danger"
+                @click="closeAll()"
+                ><b-icon icon="x"></b-icon
+              ></b-button>
             </div>
           </template>
           <asigna-roles-permisos
@@ -215,9 +221,7 @@
         <!-- <b-row>
           <b-col class="col-9"></b-col>
           <b-col class="col-3"> -->
-        <CButton color="info" variant="outline" v-b-modal.guia
-          >Ver guia de permisos</CButton
-        >
+        <CButton color="info" v-b-modal.guia>Ver guia de permisos</CButton>
         <!-- </b-col>
         </b-row> -->
       </CCardFooter>
@@ -251,11 +255,28 @@
     </b-toast>
     <CModal
       :closeOnBackdrop="false"
-      title="Editar Permiso"
       size="xl"
       :show.sync="modalUsuariosNew"
       @update:show="LimpiarModal()"
     >
+      <template #header>
+        <h5>
+          <b-icon
+            icon="file-earmark-text"
+            aria-hidden="true"
+            class="mr-1"
+          ></b-icon>
+          Editar permiso
+        </h5>
+        <div>
+          <b-button
+            class="float-right btn-sm"
+            variant="danger"
+            @click="closeModalEdit()"
+            ><b-icon icon="x"></b-icon
+          ></b-button>
+        </div>
+      </template>
       <!-- Nuevo modal para tener una mejor experiencia de user -->
       <!-- {{Object.keys(grupoEdit).length===0?'':grupoEdit.users[tabsel]}} -->
       <!-- <div class="col-12 p-3" :class="darkMode ? 'BGD' : 'BGL'">
@@ -327,8 +348,8 @@
             <h5>¿Deseas asignar esta configuración a todos los usuarios?</h5>
           </center>
           <center>
+            <!-- :disabled="AplicarTodosUsu === false" -->
             <b-form-checkbox
-              :disabled="AplicarTodosUsu === false"
               v-if="MostrarAcordeon === false"
               class="text align-center mb-3"
               v-model="AplicaTodos"
@@ -361,14 +382,15 @@
               <b-list-group flush>
                 <!-- pagination id="my-table" class="" :per-page="perPage"
                 :current-page="currentPage" -->
+                <!-- Usuarios de verdad grupoEdit.usuarios -->
                 <b-list-group-item
                   :disabled="Propietario || MostrarAcordeon || EditandoPermiso"
-                  :active="IdUserDelete === option.id ? true : false"
-                  v-for="option in grupoEdit.usuarios"
+                  :active="IdUserDelete === option.user ? true : false"
+                  v-for="option in grupoEdit.Usuarios"
                   :key="option.id"
                   href="#"
                   @click="Pagination(option)"
-                  >{{ option.nombre }}</b-list-group-item
+                  >{{ option.user }}</b-list-group-item
                 >
               </b-list-group>
               <!-- <b-pagination
@@ -600,6 +622,7 @@ import alertas from "../../assets/repositoriosjs/alertas";
 import Multiselect from "vue-multiselect";
 // import GruposyUsuarios from "./subComponentes/GruposyUsuarios";
 // import Grupos from "./Grupos.vue";
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -693,33 +716,37 @@ export default {
       columns: [
         {
           key: "id",
-          label: "N° de permiso",
-          class: "text-center"
+          label: "No. Permiso",
+          _classes: "text-left",
+          _style: "width: 60px"
         },
         {
           key: "nombre",
           label: "Nombre del permiso",
-          class: "text-center"
+          _classes: "text-left"
         },
         {
           key: "empresa",
           label: "Pertenece a",
+          _style: "width: 300px",
           sorter: true,
-          class: "text-center"
+          _classes: "text-left"
         },
         {
           key: "acciones",
-          label: "Acciones",
-          style: "justify-content: center;",
+          label: "Editar / Eliminar",
           filter: false,
-          sorter: false
+          sorter: false,
+          _style: "width: 300px",
+          _classes: "text-center"
         }
       ]
     };
   },
-  // mounted(){
-  //   this.TituloButonNiveles;
-  // },
+  mounted(){
+    // this.TituloButonNiveles;
+    this.getUsuarios();
+  },
   computed: {
     ...mapState(["darkMode"])
     // TotalRows() {
@@ -875,7 +902,7 @@ export default {
     },
     // Trae los permisos del componente de niveles y permisos
     SelectPermissions(data) {
-      console.log(data);
+      console.log("Si llega en el padre");
       this.DataPermissions = data;
       if (this.DataPermissions.Tipos.join("") == 234) {
         this.Visibilidad = 1;
@@ -999,27 +1026,39 @@ export default {
       }
     },
     Pagination(id) {
-      this.$refs.niveles.EditaPermisos(1);
+      // this.$refs.niveles.EditaPermisos(1) ;
       console.log(id);
-      this.valueUser.Visibilidad = id.Visibilidad.Visibilidad;
-      this.valueUser.FechaI = id.Visibilidad.FechaI;
-      this.valueUser.FechaF = id.Visibilidad.FechaF;
+      this.IdUserDelete = id.user;
+      // Nueva version de permisos
+      this.valueUser.Visibilidad = id.visibilidad;
+      this.valueUser.FechaI = id.inicia;
+      this.valueUser.FechaF = id.termina;
       this.valueUser.Permisos = id.permisos;
-      console.log(this.valueUser);
+
+      // Version anterior
+      // this.valueUser.Visibilidad = id.Visibilidad.Visibilidad;
+      // this.valueUser.FechaI = id.Visibilidad.FechaI;
+      // this.valueUser.FechaF = id.Visibilidad.FechaF;
+      // this.valueUser.Permisos = id.permisos;
+      // console.log(this.valueUser);
+
+
       // En una unica validacion
-      if (id.Visibilidad.FechaI != 1) {
-        this.valueUser.CheckDesde = false;
-      } else {
-        this.valueUser.CheckDesde = true;
-      }
-      if (id.Visibilidad.FechaF != 1) {
-        this.valueUser.CheckHasta = false;
-      } else {
-        this.valueUser.CheckHasta = true;
-      }
+      // if (id.Visibilidad.FechaI != 1) {
+      //   this.valueUser.CheckDesde = false;
+      // } else {
+      //   this.valueUser.CheckDesde = true;
+      // }
+      // if (id.Visibilidad.FechaF != 1) {
+      //   this.valueUser.CheckHasta = false;
+      // } else {
+      //   this.valueUser.CheckHasta = true;
+      // }
+
       //MODULO 2
-      this.NombreUsuario = id.nombre;
-      this.IdUserDelete = id.id;
+      // this.NombreUsuario = id.nombre;
+      // this.IdUserDelete = id.id;
+
       this.MostrarAcordeon = false;
       this.$refs.niveles.PintarEditado(this.valueUser);
     },
@@ -1072,6 +1111,7 @@ export default {
         const repo = repoupdateprofileuser();
         await repo.AddUsuarioGrupo(request).then(res => {
           console.log(res);
+          console.log("Aqui 2 ");
           if (res.code === 201) {
             alert.PermisosOK({
               Tit: "Usuarios",
@@ -1154,6 +1194,10 @@ export default {
     closeModal() {
       this.modalGrupos = false;
       this.inicio();
+    },
+    // Cerrar la ventana modal de editar un permiso
+    closeModalEdit() {
+      this.modalUsuariosNew = false;
     },
     // selectPermisos(data) {
     //   // console.log(data);
@@ -1241,6 +1285,7 @@ export default {
       try {
         const repo = repoupdateprofileuser();
         await repo.consPermisosCuenta().then(res => {
+          console.log(res);
           this.items = res.data;
           //   this.items.map(element => {
           //   let newobj = {};
@@ -1334,61 +1379,63 @@ export default {
       }
     },
     async getPermisosUsuario(item) {
+      console.log(item);
+      this.grupoEdit = item;
+      this.modalUsuariosNew = true;
+      // Version pasada en donde se consultaban los permisos del los usuarios en una petición a parte, (Nueva versión: Ya tiene toda información desde que se carga la tabla de todos los permisos)
       this.recargarEdit = item;
       // this.$ref.niveles.ClearNiveles();
       // console.log(item);
-      this.PermisoIDelete = item.id;
-      try {
-        let request = {};
-        request.Permission_id = this.PermisoIDelete;
-        console.log(request);
-        // console.log("Consultaste la informacion de un user");
-        const repo = repoupdateprofileuser();
-        await repo.ConsPermisosUsuario(request).then(res => {
-          // console.log(res);
-          // console.log(res.data);
-          this.grupoEdit.usuarios = res.data.map(elem => {
-            let newObj = {};
-            newObj.id = elem.id;
-            newObj.nombre = elem.name;
-            newObj.permisos = elem.Permissions.map(elem => elem.Permissions_id);
-            newObj.Visibilidad = {
-              FechaI: elem.Permissions[0].Date1,
-              FechaF: elem.Permissions[0].Date2,
-              Visibilidad: JSON.stringify(elem.Permissions[0].Visibility_id)
-                .split("")
-                .map(elem => parseInt(elem))
-            };
-            // console.log(newObj.Visibilidad);
-            return newObj;
-          });
-          // console.log(this.grupoEdit.usuarios);
-          // this.TotalRows = this.grupoEdit.usuarios.length;
-          this.grupoEdit.nombre = item.nombre;
-          this.grupoEdit.id = item.id;
-          this.grupoEdit.Empresa = item.empresa;
-          if (res.code == 200) {
-            // this.value.Propietario = 0;
-            this.Propietario = false;
-            this.modalUsuariosNew = true;
-            //Se consultan a todos los usuarios
-            this.$refs.niveles.ConsultaNiveles();
-            this.getUsuarios();
-            this.$refs.niveles.ClearNiveles();
-            this.$refs.niveles.EditaPermisos(1);
-          } else if (res.code == 201) {
-            // this.value.Propietario = 1;
-            this.Propietario = true;
-            this.modalUsuariosNew = true;
-            // this.modalUsuarios = true;
-          }
-          // this.items.push(res.data);
-        });
-      } catch (error) {
-        //         console.log(error);
-      } finally {
-        //
-      }
+      // this.PermisoIDelete = item.id;
+      // try {
+      //   let request = {};
+      //   request.Permission_id = this.PermisoIDelete;
+      //   console.log(request);
+      //   const repo = repoupdateprofileuser();
+      //   await repo.ConsPermisosUsuario(request).then(res => {
+      //     console.log(res);
+      //     this.grupoEdit.usuarios = res.data.map(elem => {
+      //       let newObj = {};
+      //       newObj.id = elem.id;
+      //       newObj.nombre = elem.name;
+      //       newObj.permisos = elem.Permissions.map(elem => elem.Permissions_id);
+      //       newObj.Visibilidad = {
+      //         FechaI: elem.Permissions[0].Date1,
+      //         FechaF: elem.Permissions[0].Date2,
+      //         Visibilidad: JSON.stringify(elem.Permissions[0].Visibility_id)
+      //           .split("")
+      //           .map(elem => parseInt(elem))
+      //       };
+      //       // console.log(newObj.Visibilidad);
+      //       return newObj;
+      //     });
+      //     // console.log(this.grupoEdit.usuarios);
+      //     // this.TotalRows = this.grupoEdit.usuarios.length;
+      //     this.grupoEdit.nombre = item.nombre;
+      //     this.grupoEdit.id = item.id;
+      //     this.grupoEdit.Empresa = item.empresa;
+      //     if (res.code == 200) {
+      //       // this.value.Propietario = 0;
+      //       this.Propietario = false;
+      //       this.modalUsuariosNew = true;
+      //       //Se consultan a todos los usuarios
+      //       this.$refs.niveles.ConsultaNiveles();
+      //       this.getUsuarios();
+      //       this.$refs.niveles.ClearNiveles();
+      //       this.$refs.niveles.EditaPermisos(1);
+      //     } else if (res.code == 201) {
+      //       // this.value.Propietario = 1;
+      //       this.Propietario = true;
+      //       this.modalUsuariosNew = true;
+      //       // this.modalUsuarios = true;
+      //     }
+      //     // this.items.push(res.data);
+      //   });
+      // } catch (error) {
+      //   //         console.log(error);
+      // } finally {
+      //   //
+      // }
     },
     // Borra uno de los permisos dentro de la tabla
     async delGrupo(id) {
@@ -1404,29 +1451,45 @@ export default {
           this.show = false;
         });
       } catch (error) {
-        //         console.log(error);
+        //console.log(error);
       }
     },
     confirmDelete(id) {
-      this.$bvModal
-        .msgBoxConfirm("¿ Estas seguro de elimina este permiso ?", {
-          title: "FAVOR DE CONFIRMAR",
-          size: "sm",
-          buttonSize: "sm",
-          okVariant: "danger",
-          okTitle: "Si",
-          cancelTitle: "No",
-          footerClass: "p-2",
-          hideHeaderClose: false,
-          centered: true
-        })
-        .then(value => {
-          if (value == true) {
-            this.delGrupo(id);
-          } else {
-            return;
-          }
-        });
+      Swal.fire({
+        title: "Eliminar",
+        text: "¿ Estas seguro de elimina este permiso ?",
+        icon: "warning",
+        // showCancelButton: true,
+        showDenyButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Borralo!"
+      }).then(result => {
+        if (result.value) {
+          this.delGrupo(id);
+        } else {
+          return;
+        }
+      });
+      // this.$bvModal
+      //   .msgBoxConfirm("¿ Estas seguro de elimina este permiso ?", {
+      //     title: "FAVOR DE CONFIRMAR",
+      //     size: "sm",
+      //     buttonSize: "sm",
+      //     okVariant: "danger",
+      //     okTitle: "Si",
+      //     cancelTitle: "No",
+      //     footerClass: "p-2",
+      //     hideHeaderClose: false,
+      //     centered: true
+      //   })
+      //   .then(value => {
+      //     if (value == true) {
+      //       this.delGrupo(id);
+      //     } else {
+      //       return;
+      //     }
+      //   });
     },
     confirmDelete2(id) {
       if (id === 1) {
@@ -1466,4 +1529,30 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn-primary {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); Color azul*/
+  background-color: rgba(0, 129, 194, 255);
+  /* background-color: teal; */
+  border-color: #005a5a;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: rgba(0, 145, 194, 255);
+  border-color: #005a5a;
+}
+
+/* Color para boton info en bootstrap */
+.btn-info {
+  color: #fff;
+  /* background-color: rgb(31, 104, 172); */
+  background-color: #229ca5;
+  border-color: #005a5a;
+}
+.btn-info:hover {
+  color: #fff;
+  background-color: #3b9c96;
+  border-color: #005a5a;
+}
+</style>

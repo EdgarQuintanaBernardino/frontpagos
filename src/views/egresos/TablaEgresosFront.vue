@@ -16,9 +16,9 @@
                 @click.prevent="addin()"
                 v-if="datosall.btnadd"
               >
+                <!-- :animation="datosall.animation" -->
                 <b-icon
                   :icon="datosall.iconadd"
-                  :animation="datosall.animation"
                   :font-scale="datosall.fontscale"
                   :class="datosall.classicon"
                 ></b-icon
@@ -92,11 +92,11 @@
               responsive
               id="table_generic"
             >
-              <template v-slot:cell(archivos)="row">
+              <!-- <template v-slot:cell(archivos)="row">
                 <b-button variant="outline-primary">
                   <b-icon icon="clipboard"></b-icon> Archivos</b-button
                 >
-              </template>
+              </template> -->
               <template v-slot:cell(status)="row">
                 <div v-if="row.item.status.length > 0">
                   <b-button
@@ -221,15 +221,15 @@
                           ' ' +
                           row.item['usersin'][0].estado +
                           ' ',
-                        NickName: row.item['usersin'][0].nickname,
-                      },
+                        NickName: row.item['usersin'][0].nickname
+                      }
                     ]"
                     :fields="[
                       'Nombre',
                       'Email',
                       'Teléfono',
                       'Dirección',
-                      'NickName',
+                      'NickName'
                     ]"
                   >
                     <template v-slot:cell(Empresas)="row">
@@ -283,17 +283,17 @@
 
 <script>
 import "regenerator-runtime/runtime";
-import edituser from "@/views/windowmodal/edituser";
-import permisosuser from "@/views/windowmodal/rolespermisosadduser";
-import rqstin from "@/views/windowmodal/requestin";
+// import edituser from "@/views/windowmodal/edituser";
+// import permisosuser from "@/views/windowmodal/rolespermisosadduser";
+// import rqstin from "@/views/windowmodal/requestin";
 export default {
   props: ["datosallin", "iddeletein", "idedit"],
 
   name: "",
   components: {
-    edituser,
-    permisosuser,
-    rqstin,
+    // edituser,
+    // permisosuser,
+    // rqstin
   },
   data() {
     return {
@@ -302,8 +302,8 @@ export default {
           key: "name",
           label: "Nombre Usuario",
           class: "text-center",
-          component: { carpeta: "templates", file: "users" },
-        },
+          component: { carpeta: "templates", file: "users" }
+        }
       ],
       initrows: 0,
       datosall: {
@@ -311,7 +311,7 @@ export default {
         columns: [],
         resuelve: 12,
         items: [],
-        otheritems: [],
+        otheritems: []
       },
       /// para arriba
       datosback: null,
@@ -342,8 +342,8 @@ export default {
       infoModal: {
         id: "info-modal",
         title: "",
-        content: "",
-      },
+        content: ""
+      }
     };
   },
 
@@ -361,8 +361,8 @@ export default {
     sortOptions() {
       // Create an options list from our fields
       return this.fields
-        .filter((f) => f.sortable)
-        .map((f) => {
+        .filter(f => f.sortable)
+        .map(f => {
           return { text: f.label, value: f.key };
         });
     },
@@ -374,24 +374,24 @@ export default {
     },
     getacciones() {
       return this.datosall.acciones;
-    },
+    }
   },
 
   watch: {
-    idedit: function (newval, oldval) {
+    idedit: function(newval) {
       this.actualizaregistro(newval);
     },
-    datosallin: function (newval, oldvar) {
+    datosallin: function(newval) {
       //this.datosall.items=[];
 
       this.datosall = newval;
       this.items = newval.items;
       //  console.log(this.items)
     },
-    iddeletein: function (newval, oldval) {
+    iddeletein: function(newval) {
       this.eliminaregistro(newval);
       this.$emit("deletedetabla", this.iddeletein);
-    },
+    }
   },
   methods: {
     gomycell(key) {
@@ -420,7 +420,7 @@ export default {
     },
     eliminaregistro(item) {
       this.datosall.items = this.datosall.items.filter(
-        (itemin) => itemin.id != item.id
+        itemin => itemin.id != item.id
       );
     },
     getitems() {
@@ -433,7 +433,7 @@ export default {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
-    },
-  },
+    }
+  }
 };
 </script>

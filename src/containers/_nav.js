@@ -311,7 +311,7 @@ export default [{
           name: 'Advanced tables',
           to: '/tables/advanced-tables',
           icon: 'cil-list-rich'
-        }  
+        }
       ]
     },
     {

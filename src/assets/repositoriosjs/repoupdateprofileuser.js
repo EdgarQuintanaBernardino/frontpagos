@@ -8,8 +8,8 @@ import repologin from "@/views/pages/repologin.js";
 import respuestas from "./respuestas";
 import alertas from "./alertas";
 
-// const server = "http://192.168.100.35:8000/api";
-const server = "http://18.218.153.207/api";
+ const server = "http://192.168.2.13:8000/api";
+//const server = "http://18.218.153.207/api";
 
 let api = `${server}/user/update`;
 let apidesdeadmin = `${server}/user/updatedesdeadmin`; ////check
@@ -387,6 +387,7 @@ const creaGroup = async request => {
   };
   let result = await Axios.post(CreateGrupo, request, configin)
     .then(res => {
+      console.log(res)
       return res.data;
     })
     .catch(error => {
@@ -457,10 +458,11 @@ const ActPermisosUsuario = async request => {
   };
   let result = await Axios.post(ActualizaPermisosUsuario, request, configin)
     .then(res => {
+    //  console.log(res)
       return res.data;
     })
     .catch(error => {
-      console.log(error);
+   // return error;
       return response.filtraerror(error);
     });
   return result;
@@ -529,7 +531,7 @@ const AddUsuarioGrupo = async request => {
       return res.data;
     })
     .catch(error => {
-      console.log(error);
+     return error;
       return response.filtraerror(error);
     });
   return result;
@@ -587,15 +589,18 @@ const consGroupEmpresas = async request => {
   return result;
 };
 //Conulta empresas externas
-let getEmpresasExt = `${server}/shared/company`;
-const consEmpresasExt = async () => {
+//let getEmpresasExt = `${server}/shared/company`;
+let getEmpresasExt = `${server}/pexternos/cexternas`;
+
+const consEmpresasExt = async (request) => {
   // let request;
   let tokenin = store.getters.gettoken;
   let configin = {
     headers: { Authorization: `Bearer ${tokenin}` }
   };
-  let result = await Axios.get(getEmpresasExt, configin)
+  let result = await Axios.post(getEmpresasExt, request,configin)
     .then(res => {
+      console.log(res)
       return res.data;
     })
     .catch(error => {
@@ -731,17 +736,18 @@ const consPermisos = async () => {
 };
 //obtiene los permisos de una cuenta dada
 let PermisosCuenta = `${server}/pagos/indexpagos`;
-const consPermisosCuenta = async () => {
-  let request;
+const consPermisosCuenta = async (request) => {
+
   let tokenin = store.getters.gettoken;
   let configin = {
     headers: { Authorization: `Bearer ${tokenin}` }
   };
   let result = await Axios.post(PermisosCuenta, request, configin)
     .then(res => {
-      return res.data;
+      return res.data.data;
     })
     .catch(error => {
+    return error;
       console.log(error);
       return response.filtraerror(error);
     });
@@ -793,7 +799,8 @@ const ValidateNameC = async request => {
       return res.data;
     })
     .catch(error => {
-      console.log(error);
+
+    return error;
       return response.filtraerror(error);
     });
   return result;

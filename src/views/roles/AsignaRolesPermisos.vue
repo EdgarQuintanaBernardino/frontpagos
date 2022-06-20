@@ -53,7 +53,7 @@
     </b-toast> -->
     <CProgress
       :value="counter"
-      color="primary"
+      color="success"
       animated
       style="height:20px;"
       class="mt-1 mb-3"
@@ -156,7 +156,7 @@
     <!-- Pregunta si deseea agregra un propietario -->
     <div class="mt-3 mb-3" v-if="Formint > 4 && Crear.Propietario != 1">
       <hr size="5" />
-      <b-row class="justify-content-center">
+      <b-row class="justify-content-center" v-if="propia">
         <label class="mr-2 mt-1 mb-1"
           >¿Desea asignar como propietario(s)?
         </label>
@@ -171,6 +171,7 @@
           class="mr-2 mb-1"
           variant="outline-success"
           @click="cambiaEstatusTempo()"
+          v-if="false"
         >
           Cambia "Validate"
         </b-button>
@@ -202,7 +203,6 @@
                 content: 'Minimo 4 caracteres',
                 placement: 'top'
               }"
-              :disabled="Flujo === true"
               class="mt-2"
               v-model="ValidateName.Name"
               placeholder="Nombre"
@@ -216,31 +216,34 @@
           </center>
           <b-card no-body>
             <b-tabs pills card>
-              <b-tab title="Interna(s)" active>
+              <b-tab title="Propia(s)"   @click="resetcuentas" :active="propia?true:false">
                 <b-card-text>
                   <b-list-group flush>
                     <b-list-group-item
                       :active="
                         ValidateName.Company_id === option.id ? true : false
                       "
-                      :disabled="Flujo === true"
                       v-for="option in Empresas"
                       :key="option.id"
                       href="#"
-                      @click="select_empresa(option.id)"
+                      @click="select_empresa(option)"
                       >{{ option.nombre }}</b-list-group-item
                     >
                   </b-list-group>
                 </b-card-text>
               </b-tab>
-              <b-tab title="Externa(s)">
+              <b-tab title="Externa(s)" @click="resetcuentasext" :active="!propia?true:false">
                 <b-card-text>
                   <b-list-group flush>
                     <b-list-group-item
                       v-for="option in EmpresasExternas"
                       :key="option.id"
                       href="#"
-                      >{{ option.nombre }}</b-list-group-item
+                       :active="
+                        ValidateName.Company_id === option.id ? true : false
+                      "
+                    @click="select_empresaext(option)"
+                      >{{ option.nombre }} </b-list-group-item
                     >
                   </b-list-group>
                 </b-card-text>
@@ -253,7 +256,11 @@
       <b-col class="col-6">
         <div>
           <center>
-            <h5>Selecciona una cuenta</h5>
+            <h5>Selecciona una cuenta       {{ this.ValidateName.Account_id, }}
+                    {{ this.ValidateName.Company_id }}      {{ ValidateName.Name.length }}
+
+
+            </h5>
           </center>
           <b-card no-body>
             <b-tabs pills card>
@@ -264,12 +271,11 @@
                       :active="
                         ValidateName.Account_id === option.id ? true : false
                       "
-                      :disabled="Flujo === true"
                       v-for="option in opciones"
                       :key="option.id"
-                      @click="select_cuenta(option.id)"
+                      @click="option.hasOwnProperty('cuenta')?select_cuenta_ext(option):select_cuenta(option.id)"
                       href="#"
-                      >{{ option.nickname }}</b-list-group-item
+                      >{{ option.hasOwnProperty('cuenta')?option.cuenta.nickname:option.nickname }}</b-list-group-item
                     >
                   </b-list-group>
                 </b-card-text>
@@ -279,25 +285,16 @@
         </div>
       </b-col>
       <CButton
-        v-if="Flujo === false"
+        v-if="this.ValidateName.Account_id!=0&this.ValidateName.Company_id!=0&this.ValidateName.Name.length>5"
         class="ml-4 mr-4"
         block
         color="success"
         @click="validaNombre()"
-        :disabled="
-          ValidateName.Name.length < 4 ||
-            ValidateName.Company_id === 0 ||
-            ValidateName.Account_id === 0
-        "
-        >Validar información</CButton
+
+      >Validar información
+      </CButton
       >
-      <CButton
-        v-if="Flujo === true"
-        class="ml-4 mr-4"
-        block
-        color="primary"
-        @click="Steps()"
-        >Editar información</CButton
+
       >
     </b-row>
     <!-- MODULO 2 -->
@@ -395,14 +392,13 @@
     </b-row>
 
     <!-- MODULO 4 -->
-    <b-row v-if="Formint === 5">
+    <b-row v-if="Formint == 5">
       <b-col class="col-12">
-        <!-- <tabla-permisos /> -->
         <b-card>
           <nivelesPermisos
             titleButton="CREAR PERMISO"
             ref="form"
-            @ChangePer="SelectPermissions($event)"
+            @EditPer="SelectPermissions"
           ></nivelesPermisos>
         </b-card>
       </b-col>
@@ -523,10 +519,98 @@
     </CModal> -->
     <!-- </CCardBody>
         </CCard> -->
+           <b-modal id="modal-detalles2"  size="xl" title="Detalles del Permiso" hide-header >
+       <b-jumbotron bg-variant="danger" text-variant="white" border-variant="dark">
+    <template #header>Detalles del Permiso Creado</template>
+<!--
+    <template #lead>
+      This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
+      featured content or information.
+    </template> -->
+
+
+  </b-jumbotron>
+<div>
+  <div>
+    <b-card-group deck>
+      <b-card
+        border-variant="primary"
+        header="Propietarios"
+        header-bg-variant="primary"
+        header-text-variant="white"
+        align="center"
+      >
+        <b-card-text>
+<b-list-group>
+  <b-list-group-item v-for="p in respuesta.propietarios " :key="p.id">{{p.name}}</b-list-group-item>
+
+</b-list-group>
+
+        </b-card-text>
+      </b-card>
+
+      <b-card
+        border-variant="info"
+        header="Admins"
+        header-border-variant="info"
+        align="center"
+        header-bg-variant="info"
+        header-text-variant="white"
+
+      >
+      <b-card-text>
+<b-list-group>
+  <b-list-group-item v-for="p in respuesta.admins " :key="p.id">{{p.name}}</b-list-group-item>
+
+</b-list-group>
+
+        </b-card-text>
+      </b-card>
+ <b-card
+        border-variant="warning"
+        header="Detalles"
+        header-border-variant="warning"
+        align="center"
+        header-bg-variant="warning"
+        header-text-variant="white"
+
+      >
+      <b-card-text>
+<b-list-group class="text-left">
+  <b-list-group-item v-for="p in respuesta.detalles " :key="p.id" >
+    {{p.name}}
+      <b-badge variant="danger" v-if="p.detalles.Ingreso==0">No ingreso</b-badge>
+      <b-badge variant="success" v-else>Si ingreso</b-badge>
+      <b-row>
+        <b-col cols="12" >
+      <b-dropdown size="sm" text="Permisos Repetidos" variant="warning"  class="m-0 text-white d-block"  v-if="p.detalles.formated.length>0">
+      <b-dropdown-item v-for="pp in p.detalles.formated" :key="pp">{{ pp }}</b-dropdown-item>
+
+    </b-dropdown>
+    </b-col>
+</b-row>
+    </b-list-group-item>
+
+</b-list-group>
+
+        </b-card-text>
+      </b-card>
+
+
+    </b-card-group>
+
+  </div>
+
+
+</div>
+
+        </b-modal>
   </div>
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 import Multiselect from "vue-multiselect";
 import { mapState } from "vuex";
 // import datetime from "vuejs-datetimepicker";
@@ -556,6 +640,13 @@ export default {
   props: ["limpia"],
   data() {
     return {
+      propia:true,
+      todo_departamentos:[],
+     respuesta:{
+        propietarios:[],
+        admins:[],
+        detalles:[],
+      },
       // Respuesta de coincidencias
       UsersRemoveCoincidence: [],
       RemoveAfeterCoincidence: [],
@@ -713,6 +804,45 @@ export default {
     // }
   },
   methods: {
+    select_cuenta_ext(option){
+        let departamentos=[];
+        for(let a=0;a<option.modelos.length;a++){
+            let item={};
+            switch (option.modelos[a]){
+              case 2:
+                item.id=2;
+                item.nombre="Ingresos";
+                departamentos.push(item);
+                break;
+               case 3:
+                item.id=3;
+                item.nombre="Egresos";
+                departamentos.push(item);
+                break;
+            }
+
+        }
+        this.DepartamentosNew=departamentos;
+        this.ValidateName.Account_id = option.id;
+
+    },
+
+    resetcuentasext(){
+      this.propia=false;
+      this.ValidateName.Company_id=0;
+      this.ValidateName.Account_id=0;
+
+      this.opciones=[];
+
+    },
+    resetcuentas(){
+      this.propia=true;
+      this.ValidateName.Company_id=0;
+      this.ValidateName.Account_id=0;
+
+      this.opciones=[];
+
+    },
     cambiaEstatusTempo() {
       this.Crear.Validate = !this.Crear.Validate;
       console.log("Estatus de validate ->", this.Crear.Validate);
@@ -761,24 +891,46 @@ export default {
     test(id) {
       this.$refs.form.SelectOwner(id);
     },
+      select_empresaext(id) {
+       this.ValidateName.Account_id = 0;
+      // this.opciones = [];
+      // let result = [];
+      // for (let a = 0; a < this.Cuentas.length; a++) {
+      //   for (let b = 0; b < this.Cuentas[a].empresas.length; b++) {
+      //     if (this.Cuentas[a].empresas[b].id == id) {
+      //       result.push(this.Cuentas[a]);
+      //     }
+      //   }
+      // }
+      this.opciones = id.cuentas;
+      this.ValidateName.Company_id = id.id;
+
+
+
+      //this.DepartamentosNew=this.todo_departamentos;
+
+    },
     // Selecciona una empresa para un permiso
     select_empresa(id) {
-      this.ValidateName.Account_id = 0;
-      this.opciones = [];
-      let result = [];
-      for (let a = 0; a < this.Cuentas.length; a++) {
-        for (let b = 0; b < this.Cuentas[a].empresas.length; b++) {
-          if (this.Cuentas[a].empresas[b].id == id) {
-            result.push(this.Cuentas[a]);
-          }
-        }
-      }
-      this.opciones = result;
-      this.ValidateName.Company_id = id;
+this.DepartamentosNew=this.todo_departamentos;
+console.log(this.DepartamentosNew)
+this.ValidateName.Account_id = 0;
+      // this.opciones = [];
+      // let result = [];
+      // for (let a = 0; a < this.Cuentas.length; a++) {
+      //   for (let b = 0; b < this.Cuentas[a].empresas.length; b++) {
+      //     if (this.Cuentas[a].empresas[b].id == id) {
+      //       result.push(this.Cuentas[a]);
+      //     }
+      //   }
+      // }
+      this.opciones = id.cuentas;
+      this.ValidateName.Company_id = id.id;
     },
     // Selecciona una cuenta de una empresa para un permiso
     select_cuenta(id) {
-      this.ValidateName.Account_id = id;
+      console.log(id);
+            this.ValidateName.Account_id = id;
     },
     // JSON para la validacion del nombre
     async validaNombre() {
@@ -786,6 +938,8 @@ export default {
         const repo = repoupdateprofileuser();
         await repo.ValidateNameC(this.ValidateName).then(res => {
           // console.log(this.Usuarios);
+          // console.log(res)
+          // return false;
           if (res.code == 200) {
             // console.log(res);
             //Toast 1 correcto
@@ -805,10 +959,12 @@ export default {
             this.$router.push(`/Login`);
           } else if (res.code == 422) {
             // Error del sistema, JSON con mal las propiedades
-            this.$router.push(`/Page404`);
+
+          //  this.$router.push(`/Page404`);
           }
         });
       } catch (error) {
+        console.log("entra el error")
         console.log(error);
       }
     },
@@ -855,10 +1011,13 @@ export default {
       this.Flag = 5;
       this.Formint = 5;
       this.counter = 100;
+      this.$store.commit('Sin_Permisos',false)
+      this.$store.commit('SetAdminNo',false)
     },
     //Funcion para obtener los niveles y permisos del componente hijo
     SelectPermissions(data) {
-      // console.log(data);
+
+       console.log(data);
       // console.log(data.Tipos[0]);
       this.DataPermissions = data;
       // console.log(this.DataPermissions);
@@ -889,6 +1048,8 @@ export default {
       this.Crear.FechI = this.DataPermissions.FechD;
       this.Crear.FechF = this.DataPermissions.FechH; //AGREGADO
       // this.creaGrupo();
+
+
       this.crearJSON();
     },
     // GRUPOS Y USUARIOS
@@ -1050,6 +1211,110 @@ export default {
         // console.log(error);
       }
     },
+       convergencia(res){
+    ////this.GroupUsers.users.map(item => item.id);   estos son  los ids de los usuarios mandados en el response
+      //  let admins=this.GroupUsers.users.filter(e=>e.id==
+ console.log("res")
+ console.log(res)
+ this.respuesta={
+        propietarios:[],
+        admins:[],
+        detalles:[],
+      }
+
+     let admins=[];
+      let propietarios=[];
+      let detalles=[];
+
+      for(let a=0;a<this.GroupUsers.users.length;a++){
+
+            for(let p=0;p<res.propietarios.length;p++){
+              if(this.GroupUsers.users[a].id==res.propietarios[p]){
+                  propietarios.push(this.GroupUsers.users[a]);
+                continue;
+              }
+            }
+                          if(res.hasOwnProperty('admins')){
+
+            for(let ad=0;ad<res.admins.length;ad++){
+                if(this.GroupUsers.users[a].id==res.admins[ad]){
+                  admins.push(this.GroupUsers.users[a]);
+                continue;
+              }
+            }
+                          }
+              if(res.hasOwnProperty('detalles')){
+            for(let de=0;de<res.detalles.length;de++){
+
+
+
+                if(this.GroupUsers.users[a].id==res.detalles[de].user){
+                  res.detalles[de].formated=[];
+                  for(let ch=0;ch<res.detalles[de].permisos_repetidos.length;ch++){
+
+                        switch(res.detalles[de].permisos_repetidos[ch]){
+                          case 2:
+                            res.detalles[de].formated.push("Ver");
+                            break;
+                          case 3:
+                            res.detalles[de].formated.push("Editar");
+                            break;
+                          case 4:
+                            res.detalles[de].formated.push("Crear");
+                            break;
+                          case 5:
+                            res.detalles[de].formated.push("Eliminar");
+                            break;
+                          case 8:
+                            res.detalles[de].formated.push("Reportes");
+                            break;
+                          case 9:
+                            res.detalles[de].formated.push("Asignar status");
+                            break;
+                        }
+                  }
+                    this.GroupUsers.users[a].detalles=res.detalles[de];
+                    detalles.push(this.GroupUsers.users[a]);
+                  continue;
+             }
+            }
+  }
+            //// fin de detalles
+
+
+
+
+
+      }
+         this.respuesta={
+            propietarios:propietarios,
+            admins:admins,
+            detalles:detalles
+          }
+           if (this.respuesta.propietarios.length==0&this.respuesta.admins.length==0&this.respuesta.detalles.length==0) {
+                  Swal.fire({
+  icon: 'success',
+  title: 'Permiso',
+  text: "Todos los permisos se han creado con éxito",
+})
+            // Se limpia en model de usuarios seleccionados
+           // this.ClearSmall();
+          }else{
+                             Swal.fire({
+  icon: 'info',
+  title: 'Permiso',
+  text: "Revisa los permisos creados",
+})
+    this.$bvModal.show("modal-detalles2");
+
+          }
+      // console.log("inicia bucle")
+      // console.log(admins)
+      // console.log(propietarios)
+      // console.log(detalles)
+      // console.log("termina bucle")
+
+    },
     async crearJSON() {
       // console.log(this.GroupUsers.users);
       // console.log(this.NombresUsuariosProp);
@@ -1069,11 +1334,15 @@ export default {
         request.Date2 = this.Crear.FechF;
         request.Validate = this.Crear.Validate;
         console.log(request);
+       // return false;
         // this.limpiaForm();
         const alert = alertas();
         const repo = repoupdateprofileuser();
         await repo.creaGroup(request).then(res => {
-          console.log(res);
+
+          this.$emit("close");
+          return this.convergencia(res)
+          return false;
           if (res.code == 201) {
             let newObj = {
               Tit: "Permisos",
@@ -1119,12 +1388,14 @@ export default {
         alert.PermisosError();
         console.log(error);
       } finally {
-        //
+           this.limpiaForm();
       }
     },
     cambFormint(frm) {
       switch (frm) {
         case 1:
+         console.log("inicio")
+
           this.counter = 25;
           break;
         case 2:
@@ -1132,6 +1403,7 @@ export default {
           this.Formint = 2;
           break;
         case 3:
+
           this.counter = 50;
           break;
         case 4:
@@ -1346,15 +1618,35 @@ export default {
     },
     async getEmpresasExt() {
       try {
+        // let payload={
+        //     Company_id:5
+        // }
         const repo = repoupdateprofileuser();
         await repo.consEmpresasExt().then(res => {
-          this.EmpresasExternas = res.data.map(function(obj) {
+
+            let empresas_externas= res.data.map(function(obj) {
             let newObj = {};
             newObj.nombre = obj.empresa.nombre;
             newObj.id = obj.empresa.id;
-            newObj.propietario = obj.Permiso_id;
+           // let ncuentas=[];
+            // for(let a=0;a<obj.cuentas.length;a++){
+            //       //  for(let b=0;b<obj.cuentas[a].cuenta.length;b++){
+
+            //           ncuentas.push(obj.cuentas[a].cuenta.nickname);
+            //       //  }
+            // }
+            // newObj.ncuentas=obj.cuentas.map(function(obj1){
+            //   return obj1.cuenta.map(function(obj2){ return obj2.nickname});
+            // });
+
+
+            newObj.cuentas=obj.cuentas;
             return newObj;
           });
+          this.EmpresasExternas =empresas_externas;
+      console.log("result de empresas externas");
+      console.log( this.EmpresasExternas)
+
         });
       } catch (error) {
         //         console.log(error);
@@ -1366,11 +1658,14 @@ export default {
       try {
         const repo = repoupdateprofileuser();
         await repo.getempresasback().then(res => {
+          console.log(res.data.data)
+          console.log("arriba empresas")
           this.Empresas = res.data.data.map(function(obj) {
             let newObj = {};
             newObj.nombre = obj.nombre;
             newObj.id = obj.id;
             newObj.propietario = 1;
+            newObj.cuentas=obj.cuentas;
             return newObj;
           });
         });
@@ -1384,7 +1679,7 @@ export default {
       try {
         const repo = repoupdateprofileuser();
         await repo.consDeparamentos().then(res => {
-          this.Departamentos = res.data.map(function(obj) {
+          let inicia = res.data.map(function(obj) {
             let newObj = {};
             newObj.nombre = obj.Name;
             newObj.id = obj.id;
@@ -1392,10 +1687,10 @@ export default {
             return newObj;
           });
 
-          this.DepartamentosNew = this.Departamentos.filter(
+          inicia =inicia.filter(
             ele => ele.id !== 5
           );
-          console.log(this.DepartamentosNew);
+          this.todo_departamentos=inicia;
         });
       } catch (error) {
         //         console.log(error);
@@ -1476,9 +1771,9 @@ export default {
     await this.getDepartamentos();
     await this.getNivelesdeAccesos();
     // await this.getPermisos();
-    await this.getCuentas();
+    //await this.getCuentas();
     await this.getUsuarios();
-    this.Empresas = this.Empresas.concat(this.EmpresasExternas);
+ //   this.Empresas = this.Empresas.concat(this.EmpresasExternas);
     // // for(let e of emp){
     // //         // console.log(emp.id);
     // //         // this.Grupos.push(await this.getGrupos(emp.id));
@@ -1527,7 +1822,7 @@ export default {
   margin-left: auto;
 }
 .Btnpersel {
-  background: #083e9bce;
+  background: #028723d0;
   border: none;
   height: 3.8rem;
   width: 3.8rem;
@@ -1535,7 +1830,7 @@ export default {
   margin-left: auto;
 }
 .Btnperl:hover {
-  background: #586e94;
+  background: #0f2854;
 }
 .Btnperd {
   background: #23242d;

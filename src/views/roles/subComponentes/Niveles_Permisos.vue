@@ -2,13 +2,15 @@
   <div>
     <br />
     <b-row style="overflow: hidden">
+      <b-row v-if="!showall" class="pl-5">
       <b-col>
         <h4 style="text-align:center">Permisos</h4>
         <!-- Seleccionado {{ value.Permisos }} -->
         <b-form-group>
           <template #label>
+            <b-row class="p-2 m-0" v-if="!showadmin">
             <b-form-checkbox
-              :disabled="Propietario || checkAdmi || Bandera"
+
               v-model="value.chkAdmin"
               v-for="option in PermisosAdmin"
               :key="option.id"
@@ -21,8 +23,8 @@
                 {{ option.desc }}
               </p>
             </b-form-checkbox>
+            </b-row>
             <b-form-checkbox
-              :disabled="Propietario || Bandera"
               v-model="allSelected"
               v-for="option in Permisos.filter(elem => elem.id == 6)"
               :key="option.id"
@@ -37,7 +39,6 @@
 
           <template v-slot="{ ariaDescribedby }">
             <b-form-checkbox-group
-              :disabled="value.chkAdmin || Propietario || Bandera"
               id="flavors"
               v-model="value.Permisos"
               :options="Permisos.filter(elem => elem.id != 6 && elem.id != 7)"
@@ -57,7 +58,7 @@
         <!-- Visibilidad -->
         <!-- Seleccionado {{ value.Tipos }} -->
         <b-form-checkbox
-          :disabled="Propietario || Bandera"
+         :disabled="Propietario || Bandera"
           :checked="TodosTipos"
           @change="tiposSelectAll"
           v-for="option in Tipos.filter(elem => elem.id == 1)"
@@ -82,10 +83,13 @@
             <div class="flex-fill mr-sm-2">
               <b-form-checkbox
                 :disabled="Propietario || Bandera"
-                v-model="chkDesde"
-                @input="AllDate(1)"
+                v-model="value.FechD"
+                @input="cambia2"
+                 value="1"
+            :unchecked-value="actual"
                 ><p>
-                  {{ chkDesde ? "Desde el inicio" : "Desde" }}
+                  {{ value.FechD==1 ? "Desde el inicio"  : "Desde "+ value.FechD  }}
+
                 </p></b-form-checkbox
               >
               <!-- @input="fechaSelect" -->
@@ -93,7 +97,7 @@
                 :disabled="Propietario || Bandera"
                 class="mr-lg-3 mb-xs-2"
                 v-model="value.FechD"
-                v-if="!chkDesde"
+                v-if="value.FechD!=1"
                 id="fechD"
                 today-button
                 reset-button
@@ -103,20 +107,17 @@
             </div>
             <div class="flex-fill">
               <b-form-checkbox
-                :disabled="Propietario || Bandera"
-                v-model="chkHasta"
-                @input="AllDate(2)"
+                v-model="value.FechH"
+                       value="1"
+            :unchecked-value="minHasta"
                 ><p>
-                  {{ chkHasta ? "Hasta siempre" : "Hasta" }}
+                  {{ value.FechH==1 ? "Hasta siempre" : "Hasta "+value.FechH }}
                 </p></b-form-checkbox
               >
               <b-form-datepicker
-                :disabled="Propietario || Bandera"
                 v-model="value.FechH"
                 class="mr-lg-3"
-                v-if="!chkHasta"
-                :min="minHasta"
-                id="fechH"
+                v-if="value.FechH!=1"
                 today-button
                 reset-button
                 close-button
@@ -129,12 +130,14 @@
         </div>
       </b-col>
       <!-- Boton de crear permiso -->
-      <b-col class="col-12">
+     </b-row>
+      <b-col class="col-12" >
         <CButton
           v-if="Bandera === false && Bandera2 === false"
           class="mt-2"
           block
           color="primary"
+
           @click="passEvent"
           :disabled="
             value.Permisos.length === 0 ||
@@ -161,6 +164,7 @@
           >{{ titleButton }}</CButton
         >
       </b-col>
+
     </b-row>
   </div>
 </template>
@@ -173,6 +177,8 @@ const maxDateDesde = new Date(today.setDate(maxDate.getDate() - 1));
 
 import repoupdateprofileuser from "@/assets/repositoriosjs/repoupdateprofileuser";
 import { mapState } from "vuex";
+import moment from "moment";
+
 export default {
   // props: {
   // per: Object,
@@ -182,9 +188,13 @@ export default {
   // PermisosProp: Object,
   // titleButton: String,
   // },
-  props: ["titleButton", "checkAdmin"],
+  props: ["titleButton", "checkAdmin","tipopermiso","adduser"],
   data() {
     return {
+      temp:{},
+      allpermisos:true,
+      add_user:false,
+      tipopermisoin:false,
       // Bloquear al editar en el componente padre
       Bandera: false,
       Bandera2: false,
@@ -216,6 +226,61 @@ export default {
     };
   },
   computed: {
+    minHasta() {
+      // return moment("2022/05/12").format('l');
+      // console.log("min asta")
+      // return new Date();
+      // console.log("inicia min")
+     let inicia=this.value.FechD;
+     let fechahoy;
+console.log(this.temp, "temp")
+console.log(this.value,"value")
+         if(inicia==1){
+           console.log("aqui debe de entrar")
+       fechahoy=moment().add('1','days').format('L').split('/');
+       console.log(fechahoy)
+         }
+         if(moment(this.temp.FechaF).diff(moment(this.value.FechH),'days')>0){
+
+           console.log("retorno",moment(this.temp.FechaF).diff(moment(this.value.FechH),'days'));
+           return this.temp.FechaF
+         }
+
+     fechahoy=moment(inicia).add('1','days').format('L').split('/');
+     let temp=fechahoy[0];
+     fechahoy[0]=fechahoy[1];
+     fechahoy[1]=temp;
+console.log(fechahoy.reverse().join('/'))
+
+     return fechahoy.reverse().join('/');
+
+   },
+
+    showadmin(){
+   return this.$store.getters.getAdminNo   ///¿quitar admin?
+
+    },
+    showall(){
+      let allpermisos= this.$store.getters.get_Sin_Permisos;
+        if(allpermisos){
+          this.value= {
+        Permisos: [2,3],
+        Tipos: [1],
+        FechD: "1",
+        FechH: "1",
+        chkAdmin: false
+      }
+        }else{
+          this.value={
+        Permisos: [],
+        Tipos: [],
+        FechD: "1",
+        FechH: "1",
+        chkAdmin: false
+      }
+        }
+        return this.$store.getters.get_Sin_Permisos;
+    },
     PermisosAdmin() {
       try {
         return this.Permisos.filter(elem => elem.id == 7);
@@ -224,14 +289,21 @@ export default {
       }
     },
     ...mapState(["darkMode"]),
-    minHasta() {
-      let FechaDesde = new Date(this.value.FechD);
-      return new Date(
-        FechaDesde.getFullYear(),
-        FechaDesde.getMonth(),
-        FechaDesde.getDate() + 2
-      );
+    actual(){
+     // return "2022-06-15"
+      let fechahoy=moment().format('L').split('/');
+      let temp=fechahoy[0];
+      fechahoy[0]=fechahoy[1];
+      fechahoy[1]=temp;
+
+//console.log(fechahoy.reverse().join('-'))
+
+//console.log(fechahoy.reverse().join('-'))
+
+      return fechahoy.reverse().join('-');
+     return moment().format('L').split('/').reverse().join('-');
     },
+
     // validaPropietario() {
     //   return this.$parent.hasOwnProperty("value")
     //     ? this.$parent.value.Propietario
@@ -276,6 +348,22 @@ export default {
     }
   },
   methods: {
+    cambia2(val){
+      console.log("dispoara el evento input", val)
+    let inicia=this.value.FechH;
+          if(inicia==1){
+            console.log("errir")
+            return false;
+          }
+
+//   let fechahoy=moment(val).add('1','days').format('L').split('/');
+//       let temp=fechahoy[0];
+//       fechahoy[0]=fechahoy[1];
+//       fechahoy[1]=temp;
+
+// //console.log(fechahoy.reverse().join('-'))
+//       this.value.FechH=fechahoy.reverse().join('-');
+    },
     EditaPermisos(op) {
       if (op === 1) {
         this.Bandera = true;
@@ -293,36 +381,47 @@ export default {
     },
     // Pintar valores editados
     PintarEditado(value) {
-      console.log(value);
-      // this.Bandera = true;
-      if (value.Permisos == 7) {
-        // this.checkAdmin = true;
-        // this.value.chkAdmin = true;
-        this.chkAdmin(1);
-      } else {
-        this.value.chkAdmin = false;
-        this.value.Permisos = value.Permisos;
-      }
-      // this.bandera = value.Bandera;
-      // console.log(this.bandera);
-      // Se checa si es ADMIN
-      //Se pintan los valores en los permisos
+        this.temp=value;
+        this.TodosTipos=false;
+        console.log("pintar editado",value)
+          this.value.Permisos = value.Permisos;
 
       //Se pinta la Visibilidad
-      if (value.Visibilidad[0] == 1) {
+      if (value.Visibilidad==1) { /// Si ESTA
         this.value.Tipos = [2, 3, 4];
         this.TodosTipos = true;
-      } else if (value.Visibilidad[0] == 0) {
-        console.log("ADMIN123");
-        this.value.Tipos = [2, 3, 4];
-      } else {
-        this.value.Tipos = value.Visibilidad;
+      }else if(value.Visibilidad==24){
+         this.value.Tipos = [2, 4];
+         console.log("si entro en 24")
+      }
+      else if(value.Visibilidad==34){
+         this.value.Tipos = [3,4];
+      }
+       else {
+         this.value.Tipos=[];
+        this.value.Tipos.push(value.Visibilidad);
       }
       // Se pintan las fechas como llegan
-      this.chkDesde = value.CheckDesde;
-      this.chkHasta = value.CheckHasta;
-      this.value.FechD = value.FechaI;
-      this.value.FechH = value.FechaF;
+      if(value.FechaI==1){
+        console.log("entra en el 1")
+       this.chkDesde =true;
+       this.value.FechD =value.FechaI;
+      }else{
+        console.log("normal")
+        this.chkDesde =false;
+        this.value.FechD=value.FechaI;
+      }
+      if(value.FechaF==1){
+       this.chkHasta =true;
+       this.value.FechH =value.FechaF;
+      }else{
+      this.value.FechH =value.FechaF;
+      }
+      console.log("terminando el seteo",this.value)
+    //  this.chkHasta = value.CheckHasta;
+
+      // this.value.FechD = value.FechaI;
+      // this.value.FechH = value.FechaF;
 
       // if (value.Visibilidad == 24) {
       //   this.value.Tipos = [2, 4];
@@ -388,11 +487,12 @@ export default {
       }
     },
     passEvent() {
-      console.log(this.value);
-      this.$emit("ChangePer", this.value);
-      console.log("Si llega en el hijo");
+
+      this.$emit("EditPer", this.value);
+
     },
     EditarPermisos() {
+
       this.$emit("EditPer", this.value);
     },
     // CONSULTA LAS ACCIONES DE UN PERMISO AL EDITAR UNO DE ESTOS
@@ -449,7 +549,8 @@ export default {
         if (this.AllDateS === true) {
           this.value.FechD = "1";
         } else {
-          this.value.FechD = "";
+          console.log("all date")
+        //  this.value.FechD = "";
         }
       }
       if (id === 2) {
@@ -457,7 +558,7 @@ export default {
         if (this.AllDateE === true) {
           this.value.FechH = "1";
         } else {
-          this.value.FechH = "";
+          //this.value.FechH = "";
         }
       }
     },
@@ -465,6 +566,7 @@ export default {
       // console.log(id);
       // this.value.Tipos = id;
       // console.log(this.value.Tipos);
+      console.log("tiposselect")
       if (this.value.Tipos.sort().join("") == 234) {
         this.$emit("tiposSelect", [1]);
         this.SelectTodosTipos = true;
@@ -472,10 +574,15 @@ export default {
         this.$emit("tiposSelect", this.value.Tipos);
       }
     },
+    Cargapermisos(val){
+    this.tipopermisoin=val;
+    },
     async getNivelesdeAccesos() {
       try {
         const repo = repoupdateprofileuser();
         await repo.consAccesos().then(res => {
+          console.log("tipos")
+          console.log(res)
           this.Tipos = res.data.map(function(obj) {
             let newObj = {};
             newObj.nombre = obj.Name;
@@ -510,48 +617,56 @@ export default {
     }
   },
   watch: {
+     adduser:function(newval,oldval){ /// aqui vamos a decirle al componente que es add user porque no entiendo el codigo pasado para no retrasar voy a dividir
+          this.Propietario=newval;
+          console.log("propietario")
+    },
+    tipopermiso:function(newval,oldval){ /// aqui vamos a mandar si es normal o admin, en caso que sea admin o propietario no se van a dar permisos normales
+          this.tipopermisoin=newval;
+          console.log("tipo permisos =?====")
+    },
     ValuesProp: function() {},
-    "value.Tipos"(newValue) {
-      // console.log(newValue);
-      // console.log(this.$parent.$parent.$parent);
-      // this.$parent.$parent.$parent.muestraTab = false;
-      if (newValue.join("") == 234) {
-        this.$emit("tiposSelect", [1]);
-      } else {
-        this.$emit("tiposSelect", newValue);
-      }
-    },
-    "value.Permisos"(newValue) {
-      if (newValue.length === 0) {
-        // this.indeterminate = false;
-        this.allSelected = false;
-      } else if (newValue.length === 6) {
-        // this.indeterminate = false;
-        this.allSelected = true;
-      } else {
-        // this.indeterminate = true;
-        this.allSelected = false;
-      }
+    // "value.Tipos"(newValue) {
+    //   // console.log(newValue);
+    //   // console.log(this.$parent.$parent.$parent);
+    //   // this.$parent.$parent.$parent.muestraTab = false;
+    //   if (newValue.join("") == 234) {
+    //     this.$emit("tiposSelect", [1]);
+    //   } else {
+    //     this.$emit("tiposSelect", newValue);
+    //   }
+    // },
+    // "value.Permisos"(newValue) {
+    //   if (newValue.length === 0) {
+    //     // this.indeterminate = false;
+    //     this.allSelected = false;
+    //   } else if (newValue.length === 6) {
+    //     // this.indeterminate = false;
+    //     this.allSelected = true;
+    //   } else {
+    //     // this.indeterminate = true;
+    //     this.allSelected = false;
+    //   }
 
-      if (this.value.chkAdmin) {
-        this.$emit("permisosSelect", [7]);
-      } else {
-        this.$emit("permisosSelect", newValue);
-      }
-    },
-    "value.FechD"(newValue) {
-      if (
-        (newValue > this.value.FechH || newValue == this.value.FechH) &&
-        this.value.FechH != "1"
-      ) {
-        const fecha = new Date(newValue);
-        this.value.FechH = new Date(
-          fecha.getFullYear(),
-          fecha.getMonth(),
-          fecha.getDate() + 2
-        );
-      }
-    }
+    //   if (this.value.chkAdmin) {
+    //     this.$emit("permisosSelect", [7]);
+    //   } else {
+    //     this.$emit("permisosSelect", newValue);
+    //   }
+    // },
+    // "value.FechD"(newValue) {
+    //   if (
+    //     (newValue > this.value.FechH || newValue == this.value.FechH) &&
+    //     this.value.FechH != "1"
+    //   ) {
+    //     const fecha = new Date(newValue);
+    //     this.value.FechH = new Date(
+    //       fecha.getFullYear(),
+    //       fecha.getMonth(),
+    //       fecha.getDate() + 2
+    //     );
+    //   }
+    // }
     // perSel(newValue) {
     //   console.log(this.nivSel);
     //   console.log(this.nivSel.FechaI);
@@ -622,6 +737,7 @@ export default {
     // } else {
     //   this.value.Tipos = this.nivSel.Visibilidad;
     // }
+
   },
   async created() {
     await this.getNivelesdeAccesos();

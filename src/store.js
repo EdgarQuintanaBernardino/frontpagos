@@ -11,6 +11,7 @@ const state = {
   token: null,
   cargatop: false,
   fotouser: null,
+
   metodo: '',
   Paginas: [],
   Pagina: {
@@ -24,8 +25,16 @@ const state = {
   },
   TiposRedes: [],
   RedLoad: 0,
+  quitaadmin:false,
+  Sin_Permisos:false,
 }
 const mutations = {
+  Sin_Permisos(state,payload){
+    state.Sin_Permisos=payload;
+  },
+  SetAdminNo(state,payload){
+state.quitaadmin=payload;
+  },
   setTipo(state, payload) {
     state.RedLoad = payload
   },
@@ -114,6 +123,8 @@ const mutations = {
 }
 const getters =
 {
+  get_Sin_Permisos(state){return state.Sin_Permisos},
+  getAdminNo(state){return state.quitaadmin},
   getroleactive(state) { return state.user.menuroles },
   gettoken(state) { return state.token; },
   getcargamenutop(state) { return state.cargatop; },

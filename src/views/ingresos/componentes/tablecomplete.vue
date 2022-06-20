@@ -1,5 +1,6 @@
 <template>
-  <table class="table table-md table-hover sortable height:200px;">
+  <table class="table table-md table-hover sortable height:500px;">
+
     <thead class="text-center" style="font-size:1.1em;">
       <draggable v-model="selected" tag="tr">
         <!-- @click="ordenar(header)" -->

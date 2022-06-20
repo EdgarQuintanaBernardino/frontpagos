@@ -12,7 +12,7 @@
         content-class="mt-3"
         active-nav-item-class="font-weight-normal text-uppercase"
       >
-        <b-tab title="Ingresos Recibidos" title-link-class="text-dark">
+        <b-tab title="Ingresos Recibidos" title-link-class="text-danger">
           <allfront
             v-if="getmetodo"
             :datosallin="datosall"

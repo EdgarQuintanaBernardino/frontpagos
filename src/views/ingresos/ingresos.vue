@@ -211,8 +211,10 @@ export default {
       proyectosall: []
     };
   },
+
   mounted() {
     this.getususuarios();
+    this.getEmpresasExt();
     //    this.getcuentas();
 
     if (this.metodo == this.$store.getters.getmetodo) {
@@ -228,6 +230,44 @@ export default {
     }
   },
   methods: {
+        async getEmpresasExt() {
+      try {
+        // let payload={
+        //     Company_id:5
+        // }
+        const repo1 = repo();
+        await repo1.consEmpresasExt().then(res => {
+             let empresas_externas= res.data.map(function(obj) {
+            let newObj = {};
+            newObj.nombre = obj.empresa.nombre;
+            newObj.id = obj.empresa.id;
+           // let ncuentas=[];
+            // for(let a=0;a<obj.cuentas.length;a++){
+            //       //  for(let b=0;b<obj.cuentas[a].cuenta.length;b++){
+
+            //           ncuentas.push(obj.cuentas[a].cuenta.nickname);
+            //       //  }
+            // }
+            // newObj.ncuentas=obj.cuentas.map(function(obj1){
+            //   return obj1.cuenta.map(function(obj2){ return obj2.nickname});
+            // });
+
+
+            newObj.cuentas=obj.cuentas;
+            return newObj;
+          });
+          this.$store.commit('setEmpresasExternas',empresas_externas);
+
+
+
+        });
+      } catch (error) {
+            console.log(error);
+      } finally {
+        //
+      }
+    },
+
     chat(id) {
       this.id_ticket = id;
       this.$bvModal.show("modal-historial");

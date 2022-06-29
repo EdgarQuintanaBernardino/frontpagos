@@ -310,6 +310,23 @@ const DelGroupEmpresas = async request => {
     });
   return result;
 };
+//VOLVER UN PERMISO PROPIO
+let traerPermiso = `${server}/groupp/addPermiso`;
+const addPermiso = async request => {
+  let tokenin = store.getters.gettoken;
+  let configin = {
+    headers: { Authorization: `Bearer ${tokenin}` }
+  };
+  let result = await Axios.post(traerPermiso, request, configin)
+    .then(res => {
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return response.filtraerror(error);
+    });
+  return result;
+};
 //Actualiza grupo agrega usuarios
 let AddUsersGrupoEmpresa = `${server}/group/addusers`;
 const AddUsGroupEmpresas = async request => {
@@ -2525,6 +2542,7 @@ const updateproductoshared = async request => {
 };
 
 export default () => ({
+  addPermiso,
   First_Message,
   Send_Message,
   Get_Messages_For_Id,

@@ -6,11 +6,12 @@
         content-class="mt-3"
         active-nav-item-class="font-weight-normal text-uppercase"
       >
-        <b-tab title="Tus permisos" @click="cambiarbd(0)">
+        <b-tab title="Permisos de Mis Empresas" @click="cambiarbd(0)">
         </b-tab>
            <b-tab title="Permisos Externos"  @click="cambiarbd(1)">
         </b-tab>
-
+  <b-tab title="Todos los permisos de mis empresas"  @click="cambiarbd(2)"><!----este numero va  a para traer todos los registrosde tus empresas  --->
+        </b-tab>
              </b-tabs>
 
         <CButton class="ml-auto" @click="modalGrupos = true" color="primary">
@@ -108,6 +109,17 @@
 
               </td>
             </template>
+                <template #userCreate="{item}">
+              <td>
+                <p>
+                 {{
+                    item.user_create.name
+                  }}<br>*{{item.user_create.email}}*
+
+
+                </p>
+              </td>
+            </template>
                <template #cuenta="{item}">
               <td>
                 <p>
@@ -149,6 +161,9 @@
                     >
                     <b-button @click="confirmDelete(item.id)" variant="danger">
                       <b-icon icon="trash-fill"></b-icon> Eliminar</b-button
+                    >
+                    <b-button @click="traerpermiso(item.id)" variant="info" class="ml-2" v-if="bd==2">
+                      <b-icon icon="clipboard-plus"></b-icon> Traer Permiso</b-button
                     >
                   </b-button-group>
                 </center>
@@ -898,6 +913,13 @@ detalles_modal:false,
       grupoEdit: {},
       selected: "",
       columns: [
+           {
+          key: "userCreate",
+          label: "Creado por",
+          _classes: "text-left",
+          _style: "width:auto",
+
+        },
         {
           key: "users",
           label: "Usuarios",
@@ -994,6 +1016,42 @@ if(!this.grupoEdit.Permiso_id==1||!this.grupoEdit.Permiso_id==7){
     await this.inicio();
   },
   methods: {
+    async traerpermiso(item){
+       let request = {};
+      request.Permission_id = item;
+  this.show = true;
+      const alert = alertas();
+      try {
+        const repo = repoupdateprofileuser();
+        await repo.addPermiso(request).then(res => {
+          if (res.code === 201) {
+            alert.PermisosOK({
+              Tit: "Permisos",
+              Text: "Permiso enviado a tus Permisos",
+              icono: "success"
+            });
+
+          }
+          if(res.code==403){
+             alert.PermisosOK({
+              Tit: "Permisos",
+              Text: "No se tienen los permisos necesarios para cambiar nombre del permiso",
+              icono: "error"
+            });
+          }
+
+        });
+      } catch (error) {
+        alert.PermisosOK({
+          Tit: "Permisos",
+          Text: "No se pudo cambiar el permiso",
+          icono: "error"
+        });
+      }finally{
+         this.show = false;
+         this.cambiarbd(2);
+      }
+    },
     verifica_tiempo(item){
     //  moment(item.created_at)
         return true;
@@ -1063,7 +1121,6 @@ if(!this.grupoEdit.Permiso_id==1||!this.grupoEdit.Permiso_id==7){
       try {
         const repo = repoupdateprofileuser();
         await repo.NewNamePermission(request).then(res => {
-          console.log(res);
           if (res.code === 201) {
             alert.PermisosOK({
               Tit: "Permisos",
@@ -1071,14 +1128,21 @@ if(!this.grupoEdit.Permiso_id==1||!this.grupoEdit.Permiso_id==7){
               icono: "success"
             });
             //Limpian los campos
-            this.grupoEdit.nombre = this.NewName;
-            this.NewName = "";
-            this.changeName = false;
+
 
             // await this.getPermisosAll();
             // await this.getPermisos();
+            this.grupoEdit.nombre = this.NewName;
+           this.NewName = "";
+            this.changeName = false;
             this.inicio();
-            console.log("Erroe");
+          }
+          if(res.code==403){
+             alert.PermisosOK({
+              Tit: "Permisos",
+              Text: "No se tienen los permisos necesarios para cambiar nombre del permiso",
+              icono: "error"
+            });
           }
         });
       } catch (error) {
@@ -1551,7 +1615,15 @@ console.log(id)
         await repo.AddUsuarioGrupo(request).then(res => {
           console.log("addusers adnubs")
             console.log(res);
+            if(res.code==403){
+           Swal.fire({
+            icon: 'info',
+            title: 'Permiso Denegado',
+            text: "No tienes los permisos necesarios para agregar usuarios",
+})
+            }else{
        return this.convergencia(res);
+            }
     console.log(res);
     console.log(this.GroupUsers.users)
     console.log("aqui arriba")
@@ -1616,10 +1688,14 @@ console.log(id)
               Text: "Usuario eliminado",
               icono: "success"
             });
-            this.NombreUsuario = "";
-            this.IdUserDelete = -1;
-           // this.$refs.niveles.ClearNiveles();
-            this.$bvToast.hide("example-toast4");
+
+          }
+          if(res.code==403){
+              alert.PermisosOK({
+              Tit: "Usuarios",
+              Text: "No se elimino, No tienes los permisos necesarios",
+              icono: "error"
+            });
           }
         });
       } catch (error) {
@@ -1629,6 +1705,10 @@ console.log(id)
           icono: "error"
         });
       } finally {
+            this.NombreUsuario = "";
+            this.IdUserDelete = -1;
+           // this.$refs.niveles.ClearNiveles();
+            this.$bvToast.hide("example-toast4");
                this.show = false;
       }
     },
@@ -1859,10 +1939,17 @@ console.log(id)
   text: 'Permiso Eliminado con éxito',
 })
           }
+           if (res.code == 403) {
+                 Swal.fire({
+  icon: 'info',
+  title: 'No Eliminado',
+  text: 'No tienes los permisos necesarios',
+})
+          }
 
         });
       } catch (error) {
-        //console.log(error);
+        console.log(error);
       }finally{
  this.show = false;
       }

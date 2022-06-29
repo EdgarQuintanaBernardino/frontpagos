@@ -6,6 +6,7 @@
       ref="modal-pagos"
       size="xl"
       hide-footer
+      @show="iniciamodal"
       header-text-variant="light"
       header-bg-variant="primary"
       header-text-size="xl"
@@ -21,7 +22,7 @@
             class="float-right btn-sm"
             variant="danger"
             @click="confirmClear()"
-            ><b-icon icon="x"></b-icon
+            ><b-icon icon="X"></b-icon
           ></b-button>
         </div>
       </template>
@@ -248,6 +249,9 @@ export default {
     EditarDatos
   },
   methods: {
+    iniciamodal(){
+        console.log("inicia el modal")
+    },
     pagination(number) {
       console.log(number);
     },

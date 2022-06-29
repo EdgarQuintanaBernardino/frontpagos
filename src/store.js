@@ -14,6 +14,7 @@ const state = {
 
   metodo: '',
   Paginas: [],
+  EmpresasExternas:[],
   Pagina: {
     Id: -1,
     Usuario: '',
@@ -29,6 +30,9 @@ const state = {
   Sin_Permisos:false,
 }
 const mutations = {
+  setEmpresasExternas(state,payload){
+    state.EmpresasExternas=payload;
+  },
   Sin_Permisos(state,payload){
     state.Sin_Permisos=payload;
   },
@@ -123,6 +127,7 @@ state.quitaadmin=payload;
 }
 const getters =
 {
+  getEmpresasExternas(state){return state.EmpresasExternas},
   get_Sin_Permisos(state){return state.Sin_Permisos},
   getAdminNo(state){return state.quitaadmin},
   getroleactive(state) { return state.user.menuroles },

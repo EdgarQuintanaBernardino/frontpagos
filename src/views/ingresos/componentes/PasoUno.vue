@@ -181,11 +181,13 @@
                 <b-col cols="6" class="text-center">
                   <b-form-select
                     v-model="form.empresaPropia"
-                    :options="optionsEmpresaExterna"
+                    :options="this.$store.getters.getEmpresasExternas"
                     aria-required="true"
                     text-field="nombre"
                     :style="darkMode ? 'background-color:#393a42' : null"
                     v-b-tooltip.hover
+                    @input="getCuentas()"
+
                     title="Selecciona una empresa externa"
                   ></b-form-select>
                 </b-col>

@@ -1623,7 +1623,6 @@ this.ValidateName.Account_id = 0;
         // }
         const repo = repoupdateprofileuser();
         await repo.consEmpresasExt().then(res => {
-
             let empresas_externas= res.data.map(function(obj) {
             let newObj = {};
             newObj.nombre = obj.empresa.nombre;

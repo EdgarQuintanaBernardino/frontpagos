@@ -209,6 +209,8 @@ export default {
       try {
         const repo = repoupdateprofileuser();
         await repo.consEmpresasExt().then(res => {
+          console.log("empresas externas")
+          console.log(res)
           this.EmpresasExternas = res.data.map(function(obj) {
             let newObj = {};
             newObj.nombre = obj.empresa.nombre;
